@@ -285,6 +285,9 @@
     color:var(--text-soft);font-size:14px;width:28px;height:28px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;background:transparent;border:none;
   }
+  /* شريط التحديث نفس تصميم شريط التثبيت، بلون العلامة الأخضر بدل الذهبي */
+  .install-banner.update-banner .btn-yes{background:var(--forest);}
+  .install-banner.update-banner{border-color:rgba(40,82,47,.25);}
 
   .repeat-options{display:flex;gap:8px;flex-wrap:wrap;}
   .repeat-chip{
@@ -705,6 +708,54 @@
         }
       });
     }
+  }
+
+  /* ================= Service Worker: عمل دون اتصال + شريط التحديث ================= */
+  var waitingWorker = null;
+
+  function showUpdateBanner(){
+    if(document.getElementById("updateBanner")) return;
+    var b = document.createElement("div");
+    b.id = "updateBanner";
+    b.className = "install-banner update-banner";
+    b.innerHTML =
+      '<span class="txt">تحديث جديد لتطبيق «أثر» متاح 🌿</span>' +
+      '<button type="button" class="btn-yes" id="updateYes">تحديث الآن</button>' +
+      '<button type="button" class="btn-no" id="updateNo" aria-label="لاحقًا">✕</button>';
+    document.body.appendChild(b);
+    requestAnimationFrame(function(){ b.classList.add("show"); });
+    $("updateYes").addEventListener("click", function(){
+      if(waitingWorker) waitingWorker.postMessage("SKIP_WAITING");
+    });
+    $("updateNo").addEventListener("click", function(){
+      b.classList.remove("show");
+      setTimeout(function(){ if(b.parentNode) b.parentNode.removeChild(b); }, 320);
+    });
+  }
+
+  function setupServiceWorker(){
+    if(!("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.register("./sw.js").then(function(reg){
+      // نسخة جديدة مثبَّتة بالفعل بانتظار إغلاق كل التبويبات القديمة
+      if(reg.waiting){ waitingWorker = reg.waiting; showUpdateBanner(); }
+      reg.addEventListener("updatefound", function(){
+        var installing = reg.installing;
+        if(!installing) return;
+        installing.addEventListener("statechange", function(){
+          if(installing.state === "installed" && navigator.serviceWorker.controller){
+            waitingWorker = installing;
+            showUpdateBanner();
+          }
+        });
+      });
+    }).catch(function(){});
+
+    var reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      if(reloading) return;
+      reloading = true;
+      location.reload();
+    });
   }
 
   /* ================= الشاشة الرئيسية: شبكة السور ================= */
@@ -1150,6 +1201,7 @@
     audioEl = $("ayahAudio");
     audioEl.addEventListener("ended", onAyahEnded);
     setupInstallCard();
+    setupServiceWorker();
 
     mushafFrame = $("mushafFrame");
     mushafFrame.addEventListener("load", attachMushafHooks);
