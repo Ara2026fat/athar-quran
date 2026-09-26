@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>المصحف — مستخرَجٌ من زاحِم لاستخدام «أثر القرآن»</title>
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="shortcut icon" href="icons/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   هذا قارئُ المصحف في زاحِم كاملًا — مستخرَجٌ حرفيًّا (الشكل والمنطق
+   وحساب حجم الخطّ وحفظ الموضع والعلامات ونغمة الورق وقفلَ الشاشة)،
+   بلا أيّ تغييرٍ في آليّته، لاستخدامه في تطبيق «أثر القرآن».
+
+   البياناتُ (نصُّ الصفحات وخطُّ QCF4) لا تُستضاف هنا؛ تُجلَب وقت
+   القراءة من نفس مصدر زاحِم العلنيّ (مستودع Ara2026fat/quran-qcf4،
+   رخصة MIT، وخطّ MohamadHajjRabee/quran-qcf4)، وتُخزَّن على جهاز
+   القارئ (localStorage) بعد أوّل تنزيل — فتُقرأ لاحقًا بلا اتصال.
+
+   الفرقُ الوحيد عن نسخة زاحِم: هذه شاشةٌ مستقلّةٌ لا جزءٌ من تطبيقٍ
+   متعدّد الشاشات، فحُذف زرُّ «☰ الفهرس» (فهرسُ السور شاشةٌ منفصلةٌ
+   ضخمةٌ لم تُستخرَج، لأنّ أثر القرآن على الأرجح لا يحتاج تصفّح كامل
+   المصحف بل مدًى محدودًا كجزء عمّ)، وبُسّطت وظيفتا الفتح والإغلاق:
+   - openMushaf(from, to, startPage) — from/to: مدى الوِرد (اختياريّ،
+     يُظهر شريط «وِرد اليوم» وزرّ «أتممت الوِرد» عند آخر صفحة).
+     startPage: صفحةٌ محدَّدةٌ تُفتح عليها مباشرةً (اختياريّ).
+   - عند إتمام الوِرد أو طلب الإغلاق، يُستدعى الخطّافان
+     window.onMushafWirdDone() و window.onMushafClose() إن كانا
+     معرَّفين — اربطهما بمنطق «أثر القرآن» (الانتقال لتقييم الحفظ،
+     تسجيل التقدّم، إلخ) بدل الاعتماد على شاشاتٍ داخل هذا الملف.
+   - الافتراضيُّ عند التشغيل مباشرةً: مدى جزء عمّ كاملًا (الصفحتان
+     ٥٨٢–٦٠٤ في مصحف المدينة، الإصدار الرابع)، أو حسب معاملات الرابط:
+     ?from=582&to=604   أو  ?page=582  لصفحةٍ واحدةٍ بلا مدى وِرد.
+
+   ═══ إضافاتٌ للربط مع مشغّل الصوت في «أثر القرآن» (بلا تغييرٍ فى
+   شكل القارئ أو منطقه الأصليّ) ═══
+   - كلُّ كلمةٍ في الصفحة تحمل الآن data-verse="سورة:آية" (مثل "78:3")
+     إن كانت البياناتُ المصدريّة توفّر ذلك.
+   - عند تحميل أيّ صفحة يُستدعى window.onMushafPageLoaded(pageNumber,
+     verseKeysArray) إن كان معرَّفًا — ليعرف التطبيق الأب أيّ الآيات
+     ظاهرةٌ فعلًا في هذه الصفحة.
+   - window.mushafHighlightVerse("78:3") تُظلِّل كلماتِ تلك الآية إن
+     كانت في الصفحة الحاليّة (تُستخدَم من التطبيق الأب أثناء تشغيل
+     صوت كلّ آية لإظهار موضعها).
+   - window.mushafShowVerseRange("78:3","78:6", pFrom, pTo) تعرض نطاق
+     آياتٍ محدَّدًا وحده (بلا بقيّة الصفحة) — لجلسة حفظ مركَّزة على
+     آياتٍ قليلة، حتى لو امتدّت عبر أكثر من صفحة (تبحث ضمن صفحات
+     [pFrom..pTo]، وعادةً ما تكون حدودَ السورة نفسها). تُعيد Promise.
+     window.mushafClearVerseRange() يعيد عرض الصفحة كاملةً كالمعتاد.
+   - التنقّل بين الصفحات من الخارج يتم عبر الدالة الموجودة أصلًا
+     window.musLoad(pageNumber) — لا حاجة لدالّةٍ جديدة.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --green:#14304F; --gold:#D9A94A; --gold-ink:#7A5E22;
+  --cream:#F7F2E6; --text:#2C2620; --muted:#6E6152;
+  --topbar-bg:rgba(247,242,230,.92);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:'Tajawal',sans-serif;background:var(--cream);color:var(--text);
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.55;}
+body{max-width:480px;margin:0 auto;position:relative;height:100dvh;overflow:hidden;}
+
+.topbar{
+  padding-top:env(safe-area-inset-top,0px);
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;background:var(--topbar-bg);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(26,74,107,0.1);
+}
+body.embed .topbar,
+body.embed #screen-mushaf .mus-foot{display:none;}
+body.embed #screen-mushaf{height:100dvh;}
+.back-btn{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(26,74,107,0.08);border:none;
+  border-radius:999px;padding:7px 14px;
+  font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;
+  color:var(--green);cursor:pointer;
+}
+
+/* ═══ قارئُ المصحف — الكتلة مستخرَجةٌ حرفيًّا من index.html في زاحِم ═══ */
+#screen-mushaf{--mpage:#FFFEF9;--mink:#000000;--mband1:#2E459A;--mband2:#1B2F6B;
+  --medge:#121F55;--mhair:#5F6BB0;--mfs:23px;
+  display:flex;flex-direction:column;overflow:hidden;height:calc(100dvh - 50px);}
+#screen-mushaf .mus-head{flex:0 0 auto;padding:4px 14px 2px;display:flex;
+  align-items:baseline;justify-content:space-between;font-size:12px;color:var(--muted);}
+#screen-mushaf .mus-surah{font-family:'Amiri',serif;font-size:15px;color:var(--text);}
+#screen-mushaf .mus-sheet{flex:1 1 auto;overflow:auto;display:flex;
+  justify-content:center;align-items:stretch;padding:4px 8px;}
+#screen-mushaf .mus-page{display:flex;flex-direction:column;justify-content:space-between;
+  width:100%;max-width:540px;background:var(--mpage);
+  border:5px solid var(--mband2);border-radius:4px;padding:22px 18px;
+  box-shadow:0 1px 2px rgba(20,30,40,.05),0 8px 26px rgba(20,30,40,.09);}
+#screen-mushaf .ln{display:flex;justify-content:space-between;align-items:center;
+  direction:rtl;line-height:1.95;font-size:var(--mfs);white-space:nowrap;color:var(--mink);}
+#screen-mushaf .ln.mid{justify-content:center;gap:.3em;}
+#screen-mushaf .ln w{display:inline-block;}
+#screen-mushaf .ln w.mus-cur-verse{
+  background:rgba(201,150,58,.30);border-radius:5px;
+  box-shadow:0 0 0 3px rgba(201,150,58,.22);
+  transition:background .25s ease, box-shadow .25s ease;
+}
+#screen-mushaf .mus-sheet.framed-sheet{align-items:stretch;}
+#screen-mushaf .mus-page.framed{
+  padding:26px 22px;
+  display:flex;flex-direction:column;justify-content:center;}
+#screen-mushaf .mus-page.framed .ln{
+  justify-content:center;gap:.3em;
+  line-height:1.72;max-width:80%;margin-inline:auto;}
+#screen-mushaf .mus-page.framed .band{margin:0 0 6px;}
+#screen-mushaf .mus-page.framed .ln.mid{margin-bottom:4px;}
+#screen-mushaf .mus-page.focused{
+  justify-content:center;
+  background:linear-gradient(180deg,#FFFEF9,#FBF6E8);
+}
+#screen-mushaf .mus-page.focused .ln{
+  justify-content:center;gap:.3em;
+  line-height:2;max-width:88%;margin-inline:auto;
+}
+#screen-mushaf .mus-page.focused .band{margin:0 0 10px;}
+
+/* ═══ أدواتُ القراءة ═══ */
+#screen-mushaf .mus-head,
+#screen-mushaf .mus-wird,
+#screen-mushaf .mus-marks,
+#screen-mushaf .mus-foot,
+#screen-mushaf .topbar{
+  transition:opacity .28s ease, max-height .28s ease, padding .28s ease, margin .28s ease;}
+#screen-mushaf.bare .mus-head,
+#screen-mushaf.bare .mus-wird,
+#screen-mushaf.bare .mus-marks,
+#screen-mushaf.bare .mus-foot,
+#screen-mushaf.bare .topbar{
+  opacity:0;max-height:0;padding-top:0;padding-bottom:0;
+  margin-top:0;margin-bottom:0;overflow:hidden;pointer-events:none;border-top-width:0;}
+#screen-mushaf.bare .mus-sheet{
+  padding-top:calc(2px + env(safe-area-inset-top,0px));
+  padding-bottom:calc(2px + env(safe-area-inset-bottom,0px));
+  padding-left:2px;padding-right:2px;
+  height:100dvh;max-height:100dvh;}
+#screen-mushaf.bare .mus-page{padding:12px 9px;}
+#screen-mushaf.bare{height:100dvh;}
+#screen-mushaf .mus-page{opacity:1;backface-visibility:hidden;
+  transition:font-size .18s ease;}
+#screen-mushaf .mus-sheet{position:relative;}
+#screen-mushaf .mus-ghost{position:absolute;pointer-events:none;z-index:2;
+  margin:0;backface-visibility:hidden;will-change:transform,opacity;}
+@media (prefers-reduced-motion:reduce){
+  #screen-mushaf .mus-page{transition:none !important;transform:none !important;}
+  #screen-mushaf .mus-ghost{display:none !important;}
+}
+#screen-mushaf .mus-page.settled{opacity:1;}
+#screen-mushaf .mus-page:has(> .mus-msg){justify-content:center;}
+#screen-mushaf .mus-msg{margin:auto;}
+#screen-mushaf .mus-sheet{min-height:1px;}
+#screen-mushaf .mus-hint{
+  position:absolute;left:50%;bottom:16%;transform:translateX(-50%);
+  background:rgba(20,30,24,.82);color:#F7F3EC;font-size:12.5px;
+  padding:9px 16px;border-radius:999px;pointer-events:none;
+  opacity:0;transition:opacity .4s ease;z-index:5;white-space:nowrap;}
+#screen-mushaf .mus-hint.show{opacity:1;}
+#screen-mushaf .mus-page{position:relative;}
+#screen-mushaf .mus-frame{
+  position:absolute;inset:7px;pointer-events:none;
+  border:1.4px solid var(--mhair);border-radius:2px;}
+#screen-mushaf .mus-tools{display:flex;align-items:center;gap:7px;}
+#screen-mushaf .mus-edge{position:absolute;top:0;bottom:0;width:22%;border:0;padding:0;
+  background:transparent;cursor:pointer;z-index:4;display:flex;align-items:center;
+  -webkit-tap-highlight-color:transparent;}
+#screen-mushaf .mus-edge.right{right:0;justify-content:flex-end;}
+#screen-mushaf .mus-edge.left{left:0;justify-content:flex-start;}
+#screen-mushaf .mus-chev{
+  position:relative;overflow:hidden;
+  width:36px;height:36px;border-radius:50%;margin:0 6px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;
+  color:var(--gold-ink);
+  background:
+    radial-gradient(120% 68% at 32% 6%, rgba(255,255,255,.92), rgba(255,255,255,0) 62%),
+    linear-gradient(160deg, rgba(255,255,255,.62), rgba(244,236,220,.42));
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:
+    0 4px 11px rgba(20,48,79,.16),
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -4px 9px rgba(120,90,42,.08);
+  -webkit-backdrop-filter:blur(9px) saturate(1.4);
+          backdrop-filter:blur(9px) saturate(1.4);
+  opacity:0;
+  transition:opacity .22s ease, transform .14s cubic-bezier(.22,1,.36,1),
+             box-shadow .16s ease;}
+#screen-mushaf .mus-edge:active .mus-chev{
+  transform:scale(.9);
+  box-shadow:0 1px 3px rgba(20,48,79,.18), inset 0 2px 5px rgba(20,48,79,.14);}
+#screen-mushaf:not(.bare) .mus-chev{opacity:.5;}
+#screen-mushaf.bare .mus-edge{width:26%;}
+#screen-mushaf .mus-resume{display:flex;align-items:center;gap:9px;margin:6px 14px 0;
+  padding:9px 13px;border-radius:12px;font-size:12.5px;
+  background:rgba(201,150,58,.12);border:1px solid rgba(201,150,58,.28);}
+#screen-mushaf .mus-resume-txt{flex:1;min-width:0;color:var(--text);}
+#screen-mushaf .mus-resume button{background:var(--gold);border:0;border-radius:10px;
+  font-family:inherit;font-size:12px;font-weight:700;color:#20180B;padding:7px 12px;cursor:pointer;}
+#screen-mushaf .mus-resume button.ghost{background:transparent;color:var(--muted);padding:7px 9px;}
+#screen-mushaf .mus-tool{
+  border:1px solid rgba(255,255,255,.9);
+  background:
+    radial-gradient(120% 66% at 30% 4%, rgba(255,255,255,.95), rgba(255,255,255,0) 62%),
+    linear-gradient(165deg, rgba(255,255,255,.94), rgba(244,236,220,.74));
+  box-shadow:0 3px 9px rgba(20,48,79,.12),
+             inset 0 1px 0 rgba(255,255,255,.96),
+             inset 0 -3px 8px rgba(120,90,42,.06);
+  border-radius:12px;padding:7px 11px;cursor:pointer;line-height:1;
+  transition:transform .15s cubic-bezier(.22,1,.36,1), box-shadow .18s ease;
+  color:var(--text);font-family:inherit;font-size:12px;}
+#screen-mushaf .mus-tool:active{transform:scale(.94) translateY(1px);
+  box-shadow:0 1px 3px rgba(20,48,79,.16), inset 0 2px 6px rgba(20,48,79,.14);}
+#screen-mushaf .mus-tool.on{
+  background:linear-gradient(140deg,#3F9BC9 0%,#2A6E96 46%,#14304F 100%);
+  border-color:rgba(214,169,74,.44);color:#FFFDF7;
+  box-shadow:0 5px 13px rgba(20,48,79,.28), inset 0 1px 0 rgba(255,255,255,.28);}
+#screen-mushaf .mus-tool svg{display:block;width:15px;height:15px;}
+#screen-mushaf .mus-marks{flex:0 0 auto;display:flex;gap:6px;overflow-x:auto;
+  padding:0 12px 3px;scrollbar-width:none;}
+#screen-mushaf .mus-marks::-webkit-scrollbar{display:none;}
+#screen-mushaf .mus-marks b{font-size:11px;color:var(--muted);font-weight:600;
+  align-self:center;white-space:nowrap;}
+#screen-mushaf .mus-mark{background:rgba(201,150,58,.12);border:1px solid rgba(201,150,58,.3);
+  border-radius:8px;padding:4px 10px;font-size:12px;color:var(--text);
+  font-family:inherit;cursor:pointer;white-space:nowrap;}
+#screen-mushaf .mus-mark.cur{background:var(--gold);color:#20180B;font-weight:700;}
+#screen-mushaf .band{position:relative;margin:2px 0;line-height:0;}
+#screen-mushaf .band svg{display:block;width:100%;height:auto;}
+#screen-mushaf .band .inner{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;color:var(--mink);font-size:calc(var(--mfs)*.86);
+  line-height:1.6;white-space:nowrap;pointer-events:none;}
+#screen-mushaf .mus-foot{flex:0 0 auto;display:flex;align-items:center;
+  justify-content:center;gap:11px;padding:5px 12px calc(6px + env(safe-area-inset-bottom,0px));
+  border-top:1px solid rgba(255,255,255,.7);
+  background:linear-gradient(to top, rgba(247,243,236,.92) 50%, rgba(247,243,236,0));}
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  #screen-mushaf .mus-foot{
+    background:linear-gradient(to top, rgba(247,243,236,.58) 46%, rgba(247,243,236,0));
+    -webkit-backdrop-filter:blur(14px) saturate(1.4);
+            backdrop-filter:blur(14px) saturate(1.4);}
+}
+#screen-mushaf .mus-foot button{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:13px;font-family:inherit;font-size:13.5px;font-weight:700;
+  color:var(--green);padding:9px 17px;cursor:pointer;
+  background:
+    radial-gradient(120% 66% at 30% 4%, rgba(255,255,255,.95), rgba(255,255,255,0) 62%),
+    linear-gradient(165deg, rgba(255,255,255,.92), rgba(244,236,220,.72));
+  box-shadow:
+    0 4px 11px rgba(20,48,79,.14),
+    inset 0 1px 0 rgba(255,255,255,.98),
+    inset 0 -4px 10px rgba(120,90,42,.07);
+  transition:transform .15s cubic-bezier(.22,1,.36,1), box-shadow .18s ease;}
+#screen-mushaf .mus-foot button:active{transform:scale(.955) translateY(1px);
+  box-shadow:0 1px 3px rgba(20,48,79,.16), inset 0 2px 6px rgba(20,48,79,.14);}
+#screen-mushaf .mus-no{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;}
+#screen-mushaf .mus-no input{width:56px;text-align:center;font:inherit;font-size:14.5px;
+  font-weight:700;color:var(--green);
+  border:1px solid rgba(255,255,255,.9);border-radius:11px;padding:6px 2px;
+  background:
+    radial-gradient(120% 66% at 30% 4%, rgba(255,255,255,.95), rgba(255,255,255,0) 62%),
+    linear-gradient(165deg, rgba(255,255,255,.92), rgba(244,236,220,.72));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98), 0 3px 9px rgba(20,48,79,.12);}
+#screen-mushaf .mus-msg{padding:34px 24px;text-align:center;color:#4A505A;
+  font-size:13.5px;line-height:2;}
+#screen-mushaf .mus-msg b{display:block;font-size:15px;color:#1B2B3D;margin-bottom:8px;}
+#screen-mushaf .mus-msg button{margin-top:14px;background:var(--gold);border:0;
+  border-radius:10px;color:#20180B;font-family:inherit;font-size:13px;font-weight:700;
+  padding:9px 20px;cursor:pointer;}
+/* نغمةُ الورق: تُختار من المصحف نفسه */
+#screen-mushaf.tone-light{--mpage:#FFFEF9;--mink:#000;
+  --mband1:#2E459A;--mband2:#1B2F6B;--medge:#121F55;--mhair:#5F6BB0;}
+#screen-mushaf.tone-warm{--mpage:#F3E9D2;--mink:#1A1206;
+  --mband1:#2A408E;--mband2:#182B63;--medge:#101C4C;--mhair:#5760A6;}
+#screen-mushaf.tone-dark{--mpage:#C4BCA8;--mink:#0A0A08;
+  --mband1:#21336F;--mband2:#13224B;--medge:#0C1539;--mhair:#41497B;}
+#screen-mushaf .mus-wird{flex:0 0 auto;margin:0 10px 5px;padding:9px 13px;
+  border-radius:14px;
+  background:
+    radial-gradient(120% 66% at 30% 4%, rgba(255,255,255,.95), rgba(255,255,255,0) 62%),
+    linear-gradient(165deg, rgba(255,255,255,.94), rgba(244,236,220,.74));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 3px 9px rgba(20,48,79,.12),
+             inset 0 1px 0 rgba(255,255,255,.96),
+             inset 0 -3px 8px rgba(120,90,42,.06);
+  display:flex;align-items:center;
+  justify-content:center;gap:12px;font-size:12px;color:var(--text);text-align:center;}
+#screen-mushaf .mus-wird button{
+  background:linear-gradient(140deg,#3F9BC9 0%,#2A6E96 46%,#14304F 100%);
+  border:1px solid rgba(214,169,74,.42);border-radius:12px;
+  box-shadow:0 4px 12px rgba(20,48,79,.24), inset 0 1px 0 rgba(255,255,255,.28);
+  color:#FFFDF7;font-family:inherit;font-size:12px;font-weight:800;
+  padding:7px 14px;cursor:pointer;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <button class="back-btn" onclick="closeMushaf()">↩ رجوع</button>
+  <span style="font-size:12px;color:var(--muted);font-weight:700;">أثر القرآن</span>
+</div>
+
+<div id="screen-mushaf">
+  <div class="mus-head">
+    <span class="mus-surah" id="musSurah">—</span>
+    <span class="mus-tools">
+      <span id="musPageNo"></span>
+      <button class="mus-tool" id="musTone" type="button" onclick="musNextTone()"
+              title="نغمةُ الورق">◐</button>
+      <button class="mus-tool" id="musAwake" type="button" onclick="musToggleAwake()"
+              title="إبقاء الشاشة مضاءة">☀</button>
+      <button class="mus-tool" id="musMarkBtn" type="button" onclick="musToggleMark()"
+              title="علامة حفظ">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+      </button>
+    </span>
+  </div>
+  <div class="mus-resume" id="musResume" style="display:none;">
+    <span class="mus-resume-txt" id="musResumeTxt">—</span>
+    <button type="button" onclick="musGoResume()">تابِع</button>
+    <button type="button" class="ghost" onclick="musHideResume()">✕</button>
+  </div>
+  <div class="mus-marks" id="musMarks" style="display:none;"></div>
+  <div class="mus-wird" id="musWird" style="display:none;"></div>
+  <div class="mus-sheet" id="musSheet">
+    <div class="mus-page" id="musPage"><div class="mus-msg">…يُحمَّل</div></div>
+    <button class="mus-edge right" type="button" onclick="musTurn(-1)" aria-label="السابقة">
+      <span class="mus-chev">›</span></button>
+    <button class="mus-edge left" type="button" onclick="musTurn(1)" aria-label="التالية">
+      <span class="mus-chev">‹</span></button>
+  </div>
+  <div class="mus-hint" id="musHint">المس الصفحة لإظهار الأدوات</div>
+  <div class="mus-foot">
+    <button type="button" onclick="musTurn(-1)">السابق</button>
+    <span class="mus-no"><input id="musJump" inputmode="numeric" value="1"> / ٦٠٤</span>
+    <button type="button" onclick="musTurn(1)">التالي</button>
+  </div>
+</div>
+
+<script>
+/* ═══ عونٌ صغير: أرقامٌ هنديّة، بديل ZahimI18n في زاحِم ═══ */
+function arNum(v){ return String(v).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]); }
+function showToast(msg){
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;left:50%;bottom:26px;transform:translateX(-50%);'
+    + 'background:rgba(20,30,24,.9);color:#fff;padding:9px 18px;border-radius:999px;'
+    + 'font-size:12.5px;z-index:999;pointer-events:none;opacity:0;transition:opacity .3s;';
+  document.body.appendChild(t);
+  requestAnimationFrame(function(){ t.style.opacity = '1'; });
+  setTimeout(function(){ t.style.opacity = '0'; setTimeout(function(){ t.remove(); }, 320); }, 2200);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   المصحف — مصحف المدينة النبوية، الإصدار الرابع ١٤٤١هـ
+   البياناتُ من نسخةٍ عندنا (MIT)، والخطُّ يُستدعى من مصدره ولا يُستضاف.
+   ═══════════════════════════════════════════════════════════ */
+var MUS_DATA     = 'https://cdn.jsdelivr.net/gh/Ara2026fat/quran-qcf4@main/pages';
+var MUS_DATA_ALT = 'https://raw.githubusercontent.com/Ara2026fat/quran-qcf4/main/pages';
+function musFetchJSON(n){
+  var pad = musPad(n);
+  return fetch(MUS_DATA + '/' + pad + '.json')
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .catch(function(){
+      return fetch(MUS_DATA_ALT + '/' + pad + '.json')
+        .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); });
+    });
+}
+var MUS_CDN  = 'https://cdn.jsdelivr.net/gh/MohamadHajjRabee/quran-qcf4@main/fonts-woff2';
+var MUS_KEY  = 'athar_mushaf_page';
+var MUS_CK   = 'athar_mushaf_pages';
+var _musPage = 1, _musFonts = {}, _musFrom = 0, _musTo = 0, _musCache = {};
+
+var MUS_KEEP = 60;
+function musDisk(){
+  try{ return JSON.parse(localStorage.getItem(MUS_CK) || '{}'); }catch(e){ return {}; }
+}
+function musSave(n, j){
+  try{
+    var d = musDisk();
+    d[n] = j;
+    var keys = Object.keys(d);
+    if(keys.length > MUS_KEEP){
+      keys.sort(function(a,b){ return Math.abs(b-n) - Math.abs(a-n); });
+      for(var i = 0; i < keys.length - MUS_KEEP; i++) delete d[keys[i]];
+    }
+    localStorage.setItem(MUS_CK, JSON.stringify(d));
+  }catch(e){
+    try{ localStorage.removeItem(MUS_CK); }catch(e2){}
+  }
+}
+function musPad(n){ return ('00' + n).slice(-3); }
+function musEsc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function musFont(name){
+  if(!name || _musFonts[name]) return;
+  _musFonts[name] = 1;
+  var st = document.createElement('style');
+  st.textContent = "@font-face{font-family:'" + name + "';src:"
+    + "url('" + MUS_CDN + "/" + name + "_W.woff2') format('woff2'),"
+    + "url('" + MUS_CDN + "/" + name + ".woff2') format('woff2');font-display:block;}";
+  document.head.appendChild(st);
+}
+
+function musBand(inner){
+  return '<div class="band">'
+   + '<svg viewBox="0 0 966 112" preserveAspectRatio="none" aria-hidden="true">'
+   +   '<defs><linearGradient id="musbg" x1="0" y1="0" x2="0" y2="1">'
+   +     '<stop offset="0" stop-color="var(--mband1)"/><stop offset="1" stop-color="var(--mband2)"/>'
+   +   '</linearGradient></defs>'
+   +   '<rect x="1.5" y="1.5" width="963" height="109" fill="url(#musbg)" stroke="#000" stroke-width="3"/>'
+   +   '<path d="M363,17 H603 Q637,17 685,56 Q637,95 603,95 H363 Q329,95 281,56 Q329,17 363,17 Z"'
+   +        ' fill="var(--mpage)" stroke="var(--medge)" stroke-width="3"/>'
+   +   '<path d="M370,26 H596 Q625,26 666,56 Q625,86 596,86 H370 Q341,86 300,56 Q341,26 370,26 Z"'
+   +        ' fill="none" stroke="var(--mhair)" stroke-width="1.4"/>'
+   + '</svg><span class="inner">' + inner + '</span></div>';
+}
+
+function musFontsReady(names, cb){
+  var want = [];
+  names.forEach(function(n){ if(n && want.indexOf(n) === -1) want.push(n); });
+  if(!want.length || !document.fonts || !document.fonts.load){ cb(); return; }
+  var done = false;
+  function fin(){ if(!done){ done = true; cb(); } }
+  var t = setTimeout(fin, 4500);
+  Promise.all(want.map(function(n){
+    return document.fonts.load("16px '" + n + "'").catch(function(){});
+  })).then(function(){ clearTimeout(t); fin(); },
+           function(){ clearTimeout(t); fin(); });
+}
+
+function musRender(j){
+  var _want = [j.font];
+  (j.lines || []).forEach(function(L){
+    (L.words || []).forEach(function(w){ if(w.font) _want.push(w.font); });
+  });
+  _want.forEach(musFont);
+  var _n = _musPage;
+  musFontsReady(_want, function(){
+    if(_musPage !== _n) return;
+    musPaint(j);
+  });
+}
+
+function musLineHTML(L){
+  var words = L.words || [];
+  if(!words.length){ return '<div class="ln">&nbsp;</div>'; }
+  var kinds = words.map(function(w){ return String(w.type || 'word').toLowerCase(); });
+  var isText  = kinds.indexOf('word') !== -1;
+  var isSurah = kinds.some(function(k){ return k.indexOf('surah') !== -1 || k.indexOf('chapter') !== -1; });
+  var out = words.map(function(w){
+    musFont(w.font);
+    var g = w.char || w.text || '';
+    var fam = w.font ? " style=\"font-family:'" + w.font + "','Amiri',serif\"" : '';
+    var vk = w.verse_key ? ' data-verse="' + w.verse_key + '"' : '';
+    return '<w' + fam + vk + '>' + musEsc(g) + '</w>';
+  }).join('');
+  if(isSurah) return musBand(out);
+  return '<div class="ln' + (isText ? '' : ' mid') + '">' + out + '</div>';
+}
+
+var _musLastJSON = null;
+function musPaint(j){
+  var page = document.getElementById('musPage');
+  var lines = j.lines || [];
+  musFont(j.font);
+  _musLastJSON = j;
+
+  var html = '';
+  lines.forEach(function(L){ html += musLineHTML(L); });
+
+  page.classList.add('settled');
+  page.classList.remove('focused');
+  page.innerHTML = html + musFrame();
+  page.classList.toggle('framed', _musPage <= 2);
+  var sh = document.getElementById('musSheet');
+  if(sh) sh.classList.toggle('framed-sheet', _musPage <= 2);
+  var names = (j.surahs || []).map(function(x){ return x.name_arabic || x.name; }).filter(Boolean);
+  document.getElementById('musSurah').textContent = names.join(' · ') || '—';
+  document.getElementById('musPageNo').textContent = 'صفحة ' + arNum(j.page || _musPage);
+  musFit();
+  musSlide();
+
+  /* إخطارُ التطبيق الأب بالآيات الموجودة فعليًّا في هذه الصفحة، ليتسنّى
+     له مزامنة الصوت مع الصفحة الصحيحة وطلبَ تظليل الآية الحالية. */
+  try{
+    var seen = {}, verses = [];
+    lines.forEach(function(L){
+      (L.words || []).forEach(function(w){
+        if(w.verse_key && !seen[w.verse_key]){ seen[w.verse_key] = 1; verses.push(w.verse_key); }
+      });
+    });
+    window._mushafLast = { page:_musPage, verses:verses };
+    if(typeof window.onMushafPageLoaded === 'function') window.onMushafPageLoaded(_musPage, verses);
+  }catch(e){}
+}
+
+/* تُستدعى من التطبيق الأب لتظليل آيةٍ بعينها (مثلًا "78:3") إن كانت
+   موجودةً في الصفحة المعروضة حاليًا؛ لا تفعل شيئًا غير ذلك. */
+window.mushafHighlightVerse = function(verseKey){
+  var page = document.getElementById('musPage');
+  if(!page) return;
+  var all = page.querySelectorAll('w[data-verse]');
+  for(var i=0;i<all.length;i++){
+    all[i].classList.toggle('mus-cur-verse', all[i].getAttribute('data-verse') === verseKey);
+  }
+};
+
+/* عرضُ نطاقٍ محدَّدٍ من الآيات وحده (بلا بقيّة الصفحة) — لجلسة حفظ
+   مركَّزة على ٣-٤ آيات مثلًا. يبحث ضمن صفحات [pFrom..pTo] (نطاق
+   السورة نفسها عادةً) عن كلّ سطرٍ يحوي آيةً ضمن [fromKey..toKey]
+   ويجمعها معًا بترتيبها، حتى لو امتدّت الآيات عبر أكثر من صفحة. */
+function _mvKey(vk){ var p = vk.split(':'); return { s:+p[0], a:+p[1] }; }
+function _mvInRange(vk, fromKey, toKey){
+  if(!vk) return false;
+  var v = _mvKey(vk), f = _mvKey(fromKey), t = _mvKey(toKey);
+  var vNum = v.s * 10000 + v.a, fNum = f.s * 10000 + f.a, tNum = t.s * 10000 + t.a;
+  return vNum >= fNum && vNum <= tNum;
+}
+function _mvFetchPage(n){
+  if(_musCache[n]) return Promise.resolve(_musCache[n]);
+  var saved = musDisk()[n];
+  if(saved){ _musCache[n] = saved; return Promise.resolve(saved); }
+  return musFetchJSON(n).then(function(j){ _musCache[n] = j; musSave(n, j); return j; })
+    .catch(function(){ return null; });
+}
+window.mushafShowVerseRange = function(fromKey, toKey, pFrom, pTo){
+  pFrom = pFrom || _musPage; pTo = pTo || pFrom;
+  if(pTo < pFrom) pTo = pFrom;
+  var pages = [];
+  for(var n = pFrom; n <= pTo; n++) pages.push(n);
+  return Promise.all(pages.map(_mvFetchPage)).then(function(results){
+    (results||[]).forEach(function(j){ if(j) (j.lines||[]).forEach(function(L){
+      (L.words||[]).forEach(function(w){ musFont(w.font); }); }); });
+    return musFontsReadyPromise(results).then(function(){
+      var matched = [];
+      results.forEach(function(j){
+        if(!j) return;
+        (j.lines || []).forEach(function(L){
+          var hit = (L.words || []).some(function(w){ return _mvInRange(w.verse_key, fromKey, toKey); });
+          if(hit) matched.push(L);
+        });
+      });
+      var page = document.getElementById('musPage');
+      if(!matched.length){ return false; }
+      page.classList.add('settled', 'focused');
+      page.innerHTML = matched.map(musLineHTML).join('') + musFrame();
+      musFit();
+      return true;
+    });
+  });
+};
+window.mushafClearVerseRange = function(){
+  var page = document.getElementById('musPage');
+  if(page) page.classList.remove('focused');
+  if(_musLastJSON) musPaint(_musLastJSON);
+};
+function musFontsReadyPromise(results){
+  var want = [];
+  (results||[]).forEach(function(j){ if(j && j.font && want.indexOf(j.font)===-1) want.push(j.font); });
+  return new Promise(function(resolve){ musFontsReady(want, resolve); });
+}
+
+var _turning = false, _musGhost = null, _musGhostT = null, _musDir = 0;
+
+function musEndTurn(){
+  clearTimeout(_musGhostT);
+  if(_musGhost && _musGhost.parentNode) _musGhost.parentNode.removeChild(_musGhost);
+  _musGhost = null; _turning = false; _musDir = 0;
+}
+
+function musBeginTurn(step, apply){
+  var el = document.getElementById('musPage'), sheet = document.getElementById('musSheet');
+  var reduce = window.matchMedia &&
+               window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!el || !sheet || reduce || _turning){ apply(); return; }
+
+  _turning = true;
+  _musDir  = step > 0 ? 1 : -1;
+
+  var g = el.cloneNode(true);
+  g.removeAttribute('id');
+  g.className = el.className + ' mus-ghost';
+  g.style.width  = el.offsetWidth  + 'px';
+  g.style.height = el.offsetHeight + 'px';
+  g.style.left   = el.offsetLeft   + 'px';
+  g.style.top    = el.offsetTop    + 'px';
+  sheet.appendChild(g);
+  _musGhost = g;
+
+  _musGhostT = setTimeout(musEndTurn, 1800);
+  apply();
+}
+
+function musSlide(){
+  var el = document.getElementById('musPage'), g = _musGhost;
+  if(!el || !g) return;
+  var out = _musDir > 0 ? '-4%' : '4%';
+  var inn = _musDir > 0 ? '4%'  : '-4%';
+
+  el.style.willChange = 'transform';
+  el.style.transition = 'none';
+  el.style.transform  = 'translateX(' + inn + ')';
+
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      g.style.transition  = 'transform .15s cubic-bezier(.4,0,1,1), opacity .12s ease';
+      g.style.transform   = 'translateX(' + out + ')';
+      g.style.opacity     = '0';
+      el.style.transition = 'transform .17s cubic-bezier(.16,1,.3,1)';
+      el.style.transform  = 'translateX(0)';
+      setTimeout(function(){
+        el.style.willChange = ''; el.style.transition = ''; el.style.transform = '';
+        musEndTurn();
+      }, 180);
+    });
+  });
+}
+
+function musFrame(){ return '<div class="mus-frame" aria-hidden="true"></div>'; }
+
+var MUS_FS = 'athar_mushaf_fs';
+var _musFS = null;
+function musFsMap(){
+  if(_musFS) return _musFS;
+  try{ _musFS = JSON.parse(localStorage.getItem(MUS_FS) || '{}'); }catch(e){ _musFS = {}; }
+  return _musFS;
+}
+function musFsKey(n){
+  var scr = document.getElementById('screen-mushaf');
+  var bare = scr && scr.classList.contains('bare') ? 'b' : 'n';
+  var h = Math.round((window.innerHeight || 800) / 20) * 20;
+  return n + '@' + Math.round(window.innerWidth) + 'x' + h + bare;
+}
+function musFsSave(n, v){
+  var m = musFsMap(); m[musFsKey(n)] = +v.toFixed(2);
+  var ks = Object.keys(m);
+  if(ks.length > 260) ks.slice(0, 60).forEach(function(k){ delete m[k]; });
+  try{ localStorage.setItem(MUS_FS, JSON.stringify(m)); }catch(e){}
+}
+
+function musFit(){
+  _musW = window.innerWidth;
+  var page = document.getElementById('musPage');
+  var sheet = document.getElementById('musSheet');
+
+  var cached = musFsMap()[musFsKey(_musPage)];
+  if(cached){
+    page.style.setProperty('--mfs', cached + 'px');
+    page.classList.add('settled');
+    return;
+  }
+
+  var run = function(){
+    if(!page.getElementsByClassName('ln').length) return;
+    var lo = 11, hi = 34, best = 11, box = page.clientWidth - 24;
+    for(var i = 0; i < 9; i++){
+      var mid = (lo + hi) / 2;
+      page.style.setProperty('--mfs', mid + 'px');
+      var over = false, ln = page.getElementsByClassName('ln');
+      for(var k = 0; k < ln.length; k++){
+        var lim = ln[k].clientWidth || box;
+        if(ln[k].scrollWidth > lim + 1){ over = true; break; }
+      }
+      if(over){ hi = mid; } else { best = mid; lo = mid; }
+    }
+    page.style.setProperty('--mfs', best.toFixed(2) + 'px');
+    var h = sheet.clientHeight - 12, got = page.scrollHeight;
+    if(got > h && got > 0) page.style.setProperty('--mfs', (best * (h / got)).toFixed(2) + 'px');
+    if(page.classList.contains('framed')){
+      var cap = Math.min(best, 27);
+      page.style.setProperty('--mfs', cap.toFixed(2) + 'px');
+    }
+    page.classList.add('settled');
+    var fin = parseFloat(page.style.getPropertyValue('--mfs'));
+    if(fin > 0) musFsSave(_musPage, fin);
+  };
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(run).catch(run);
+  else setTimeout(run, 240);
+  setTimeout(run, 620);
+}
+
+function musOffline(n){
+  var pg = document.getElementById('musPage');
+  pg.classList.add('settled');
+  pg.innerHTML =
+    '<div class="mus-msg"><b>الصفحة تحتاج اتصالاً</b>'
+    + 'صفحاتُ المصحف وخطُّها تُنزَّل عند أول فتح.<br>'
+    + 'اتصل بالإنترنت مرّةً واحدة، وبعدها تُقرأ بلا اتصال بإذن الله.'
+    + '<br><button type="button" onclick="musLoad(' + n + ')">أعِد المحاولة</button></div>';
+}
+
+function musAhead(n){ musPrefetch(n+1); musPrefetch(n-1); musPrefetch(n+2); musPrefetch(n-2); }
+function musPrefetch(n){
+  if(n < 1 || n > 604) return;
+  if(_musCache[n] || musDisk()[n]) return;
+  if(navigator.onLine === false) return;
+  musFetchJSON(n)
+    .then(function(j){
+      if(!j) return;
+      _musCache[n] = j; musSave(n, j);
+      try{ musFont(j.font); (j.lines||[]).forEach(function(L){
+        (L.words||[]).forEach(function(w){ musFont(w.font); }); }); }catch(e){}
+    })
+    .catch(function(){});
+}
+
+var _musWaitT = null;
+function musLoad(n){
+  n = Math.max(1, Math.min(604, n | 0));
+  clearTimeout(_musWaitT);
+  _musPage = n;
+  musSaveResume(n);
+  document.getElementById('musJump').value = n;
+  try{ localStorage.setItem(MUS_KEY, String(n)); }catch(e){}
+  musWird();
+  try{ musDrawMarks(); }catch(e){}
+
+  if(_musCache[n]){ musRender(_musCache[n]); musAhead(n); return; }
+  var saved = musDisk()[n];
+  if(saved){ _musCache[n] = saved; musRender(saved); musAhead(n); return; }
+
+  if(navigator.onLine === false){ musOffline(n); return; }
+  clearTimeout(_musWaitT);
+  _musWaitT = setTimeout(function(){
+    if(_musPage !== n) return;
+    var lp = document.getElementById('musPage');
+    if(!lp) return;
+    lp.classList.add('settled');
+    lp.innerHTML = '<div class="mus-msg">…يُحمَّل</div>';
+  }, 420);
+
+  musFetchJSON(n)
+    .then(function(j){
+      _musCache[n] = j; musSave(n, j);
+      if(_musPage === n) musRender(j);
+      musPrefetch(n + 1); musPrefetch(n - 1); musPrefetch(n + 2);
+    })
+    .catch(function(){ musOffline(n); });
+}
+
+function mushafGo(step){ musLoad(_musPage + step); }
+
+var MUS_HINT = 'athar_mushaf_hint';
+function musHint(){
+  var el = document.getElementById('musHint');
+  if(!el) return;
+  var seen = 0;
+  try{ seen = parseInt(localStorage.getItem(MUS_HINT), 10) || 0; }catch(e){}
+  if(seen >= 3) return;
+  try{ localStorage.setItem(MUS_HINT, String(seen + 1)); }catch(e){}
+  setTimeout(function(){ el.classList.add('show'); }, 700);
+  setTimeout(function(){ el.classList.remove('show'); }, 4200);
+}
+
+var _musBareT = null;
+function musBare(on){
+  var s = document.getElementById('screen-mushaf');
+  if(!s) return;
+  s.classList.toggle('bare', on !== false ? !!on : false);
+  setTimeout(musFit, 320);
+}
+function musToggleBare(){
+  var s = document.getElementById('screen-mushaf');
+  if(!s) return;
+  clearTimeout(_musBareT);
+  var h = document.getElementById('musHint');
+  if(h) h.classList.remove('show');
+  s.classList.toggle('bare');
+  setTimeout(function(){
+    requestAnimationFrame(function(){ requestAnimationFrame(musFit); });
+  }, 340);
+  try{ if(navigator.vibrate) navigator.vibrate(8); }catch(e){}
+}
+
+function musTurn(step){
+  var h = document.getElementById('musHint');
+  if(h) h.classList.remove('show');
+  if(_turning) return;
+  musBeginTurn(step, function(){ mushafGo(step); });
+}
+
+var MUS_RESUME = 'athar_mushaf_resume';
+function musSaveResume(n){
+  try{ localStorage.setItem(MUS_RESUME, JSON.stringify({ p:n, t:Date.now() })); }catch(e){}
+}
+function musReadResume(){
+  try{ var d = JSON.parse(localStorage.getItem(MUS_RESUME) || 'null');
+       return (d && d.p) ? d : null; }catch(e){ return null; }
+}
+function musHideResume(){
+  var bar = document.getElementById('musResume');
+  if(bar) bar.style.display = 'none';
+}
+function musGoResume(){
+  var bar = document.getElementById('musResume');
+  var p = bar ? parseInt(bar.getAttribute('data-p'), 10) : 0;
+  musHideResume();
+  if(p) musLoad(p);
+}
+
+var MUS_BM = 'athar_mushaf_marks';
+function musMarks(){
+  try{ var a = JSON.parse(localStorage.getItem(MUS_BM) || '[]');
+       return Array.isArray(a) ? a : []; }catch(e){ return []; }
+}
+function musSetMarks(a){
+  try{ localStorage.setItem(MUS_BM, JSON.stringify(a.slice(0, 30))); }catch(e){}
+}
+function musToggleMark(){
+  var a = musMarks(), i = a.indexOf(_musPage);
+  if(i === -1){ a.push(_musPage); a.sort(function(x,y){ return x - y; }); }
+  else a.splice(i, 1);
+  musSetMarks(a);
+  musDrawMarks();
+}
+function musDrawMarks(){
+  var a = musMarks(), bar = document.getElementById('musMarks');
+  var btn = document.getElementById('musMarkBtn');
+  if(btn) btn.classList.toggle('on', a.indexOf(_musPage) !== -1);
+  if(!bar) return;
+  if(!a.length){ bar.style.display = 'none'; bar.innerHTML = ''; return; }
+  bar.style.display = 'flex';
+  bar.innerHTML = '<b>علاماتك</b>' + a.map(function(n){
+    return '<button class="mus-mark' + (n === _musPage ? ' cur' : '')
+         + '" type="button" onclick="musLoad(' + n + ')">' + arNum(n) + '</button>';
+  }).join('');
+}
+
+var MUS_TONE = 'athar_mushaf_tone';
+var MUS_TONES = ['auto', 'light', 'warm', 'dark'];
+var MUS_TONE_AR = { auto:'تِبعًا للتطبيق', light:'فاتح', warm:'دافئ', dark:'ليليّ' };
+function musTone(){
+  try{ var v = localStorage.getItem(MUS_TONE);
+       return MUS_TONES.indexOf(v) !== -1 ? v : 'auto'; }catch(e){ return 'auto'; }
+}
+function musApplyTone(){
+  var scr = document.getElementById('screen-mushaf');
+  if(!scr) return;
+  var t = musTone();
+  MUS_TONES.forEach(function(x){ scr.classList.toggle('tone-' + x, x !== 'auto' && x === t); });
+  var b = document.getElementById('musTone');
+  if(b) b.classList.toggle('on', t !== 'auto');
+}
+function musNextTone(){
+  var i = MUS_TONES.indexOf(musTone());
+  var t = MUS_TONES[(i + 1) % MUS_TONES.length];
+  try{ localStorage.setItem(MUS_TONE, t); }catch(e){}
+  musApplyTone();
+  showToast('الورق: ' + MUS_TONE_AR[t]);
+}
+
+var _musWake = null;
+function musToggleAwake(){
+  var btn = document.getElementById('musAwake');
+  if(_musWake){
+    try{ _musWake.release(); }catch(e){}
+    _musWake = null;
+    if(btn) btn.classList.remove('on');
+    return;
+  }
+  if(!navigator.wakeLock){ showToast('جهازك لا يدعم هذه الميزة'); return; }
+  navigator.wakeLock.request('screen').then(function(w){
+    _musWake = w;
+    if(btn) btn.classList.add('on');
+    w.addEventListener('release', function(){
+      _musWake = null;
+      var bb = document.getElementById('musAwake');
+      if(bb) bb.classList.remove('on');
+    });
+  }).catch(function(){});
+}
+function musReleaseAwake(){
+  if(_musWake){ try{ _musWake.release(); }catch(e){} _musWake = null; }
+  var b = document.getElementById('musAwake');
+  if(b) b.classList.remove('on');
+}
+
+(function(){
+  var x0 = 0, y0 = 0, on = false;
+  document.addEventListener('touchstart', function(e){
+    if(e.touches.length !== 1){ on = false; return; }
+    on = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if(!on) return; on = false;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - x0, dy = t.clientY - y0;
+    if(Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 1.6){
+      if(Math.abs(dx) < 12 && Math.abs(dy) < 12
+         && e.target && e.target.closest && e.target.closest('#musSheet')) musToggleBare();
+      return;
+    }
+    mushafGo(dx > 0 ? 1 : -1);
+  }, {passive:true});
+})();
+
+function musWird(){
+  var bar = document.getElementById('musWird');
+  if(!_musFrom || !_musTo){ bar.style.display = 'none'; return; }
+  var done = Math.min(Math.max(_musPage - _musFrom + 1, 0), _musTo - _musFrom + 1);
+  var all  = _musTo - _musFrom + 1;
+  var atEnd = _musPage >= _musTo;
+  bar.style.display = 'flex';
+  bar.innerHTML = '<span>وِرد اليوم · ' + arNum(done) + ' من ' + arNum(all) + ' صفحة</span>'
+    + (atEnd ? '<button type="button" onclick="musDone()">أتممت الوِرد</button>' : '');
+}
+
+/* عند إتمام الوِرد: اربط هذا الخطّاف بمنطق «أثر القرآن» — تسجيل
+   تقدّم الطفل، الانتقال لتقييم الحفظ، أو أيّ خطوةٍ تالية عندكم. */
+function musDone(){
+  try{ if(typeof window.onMushafWirdDone === 'function') window.onMushafWirdDone(_musFrom, _musTo); }catch(e){}
+  _musFrom = _musTo = 0;
+  musWird();
+}
+
+/* من فتح المصحف: from/to مدى وِرد (اختياريّ)، startPage صفحةٌ محدَّدة
+   تُفتح عليها مباشرةً متجاوزةً آخر موضعٍ محفوظ (اختياريّ أيضًا). */
+function openMushaf(from, to, startPage){
+  var scr = document.getElementById('screen-mushaf');
+  if(!scr) return;
+  _musFrom = from || 0; _musTo = to || 0;
+
+  var start = startPage || from;
+  if(!start){
+    var saved = 0;
+    try{ saved = parseInt(localStorage.getItem(MUS_KEY), 10) || 0; }catch(e){}
+    start = saved || 1;
+  } else if(!startPage){
+    var last = 0;
+    try{ last = parseInt(localStorage.getItem(MUS_KEY), 10) || 0; }catch(e){}
+    if(last >= from && last <= to) start = last;
+  }
+
+  scr.classList.add('bare');
+  musApplyTone();
+  scr.scrollTop = 0;
+  var _res = musReadResume();
+  musLoad(start);
+  musHint();
+  setTimeout(function(){
+    if(_res && _res.p !== start){
+      var bar = document.getElementById('musResume');
+      if(bar){
+        document.getElementById('musResumeTxt').textContent = 'وقفتَ عند صفحة ' + arNum(_res.p);
+        bar.style.display = 'flex';
+        bar.setAttribute('data-p', _res.p);
+        setTimeout(function(){ if(bar) bar.style.display = 'none'; }, 9000);
+      }
+    }
+  }, 500);
+}
+
+/* اربط هذا الخطّاف بمنطق الرجوع عندكم — افتراضيًّا لا يفعل شيئًا،
+   لأنّ هذه الصفحةَ قد تكون شاشةً وحيدةً في مسارٍ أكبر. */
+function closeMushaf(){
+  musReleaseAwake();
+  try{ if(typeof window.onMushafClose === 'function'){ window.onMushafClose(); return; } }catch(e){}
+}
+
+var _musW = 0;
+addEventListener('resize', function(){
+  var w = window.innerWidth;
+  if(w === _musW) return;
+  _musW = w;
+  musFit();
+});
+addEventListener('online', function(){
+  if(!_musCache[_musPage]) musLoad(_musPage);
+});
+document.addEventListener('change', function(e){
+  if(e.target && e.target.id === 'musJump') musLoad(parseInt(e.target.value, 10) || 1);
+});
+
+/* ═══ التشغيل ═══ افتراضيًّا: مدى جزء عمّ كاملًا (٥٨٢–٦٠٤)، أو حسب
+   معاملات الرابط: ?from=&to=&page= — عدِّل الافتراضيَّين كما يلزمك.
+   ?embed=1 يخفي الشريط العلوي وشريط "السابق/رقم/التالي" السفليّ عند
+   تضمين هذه الصفحة داخل iframe في «أثر القرآن» (يبقى التنقّل باللمس
+   وطيّ الحواف يعملان، ويبقى التحكّم البرمجيّ عبر musLoad/openMushaf). */
+(function(){
+  var qs = new URLSearchParams(location.search);
+  var from = parseInt(qs.get('from'), 10) || 582;
+  var to   = parseInt(qs.get('to'),   10) || 604;
+  var page = parseInt(qs.get('page'), 10) || 0;
+  if(qs.get('embed') === '1') document.body.classList.add('embed');
+  openMushaf(from, to, page || undefined);
+})();
+</script>
+</body>
+</html>
