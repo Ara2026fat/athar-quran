@@ -232,6 +232,60 @@
     box-shadow:var(--shadow-sm);padding:16px;margin-bottom:14px;
   }
   .section-card h3{margin:0 0 10px;font-size:15px;color:var(--forest-dark);}
+
+  /* ---------- بطاقة نموّ الحفظ ---------- */
+  .growth-row{display:flex;align-items:center;gap:14px;}
+  .growth-svg-box{position:relative;width:64px;height:64px;flex:0 0 auto;}
+  .growth-svg-box svg{position:absolute;top:0;right:0;}
+  .growth-text{flex:1;min-width:0;}
+  .growth-pct{font-family:'Baloo Bhaijan 2';font-weight:800;font-size:20px;color:var(--forest-dark);}
+  .growth-text p{margin:2px 0 0;font-size:12.5px;color:var(--text-soft);line-height:1.7;}
+
+  /* ---------- نظام اللمعان (نسخة نهاريّة، بلا backdrop-filter) ----------
+     مقتبَسٌ من "سرّ اللمعان" — سطح واحد زجاجيّ لكل شاشة، للحظة الأهمّ فقط
+     (هنا: بطاقة تثبيت التطبيق). ثلاث طبقات: تدرّج مائل + حافّة ضوء + ظلّ أسود. */
+  .glass-card{
+    background:linear-gradient(158deg, rgba(255,255,255,.85), rgba(255,255,255,.55)),
+               linear-gradient(160deg, var(--sage), var(--card));
+    background-blend-mode:normal;
+    border:1px solid rgba(165,121,53,.22);
+    box-shadow:0 14px 34px rgba(40,82,47,.14);
+    position:relative;
+  }
+  .glass-card::before{
+    content:'';position:absolute;inset:0 14% auto;height:1px;border-radius:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+  }
+  .glass-card .pill-btn{background:var(--gold);box-shadow:0 8px 20px rgba(165,121,53,.28);}
+  .glass-card .pill-btn:active{transform:scale(.988);}
+
+  .about-card .copyright{
+    margin:8px 0 0;font-size:11.5px;color:#9A927C;text-align:center;
+  }
+
+  /* ---------- دعوة التثبيت التلقائية (أسفل الشاشة) ---------- */
+  .install-banner{
+    position:fixed;left:12px;right:12px;bottom:18px;z-index:500;
+    background:linear-gradient(158deg, rgba(255,255,255,.9), rgba(255,255,255,.65)),
+               linear-gradient(160deg, var(--sage), var(--card));
+    border:1px solid rgba(165,121,53,.22);
+    border-radius:18px;padding:12px 14px;
+    box-shadow:0 14px 34px rgba(40,82,47,.20);
+    display:flex;align-items:center;gap:10px;
+    transform:translateY(140%);opacity:0;
+    transition:transform .32s cubic-bezier(.22,1,.36,1), opacity .32s ease;
+  }
+  .install-banner.show{transform:translateY(0);opacity:1;}
+  .install-banner .txt{flex:1;font-size:12.5px;font-weight:700;color:var(--forest-dark);line-height:1.5;}
+  .install-banner .btn-yes{
+    background:var(--gold);color:#fff;font-size:12.5px;font-weight:700;
+    padding:9px 14px;border-radius:10px;border:none;white-space:nowrap;
+  }
+  .install-banner .btn-no{
+    color:var(--text-soft);font-size:14px;width:28px;height:28px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;background:transparent;border:none;
+  }
+
   .repeat-options{display:flex;gap:8px;flex-wrap:wrap;}
   .repeat-chip{
     border:2px solid var(--sage);background:#fff;border-radius:999px;
@@ -287,6 +341,43 @@
 </head>
 <body>
 
+<!-- مكتبة رموز شخصيّتي «ورقة» و«قُمَير» — تُستدعى بـ <use> في أكثر من مكان -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <symbol id="mascot-waraqa" viewBox="0 0 120 120">
+      <path d="M60 12 C30 20 16 55 34 88 C44 106 76 106 86 88 C104 55 90 20 60 12 Z" fill="#6FA96B" stroke="#28522F" stroke-width="3"/>
+      <path d="M60 20 L60 98" stroke="#28522F" stroke-width="2.5" opacity=".5"/>
+      <ellipse cx="47" cy="60" rx="8" ry="10" fill="#fff"/>
+      <ellipse cx="73" cy="60" rx="8" ry="10" fill="#fff"/>
+      <circle cx="49" cy="63" r="4" fill="#1B3A20"/>
+      <circle cx="75" cy="63" r="4" fill="#1B3A20"/>
+      <circle cx="50.5" cy="61" r="1.4" fill="#fff"/>
+      <circle cx="76.5" cy="61" r="1.4" fill="#fff"/>
+      <circle cx="40" cy="72" r="5" fill="#E8A6A0" opacity=".7"/>
+      <circle cx="80" cy="72" r="5" fill="#E8A6A0" opacity=".7"/>
+      <path d="M52 80 Q60 87 68 80" stroke="#1B3A20" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M30 70 Q18 66 14 76" stroke="#3E7A45" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M90 70 Q102 66 106 76" stroke="#3E7A45" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="mascot-qumayr" viewBox="0 0 120 120">
+      <circle cx="24" cy="24" r="2" fill="#C9974C"/>
+      <circle cx="98" cy="30" r="2.6" fill="#C9974C"/>
+      <circle cx="94" cy="90" r="1.8" fill="#C9974C"/>
+      <path d="M78 18 C50 18 32 40 32 62 C32 84 50 104 78 104 C60 96 48 80 48 62 C48 44 60 26 78 18 Z"
+            fill="#F3DFA0" stroke="#A57935" stroke-width="3"/>
+      <ellipse cx="56" cy="58" rx="6.5" ry="8" fill="#1B3A20"/>
+      <ellipse cx="70" cy="55" rx="6" ry="7.5" fill="#1B3A20"/>
+      <circle cx="58" cy="55.5" r="1.3" fill="#fff"/>
+      <circle cx="71.5" cy="52.5" r="1.3" fill="#fff"/>
+      <path d="M56 70 Q64 76 71 69" stroke="#1B3A20" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="mascot-qumayr-outline" viewBox="0 0 120 120">
+      <path d="M78 18 C50 18 32 40 32 62 C32 84 50 104 78 104 C60 96 48 80 48 62 C48 44 60 26 78 18 Z"
+            fill="#EAE7DC" stroke="#C2BCA6" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
 <svg class="leaf tl" viewBox="0 0 100 100"><path d="M50 5 C15 20 5 60 50 95 C95 60 85 20 50 5 Z" fill="#2F5233"/><path d="M50 10 L50 90" stroke="#3E6A46" stroke-width="2"/></svg>
 <svg class="leaf bl" viewBox="0 0 100 100"><path d="M50 5 C15 20 5 60 50 95 C95 60 85 20 50 5 Z" fill="#3E6A46"/><path d="M50 10 L50 90" stroke="#2F5233" stroke-width="2"/></svg>
 
@@ -294,7 +385,7 @@
 
   <header>
     <div class="brand">
-      <div class="brand-mark">🌿</div>
+      <div class="brand-mark"><svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="26" height="26"><use href="#mascot-waraqa" xlink:href="#mascot-waraqa"/></svg></div>
       <div class="brand-text">أثر <span>القرآن — جزء عمّ</span></div>
     </div>
     <button class="gear-btn" id="btnParent" title="وضع ولي الأمر">⚙️</button>
@@ -344,7 +435,7 @@
       <div class="status-line" id="statusLine">اضغط تشغيل للبدء</div>
 
       <div class="surah-complete" id="surahComplete" style="display:none;">
-        <div class="icon">🌳</div>
+        <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="72" height="72"><use href="#mascot-waraqa" xlink:href="#mascot-waraqa"/></svg>
         <h3>أحسنت!</h3>
         <p>أنهيت الاستماع والترديد لهذه السورة.</p>
         <button class="pill-btn" id="btnCompleteHome">العودة للسور</button>
@@ -370,6 +461,29 @@
       <div class="back-row">
         <button class="back-btn" id="btnDashBack">→</button>
         <div class="surah-title">لوحة ولي الأمر</div>
+      </div>
+
+      <div class="section-card growth-card">
+        <h3>نموّ الحفظ</h3>
+        <div class="growth-row">
+          <div class="growth-svg-box">
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="64" height="64"><use href="#mascot-qumayr-outline" xlink:href="#mascot-qumayr-outline"/></svg>
+            <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="64" height="64" class="growth-fill">
+              <clipPath id="growthClip"><rect id="growthClipRect" x="0" y="120" width="120" height="120"/></clipPath>
+              <g clip-path="url(#growthClip)"><use href="#mascot-qumayr" xlink:href="#mascot-qumayr"/></g>
+            </svg>
+          </div>
+          <div class="growth-text">
+            <div class="growth-pct" id="growthPct">٠٪</div>
+            <p>كلّما حُفظت آيات أكثر، اكتمل ضوء «قُمَير» — <span id="growthCount">0 من 0</span> آية.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card glass-card" id="installCard">
+        <h3>تثبيت التطبيق</h3>
+        <p class="muted" id="installDesc" style="margin:0 0 12px;">ثبّت «أثر» على شاشة جوال الطفل الرئيسية ليفتح كأي تطبيق عادي، بضغطة واحدة وبلا متصفح.</p>
+        <button class="pill-btn" id="btnInstallApp" style="width:100%;justify-content:center;">📲 أضف إلى الشاشة الرئيسية</button>
       </div>
 
       <div class="section-card">
@@ -411,6 +525,12 @@
         </div>
         <p class="muted">اضغط على رقم الآية لتغيير حالتها.</p>
         <div class="ayah-status-grid" id="ayahStatusGrid"></div>
+      </div>
+
+      <div class="section-card about-card">
+        <h3>عن التطبيق</h3>
+        <p class="muted">أثر | القرآن — أول تطبيقات سلسلة «أثر»، لتحفيظ جزء عمّ للأطفال من عمر 3 سنوات فما فوق.</p>
+        <p class="copyright">جميع الحقوق محفوظة © 2026 ARAFAT ALRAJHI</p>
       </div>
     </section>
 
@@ -513,6 +633,78 @@
     var views = document.querySelectorAll(".view");
     for(var i=0;i<views.length;i++){ views[i].classList.remove("active"); }
     $(id).classList.add("active");
+  }
+
+  /* ================= تثبيت التطبيق (PWA) ================= */
+  var deferredInstallPrompt = null;
+  var INSTALL_DISMISS_KEY = "athar_install_dismissed";
+
+  function isStandaloneApp(){
+    return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
+        || window.navigator.standalone === true;
+  }
+  function isIOSDevice(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if(isStandaloneApp()) return;
+    try{ if(localStorage.getItem(INSTALL_DISMISS_KEY) === "1") return; }catch(err){}
+    showInstallBanner();
+  });
+
+  function showInstallBanner(){
+    if(document.getElementById("installBanner")) return;
+    var b = document.createElement("div");
+    b.id = "installBanner";
+    b.className = "install-banner";
+    b.innerHTML =
+      '<span class="txt">ثبّت «أثر» على جهاز الطفل، يفتح كأي تطبيق حقيقي 🌿</span>' +
+      '<button type="button" class="btn-yes" id="installYes">ثبّت الآن</button>' +
+      '<button type="button" class="btn-no" id="installNo" aria-label="إغلاق">✕</button>';
+    document.body.appendChild(b);
+    requestAnimationFrame(function(){ b.classList.add("show"); });
+    $("installYes").addEventListener("click", function(){
+      if(deferredInstallPrompt){
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(function(){ deferredInstallPrompt = null; });
+      }
+      dismissInstallBanner();
+    });
+    $("installNo").addEventListener("click", function(){
+      try{ localStorage.setItem(INSTALL_DISMISS_KEY, "1"); }catch(err){}
+      dismissInstallBanner();
+    });
+  }
+  function dismissInstallBanner(){
+    var b = document.getElementById("installBanner");
+    if(!b) return;
+    b.classList.remove("show");
+    setTimeout(function(){ if(b.parentNode) b.parentNode.removeChild(b); }, 320);
+  }
+
+  function setupInstallCard(){
+    if(isStandaloneApp()){
+      var card = $("installCard");
+      if(card) card.style.display = "none";
+      return;
+    }
+    if(isIOSDevice()){
+      $("installDesc").textContent = "من متصفح Safari: اضغط زر المشاركة (المربّع وبه سهم للأعلى) بأسفل الشاشة، ثم اختر «إضافة إلى الشاشة الرئيسية».";
+      $("btnInstallApp").textContent = "📲 فهمت، الخطوات أعلاه";
+      $("btnInstallApp").addEventListener("click", function(){
+        showToast("اتّبع خطوات Safari الموضّحة أعلاه");
+      });
+    } else {
+      $("btnInstallApp").addEventListener("click", function(){
+        if(deferredInstallPrompt){
+          deferredInstallPrompt.prompt();
+          deferredInstallPrompt.userChoice.then(function(){ deferredInstallPrompt = null; });
+        } else {
+          showToast("افتح قائمة المتصفح (⋮) واختر «تثبيت التطبيق»");
+        }
+      });
+    }
   }
 
   /* ================= الشاشة الرئيسية: شبكة السور ================= */
@@ -917,6 +1109,7 @@
           openSurahDetail(num); // إعادة رسم
           renderProgressList();
           renderHomeGrid();
+          renderGrowth();
         });
         grid.appendChild(chip);
       })(a);
@@ -924,9 +1117,30 @@
     $("surahDetailCard").style.display = "block";
   }
 
+  // تحويلُ رقمٍ عربيٍّ إلى أرقامٍ هنديّة للعرض
+  function arNum(v){ return String(v).replace(/[0-9]/g, function(d){ return "٠١٢٣٤٥٦٧٨٩"[d]; }); }
+
+  function renderGrowth(){
+    var totalAyahs = 0, doneAyahs = 0;
+    JUZ_AMMA.forEach(function(s){
+      totalAyahs += s.ayahs;
+      for(var a=1;a<=s.ayahs;a++){
+        var st = getStatus(s.num, a);
+        if(st === "trained" || st === "memorized") doneAyahs++;
+      }
+    });
+    var pct = totalAyahs ? Math.round((doneAyahs/totalAyahs)*100) : 0;
+    $("growthPct").textContent = arNum(pct) + "٪";
+    $("growthCount").textContent = arNum(doneAyahs) + " من " + arNum(totalAyahs);
+    var h = 120 * (pct/100);
+    var rect = document.getElementById("growthClipRect");
+    if(rect){ rect.setAttribute("y", 120-h); rect.setAttribute("height", h); }
+  }
+
   function openDashboard(){
     renderRepeatOptions();
     renderProgressList();
+    renderGrowth();
     $("surahDetailCard").style.display = "none";
     showView("view-dashboard");
   }
@@ -935,6 +1149,7 @@
   document.addEventListener("DOMContentLoaded", function(){
     audioEl = $("ayahAudio");
     audioEl.addEventListener("ended", onAyahEnded);
+    setupInstallCard();
 
     mushafFrame = $("mushafFrame");
     mushafFrame.addEventListener("load", attachMushafHooks);
