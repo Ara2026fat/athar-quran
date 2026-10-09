@@ -153,8 +153,106 @@
     border:none;cursor:pointer;
     display:flex;flex-direction:column;align-items:center;gap:6px;
     transition:transform .15s ease, box-shadow .15s ease;
+    animation:cardIn .5s cubic-bezier(.22,1,.36,1) backwards;
   }
   .surah-card:active{transform:scale(.95);}
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(12px) scale(.92);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+
+  /* ---------- روح كل سورة: شارة ثلاثية الأبعاد لامعة، بحركة تشبه معناها ---------- */
+  .surah-icon-badge{
+    width:32px;height:32px;border-radius:50%;position:relative;overflow:hidden;
+    background:
+      radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,0) 45%),
+      linear-gradient(155deg,var(--sage) 0%,var(--card) 72%);
+    box-shadow:
+      inset 0 2px 3px rgba(255,255,255,.95),
+      inset 0 -4px 5px rgba(40,82,47,.25),
+      0 3px 7px rgba(40,82,47,.20);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .surah-icon-badge::after{
+    content:'';position:absolute;top:-15%;left:-15%;right:-15%;bottom:-15%;pointer-events:none;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.98), rgba(255,255,255,0) 52%);
+    opacity:0;
+    animation:brandGlint 4.3s ease-in-out infinite;
+    animation-delay:var(--glint-delay,0s);
+  }
+  .surah-icon{font-size:16px;line-height:1;display:inline-block;position:relative;z-index:1;
+    filter:drop-shadow(0 1px 1px rgba(40,82,47,.3));}
+  .ic-glow{animation:icGlow 2.6s ease-in-out infinite;}
+  @keyframes icGlow{
+    0%,100%{filter:drop-shadow(0 0 0 rgba(201,150,58,0));transform:scale(1);}
+    50%{filter:drop-shadow(0 0 5px rgba(201,150,58,.7));transform:scale(1.1);}
+  }
+  .ic-twinkle{animation:icTwinkle 3s ease-in-out infinite;}
+  @keyframes icTwinkle{
+    0%,100%{transform:rotate(0) scale(1);}
+    50%{transform:rotate(18deg) scale(1.15);}
+  }
+  .ic-sway{animation:icSway 3.4s ease-in-out infinite;transform-origin:50% 85%;}
+  @keyframes icSway{
+    0%,100%{transform:rotate(-9deg);}
+    50%{transform:rotate(9deg);}
+  }
+  .ic-bounce{animation:icBounce 2.1s ease-in-out infinite;}
+  @keyframes icBounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
+  }
+  .ic-flip{animation:icFlip 3.6s ease-in-out infinite;}
+  @keyframes icFlip{
+    0%,55%,100%{transform:scaleX(1);}
+    70%{transform:scaleX(.15);}
+    85%{transform:scaleX(1);}
+  }
+  .ic-pulse{animation:icPulse 2s ease-in-out infinite;}
+  @keyframes icPulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.18);}
+  }
+  .ic-float{animation:icFloat 3s ease-in-out infinite;}
+  @keyframes icFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-5px);}
+  }
+  .ic-shake{animation:icShake 3.8s ease-in-out infinite;}
+  @keyframes icShake{
+    0%,92%,100%{transform:translate(0,0) rotate(0);}
+    94%{transform:translate(-2px,0) rotate(-3deg);}
+    96%{transform:translate(2px,0) rotate(3deg);}
+    98%{transform:translate(-1px,0) rotate(-1deg);}
+  }
+  .ic-spin-slow{animation:icSpinSlow 7s linear infinite;}
+  @keyframes icSpinSlow{to{transform:rotate(360deg);}}
+  .ic-wobble{animation:icWobble 2.8s ease-in-out infinite;}
+  @keyframes icWobble{
+    0%,100%{transform:rotate(-7deg);}
+    50%{transform:rotate(7deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .surah-card{animation:none;}
+    .surah-icon{animation:none !important;}
+    .surah-icon-badge::after{animation:none;opacity:0;}
+  }
+
+  /* ---------- لمعة ضوء قطرية على الأزرار الرئيسية ---------- */
+  .shine-sweep{position:relative;overflow:hidden;}
+  .shine-sweep::after{
+    content:'';position:absolute;top:-45%;bottom:-45%;width:30%;left:-60%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+    transform:skewX(-20deg);pointer-events:none;
+    animation:shineSweep 7.5s ease-in-out infinite;
+  }
+  @keyframes shineSweep{
+    0%,55%{left:-60%;}
+    100%{left:140%;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .shine-sweep::after{animation:none;display:none;}
+  }
   .surah-num{
     width:30px;height:30px;border-radius:50%;
     background:var(--sage);color:var(--forest-dark);
@@ -274,7 +372,14 @@
   /* ---------- بطاقة نموّ الحفظ ---------- */
   .growth-row{display:flex;align-items:center;gap:14px;}
   .growth-svg-box{position:relative;width:64px;height:64px;flex:0 0 auto;}
-  .growth-svg-box svg{position:absolute;top:0;right:0;}
+  .growth-svg-box::before{
+    content:'';position:absolute;top:-9px;left:-9px;right:-9px;bottom:-9px;border-radius:50%;
+    background:conic-gradient(from 0deg, rgba(201,150,58,0), rgba(201,150,58,.55), rgba(201,150,58,0) 60%);
+    animation:haloSpin 14s linear infinite;
+  }
+  @keyframes haloSpin{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){ .growth-svg-box::before{animation:none;} }
+  .growth-svg-box svg{position:absolute;top:0;right:0;z-index:1;}
   .growth-text{flex:1;min-width:0;}
   .growth-pct{font-family:'Baloo Bhaijan 2';font-weight:800;font-size:20px;color:var(--forest-dark);}
   .growth-text p{margin:2px 0 0;font-size:12.5px;color:var(--text-soft);line-height:1.7;}
@@ -404,7 +509,10 @@
     width:34px;height:34px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
     font-size:12px;font-weight:700;color:#fff;background:#D8D3C4;cursor:pointer;border:none;
+    animation:chipIn .4s cubic-bezier(.22,1,.36,1) backwards;
   }
+  @keyframes chipIn{from{opacity:0;transform:scale(.5);}to{opacity:1;transform:scale(1);}}
+  @media (prefers-reduced-motion: reduce){ .ayah-chip{animation:none;} }
   .ayah-chip.trained{background:var(--gold);}
   .ayah-chip.memorized{background:var(--success);}
   .ayah-chip.review{background:var(--review);}
@@ -516,7 +624,7 @@
         <h1>اختر سورة</h1>
         <p>استمع، رددّ، واحفظ آيات جزء عمّ خطوة بخطوة.</p>
       </div>
-      <button class="custom-pick-btn" id="btnCustomPick">
+      <button class="custom-pick-btn shine-sweep" id="btnCustomPick">
         <span class="icon">🎯</span>
         <span class="txt">
           <span class="t1">تحديد آيات مخصّصة للحفظ</span>
@@ -550,7 +658,7 @@
 
       <div class="controls-row">
         <button class="ctrl-btn small" id="btnPrev" title="الآية السابقة">⏮</button>
-        <button class="ctrl-btn main" id="btnPlay" title="تشغيل / إيقاف">▶</button>
+        <button class="ctrl-btn main shine-sweep" id="btnPlay" title="تشغيل / إيقاف">▶</button>
         <button class="ctrl-btn small" id="btnNext" title="الآية التالية">⏭</button>
       </div>
       <div class="controls-row">
@@ -607,7 +715,7 @@
       <div class="section-card glass-card" id="installCard">
         <h3>تثبيت التطبيق</h3>
         <p class="muted" id="installDesc" style="margin:0 0 12px;">ثبّت «أثر» على شاشة جوال الطفل الرئيسية ليفتح كأي تطبيق عادي، بضغطة واحدة وبلا متصفح.</p>
-        <button class="pill-btn" id="btnInstallApp" style="width:100%;justify-content:center;">📲 أضف إلى الشاشة الرئيسية</button>
+        <button class="pill-btn shine-sweep" id="btnInstallApp" style="width:100%;justify-content:center;">📲 أضف إلى الشاشة الرئيسية</button>
       </div>
 
       <div class="section-card">
@@ -685,7 +793,7 @@
       </div>
       <div class="sheet-hint" id="customHint"></div>
     </div>
-    <button class="sheet-start-btn" id="btnCustomStart">ابدأ الحفظ</button>
+    <button class="sheet-start-btn shine-sweep" id="btnCustomStart">ابدأ الحفظ</button>
   </div>
 </div>
 
@@ -715,6 +823,24 @@
     {num:112,name:"الإخلاص",ayahs:4},{num:113,name:"الفلق",ayahs:5},
     {num:114,name:"الناس",ayahs:6}
   ];
+
+  // روحُ كلّ سورة: رمزٌ بصريٌّ بسيط وحركةٌ تُناسب معناها — حتى لا تتشابه
+  // بطاقات الشبكة في شاشةٍ واحدة. الرموز محايدة ولطيفة تناسب الأطفال.
+  var SURAH_ICON = {
+    78:["📰","ic-pulse"], 79:["🌬️","ic-sway"], 80:["🙁","ic-wobble"],
+    81:["☀️","ic-spin-slow"], 82:["🌌","ic-twinkle"], 83:["⚖️","ic-sway"],
+    84:["🌠","ic-twinkle"], 85:["✨","ic-twinkle"], 86:["⭐","ic-glow"],
+    87:["🌄","ic-float"], 88:["🌑","ic-glow"], 89:["🌅","ic-glow"],
+    90:["🏙️","ic-bounce"], 91:["☀️","ic-glow"], 92:["🌙","ic-twinkle"],
+    93:["🌤️","ic-glow"], 94:["💚","ic-glow"], 95:["🍃","ic-sway"],
+    96:["📖","ic-flip"], 97:["✨","ic-twinkle"], 98:["📜","ic-float"],
+    99:["🌍","ic-shake"], 100:["🐎","ic-bounce"], 101:["💥","ic-shake"],
+    102:["📈","ic-bounce"], 103:["⏳","ic-spin-slow"], 104:["🗣️","ic-shake"],
+    105:["🐘","ic-bounce"], 106:["🐪","ic-sway"], 107:["🤲","ic-glow"],
+    108:["💧","ic-float"], 109:["🕊️","ic-sway"], 110:["🌟","ic-twinkle"],
+    111:["🌿","ic-sway"], 112:["💎","ic-glow"], 113:["🌄","ic-glow"],
+    114:["👥","ic-pulse"]
+  };
 
   // خريطة صفحات مصحف المدينة (الإصدار الرابع) لكل سورة من جزء عمّ —
   // بيانات ترقيم عامة/عرفية (وليست نصًّا قرآنيًّا) تُستخدم فقط لتحديد
@@ -968,12 +1094,17 @@
   function renderHomeGrid(){
     var grid = $("surahGrid");
     grid.innerHTML = "";
-    JUZ_AMMA.forEach(function(s){
+    JUZ_AMMA.forEach(function(s, i){
       var ratio = surahProgressRatio(s.num);
       var dotClass = ratio===0 ? "" : (ratio>=1 ? "done" : "some");
+      var icon = SURAH_ICON[s.num] || ["🌿","ic-sway"];
       var card = document.createElement("button");
       card.className = "surah-card";
+      card.style.animationDelay = (i * 0.025) + "s";
       card.innerHTML =
+        '<span class="surah-icon-badge" style="--glint-delay:'+((i%11)*0.4)+'s">' +
+          '<span class="surah-icon '+icon[1]+'">'+icon[0]+'</span>' +
+        '</span>' +
         '<div class="surah-num">'+s.num+'</div>' +
         '<div class="surah-name">'+s.name+'</div>' +
         '<div class="surah-progress-dot '+dotClass+'"></div>';
@@ -1413,6 +1544,7 @@
         var st = getStatus(num, ayahNum);
         var chip = document.createElement("button");
         chip.className = "ayah-chip " + (st==="new"?"":st);
+        chip.style.animationDelay = (ayahNum * 0.02) + "s";
         chip.textContent = ayahNum;
         chip.addEventListener("click", function(){
           var newSt = cycleStatus(getStatus(num, ayahNum));
