@@ -88,11 +88,38 @@
   }
   .brand{display:flex;align-items:center;gap:10px;}
   .brand-mark{
-    width:40px;height:40px;border-radius:50%;
-    background:linear-gradient(160deg,var(--sage),var(--card));
+    width:44px;height:44px;border-radius:50%;position:relative;overflow:hidden;
+    background:
+      radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), rgba(255,255,255,0) 45%),
+      linear-gradient(155deg,var(--sage) 0%,var(--card) 72%);
+    box-shadow:
+      inset 0 2px 3px rgba(255,255,255,.95),
+      inset 0 -5px 7px rgba(40,82,47,.28),
+      0 6px 11px rgba(40,82,47,.24);
     display:flex;align-items:center;justify-content:center;
-    box-shadow:var(--shadow-sm);
     font-size:20px;
+    perspective:220px;
+    animation:brandFloat 3.6s ease-in-out infinite;
+  }
+  .brand-mark svg{position:relative;z-index:1;filter:drop-shadow(0 1px 1.5px rgba(40,82,47,.35));}
+  .brand-mark::after{
+    content:'';position:absolute;top:-15%;left:-15%;right:-15%;bottom:-15%;pointer-events:none;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.98), rgba(255,255,255,0) 52%);
+    opacity:0;
+    animation:brandGlint 4.3s ease-in-out infinite;
+  }
+  @keyframes brandFloat{
+    0%,100%{transform:translateY(0) rotateY(0deg) rotateX(0deg);}
+    50%{transform:translateY(-2px) rotateY(12deg) rotateX(-4deg);}
+  }
+  @keyframes brandGlint{
+    0%,90.5%{opacity:0;transform:scale(.55) translate(-12%,-10%);}
+    92.5%{opacity:1;transform:scale(1.2) translate(10%,8%);}
+    94.5%,100%{opacity:0;transform:scale(.55) translate(-12%,-10%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .brand-mark{animation:none;}
+    .brand-mark::after{animation:none;opacity:0;}
   }
   .brand-text{font-family:'Baloo Bhaijan 2';font-weight:700;font-size:20px;color:var(--forest-dark);line-height:1.1;}
   .brand-text span{display:block;font-family:'Tajawal';font-weight:500;font-size:12px;color:var(--text-soft);}
@@ -300,6 +327,59 @@
   .install-banner.update-banner .btn-yes{background:var(--forest);}
   .install-banner.update-banner{border-color:rgba(40,82,47,.25);}
 
+  /* ---------- اختيار آيات مخصّصة من أي سورة (من الشاشة الرئيسية) ---------- */
+  .custom-pick-btn{
+    width:100%;display:flex;align-items:center;gap:10px;
+    background:var(--card);border:2px dashed var(--sage);border-radius:var(--radius-md);
+    padding:12px 14px;margin:2px 0 16px;cursor:pointer;text-align:right;
+  }
+  .custom-pick-btn .icon{
+    width:34px;height:34px;border-radius:50%;flex:none;
+    background:linear-gradient(160deg,var(--sage),var(--card));
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+  }
+  .custom-pick-btn .txt{flex:1;min-width:0;}
+  .custom-pick-btn .t1,.custom-pick-btn .t2{overflow-wrap:break-word;}
+  .custom-pick-btn .t1{display:block;font-weight:700;font-size:13.5px;color:var(--forest-dark);}
+  .custom-pick-btn .t2{display:block;font-size:11.5px;color:var(--text-soft);margin-top:2px;}
+
+  .sheet-overlay{
+    position:fixed;top:0;left:0;right:0;bottom:0;z-index:600;
+    background:rgba(27,58,32,.38);
+    display:flex;align-items:flex-end;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .25s ease;
+  }
+  .sheet-overlay.show{opacity:1;pointer-events:auto;}
+  .sheet-panel{
+    width:100%;max-width:480px;background:var(--bg);
+    border-radius:26px 26px 0 0;padding:18px 20px calc(18px + env(safe-area-inset-bottom,0px));
+    box-shadow:0 -14px 34px rgba(40,82,47,.22);
+    transform:translateY(100%);transition:transform .32s cubic-bezier(.22,1,.36,1);
+  }
+  .sheet-overlay.show .sheet-panel{transform:translateY(0);}
+  .sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .sheet-head h3{margin:0;font-family:'Baloo Bhaijan 2';font-size:17px;color:var(--forest-dark);}
+  .sheet-close{
+    width:32px;height:32px;border-radius:50%;background:var(--card);border:none;
+    font-size:15px;color:var(--text-soft);display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .sheet-field{margin-bottom:12px;}
+  .sheet-field label{display:block;font-size:12.5px;font-weight:700;color:var(--text-soft);margin-bottom:5px;}
+  .sheet-select{
+    width:100%;border:2px solid var(--sage);border-radius:var(--radius-sm);
+    padding:10px 12px;font-family:inherit;font-size:14px;font-weight:700;color:var(--forest-dark);
+    background:#fff;
+  }
+  .sheet-ayah-row{display:flex;align-items:center;gap:10px;}
+  .sheet-ayah-row .range-input{width:auto;flex:1;padding:10px 6px;font-size:14px;}
+  .sheet-hint{font-size:11.5px;color:var(--text-soft);margin-top:6px;}
+  .sheet-hint.warn{color:var(--review);font-weight:700;}
+  .sheet-start-btn{
+    width:100%;background:var(--forest);color:#fff;border:none;border-radius:999px;
+    padding:13px 0;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;
+  }
+  .sheet-start-btn:disabled{background:#CFC9B8;cursor:not-allowed;}
+
   .repeat-options{display:flex;gap:8px;flex-wrap:wrap;}
   .repeat-chip{
     border:2px solid var(--sage);background:#fff;border-radius:999px;
@@ -436,6 +516,13 @@
         <h1>اختر سورة</h1>
         <p>استمع، رددّ، واحفظ آيات جزء عمّ خطوة بخطوة.</p>
       </div>
+      <button class="custom-pick-btn" id="btnCustomPick">
+        <span class="icon">🎯</span>
+        <span class="txt">
+          <span class="t1">تحديد آيات مخصّصة للحفظ</span>
+          <span class="t2">اختر السورة، ومن أيّ آية إلى أيّ آية</span>
+        </span>
+      </button>
       <div class="surah-grid" id="surahGrid"></div>
     </section>
 
@@ -577,6 +664,30 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ورقة اختيار آيات مخصّصة من أيّ سورة -->
+<div class="sheet-overlay" id="customPickSheet">
+  <div class="sheet-panel">
+    <div class="sheet-head">
+      <h3>تحديد آيات للحفظ</h3>
+      <button class="sheet-close" id="btnCustomPickClose">✕</button>
+    </div>
+    <div class="sheet-field">
+      <label for="customSurahSelect">السورة</label>
+      <select class="sheet-select" id="customSurahSelect"></select>
+    </div>
+    <div class="sheet-field">
+      <label>من آية — إلى آية</label>
+      <div class="sheet-ayah-row">
+        <input type="number" id="customFromInput" class="range-input" min="1" value="1">
+        <span class="range-label">إلى</span>
+        <input type="number" id="customToInput" class="range-input" min="1" value="1">
+      </div>
+      <div class="sheet-hint" id="customHint"></div>
+    </div>
+    <button class="sheet-start-btn" id="btnCustomStart">ابدأ الحفظ</button>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -902,6 +1013,15 @@
       } else {
         mushafGoToVerse(player.surah, player.currentAyah, 1, 0);
       }
+      // نطاق مخصّص اختاره وليّ الأمر من ورقة "تحديد آيات للحفظ" —
+      // يُطبَّق الآن لأنّ المصحف بات جاهزًا (بعد دوال mushafShowVerseRange).
+      if(pendingCustomApply && pendingCustomApply.surah === player.surah){
+        var pc = pendingCustomApply;
+        pendingCustomApply = null;
+        $("rangeFromInput").value = pc.from;
+        $("rangeToInput").value = pc.to;
+        applyRange();
+      }
     };
     w.onMushafWirdDone = function(){
       var s = currentSurahData();
@@ -1016,6 +1136,7 @@
     surah:null, ayahsTotal:0, currentAyah:1, repeatsDone:0, isPlaying:false,
     rangeFrom:1, rangeTo:1
   };
+  var pendingCustomApply = null; // {surah, from, to} — نطاقٌ مخصّص بانتظار اكتمال تحميل المصحف
   var audioEl;
 
   function currentSurahData(){
@@ -1041,6 +1162,61 @@
     $("statusLine").textContent = "اضغط تشغيل للبدء";
     showView("view-surah");
     loadMushafForSurah(num);
+  }
+
+  /* ================= ورقة اختيار آيات مخصّصة (من الشاشة الرئيسية) ================= */
+  function renderCustomSurahSelect(){
+    var sel = $("customSurahSelect");
+    sel.innerHTML = "";
+    JUZ_AMMA.forEach(function(s){
+      var opt = document.createElement("option");
+      opt.value = s.num;
+      opt.textContent = "سورة " + s.name + " — " + s.ayahs + " آية";
+      sel.appendChild(opt);
+    });
+  }
+
+  function updateCustomAyahBounds(){
+    var num = parseInt($("customSurahSelect").value, 10);
+    var s = JUZ_AMMA.filter(function(x){return x.num===num;})[0];
+    if(!s) return;
+    var fromEl = $("customFromInput"), toEl = $("customToInput");
+    fromEl.min = 1; fromEl.max = s.ayahs;
+    toEl.min = 1; toEl.max = s.ayahs;
+    if(!fromEl.value || parseInt(fromEl.value,10) > s.ayahs) fromEl.value = 1;
+    if(!toEl.value || parseInt(toEl.value,10) > s.ayahs) toEl.value = s.ayahs;
+    $("customHint").textContent = "سورة " + s.name + " فيها " + s.ayahs + " آية";
+    $("customHint").className = "sheet-hint";
+  }
+
+  function validateCustomRange(){
+    var num = parseInt($("customSurahSelect").value, 10);
+    var s = JUZ_AMMA.filter(function(x){return x.num===num;})[0];
+    if(!s) return null;
+    var from = parseInt($("customFromInput").value, 10);
+    var to = parseInt($("customToInput").value, 10);
+    if(!from || !to || from < 1 || to > s.ayahs || from > to){
+      $("customHint").textContent = "تأكّد أن الآيتين داخل مدى السورة (1 إلى " + s.ayahs + ") وأن البداية قبل النهاية";
+      $("customHint").className = "sheet-hint warn";
+      return null;
+    }
+    return { surah:num, from:from, to:to };
+  }
+
+  function openCustomPickSheet(){
+    renderCustomSurahSelect();
+    updateCustomAyahBounds();
+    $("customPickSheet").classList.add("show");
+  }
+  function closeCustomPickSheet(){
+    $("customPickSheet").classList.remove("show");
+  }
+  function startCustomPick(){
+    var r = validateCustomRange();
+    if(!r) return;
+    closeCustomPickSheet();
+    pendingCustomApply = { surah:r.surah, from:r.from, to:r.to };
+    openSurah(r.surah, r.from);
   }
 
   function renderRepeatTrack(){
@@ -1313,6 +1489,14 @@
     $("rangeFromInput").addEventListener("change", applyRange);
     $("rangeToInput").addEventListener("change", applyRange);
     $("btnRangeReset").addEventListener("click", resetRange);
+
+    $("btnCustomPick").addEventListener("click", openCustomPickSheet);
+    $("btnCustomPickClose").addEventListener("click", closeCustomPickSheet);
+    $("customPickSheet").addEventListener("click", function(e){
+      if(e.target === $("customPickSheet")) closeCustomPickSheet();
+    });
+    $("customSurahSelect").addEventListener("change", updateCustomAyahBounds);
+    $("btnCustomStart").addEventListener("click", startCustomPick);
 
     $("btnParent").addEventListener("click", function(){
       pinBuffer = "";
