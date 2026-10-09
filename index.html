@@ -588,6 +588,52 @@
   @media (prefers-reduced-motion: reduce){
     .surah-icon-badge,.ctrl-btn.main{animation:none;}
   }
+
+  /* ---------- كرات السور: اسم السورة فقط داخل كرة مضيئة ملوّنة ---------- */
+  .surah-grid{gap:14px 10px;}
+  .surah-card{background:none;box-shadow:none;padding:4px 0 2px;gap:7px;}
+  .surah-icon-badge{
+    width:94px;height:94px;overflow:hidden;
+    animation:planetFloat 4.2s ease-in-out infinite, orbGlow 3.2s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * -1), calc(var(--glint-delay,0s) * -1);
+    box-shadow:
+      inset -8px -11px 17px rgba(0,0,0,.36),
+      inset 5px 7px 10px rgba(255,255,255,.5),
+      0 13px 17px -8px rgba(0,0,0,.55),
+      0 0 22px -1px var(--c);
+  }
+  .surah-nm{
+    position:relative;z-index:1;
+    font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:15px;line-height:1.1;
+    color:#fff;text-align:center;
+    text-shadow:0 2px 3px rgba(0,0,0,.5),0 0 8px rgba(255,255,255,.35);
+    padding:0 6px;
+  }
+  /* لمعة ضوء سريعة تعبر الكرة في أجزاء من الثانية */
+  .surah-icon-badge::before{
+    content:'';position:absolute;z-index:2;pointer-events:none;
+    top:-25%;bottom:-25%;width:30%;left:-50%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);
+    transform:skewX(-20deg);
+    animation:orbStreak 3.4s ease-in-out infinite;
+    animation-delay:var(--glint-delay,0s);
+  }
+  @keyframes orbStreak{
+    0%,93%{left:-50%;}
+    100%{left:130%;}
+  }
+  @keyframes orbGlow{
+    0%,100%{filter:saturate(1) brightness(1);}
+    50%{filter:saturate(1.25) brightness(1.12);}
+  }
+  .gear-btn svg{width:26px;height:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));}
+  .ctrl-btn svg{width:46%;height:46%;fill:#fff;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));}
+  .ctrl-btn.main svg{width:44%;height:44%;}
+  .custom-pick-btn .icon svg{width:22px;height:22px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));}
+  @media (prefers-reduced-motion: reduce){
+    .surah-icon-badge{animation:none;}
+    .surah-icon-badge::before{animation:none;display:none;}
+  }
 </style>
 </head>
 <body>
@@ -662,7 +708,7 @@
       <div class="brand-mark"><svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="26" height="26"><use href="#mascot-waraqa" xlink:href="#mascot-waraqa"/></svg></div>
       <div class="brand-text">أثر <span>القرآن — جزء عمّ</span></div>
     </div>
-    <button class="gear-btn" id="btnParent" title="وضع ولي الأمر">⚙️</button>
+    <button class="gear-btn" id="btnParent" title="وضع ولي الأمر"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="#fff"><circle cx="12" cy="12" r="5.6" fill="none" stroke="#fff" stroke-width="2.6"/><rect x="10.6" y="1.6" width="2.8" height="4" rx="1"/><rect x="10.6" y="18.4" width="2.8" height="4" rx="1"/><rect x="1.6" y="10.6" width="4" height="2.8" rx="1"/><rect x="18.4" y="10.6" width="4" height="2.8" rx="1"/><rect x="10.6" y="1.6" width="2.8" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="10.6" y="18.4" width="2.8" height="4" rx="1" transform="rotate(45 12 12)"/><rect x="1.6" y="10.6" width="4" height="2.8" rx="1" transform="rotate(45 12 12)"/><rect x="18.4" y="10.6" width="4" height="2.8" rx="1" transform="rotate(45 12 12)"/></g></svg></button>
   </header>
 
   <main>
@@ -674,7 +720,7 @@
         <p>استمع، رددّ، واحفظ آيات جزء عمّ خطوة بخطوة.</p>
       </div>
       <button class="custom-pick-btn shine-sweep" id="btnCustomPick">
-        <span class="icon">🎯</span>
+        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="12" cy="12" r="1.8" fill="#fff"/></svg></span>
         <span class="txt">
           <span class="t1">تحديد آيات مخصّصة للحفظ</span>
           <span class="t2">اختر السورة، ومن أيّ آية إلى أيّ آية</span>
@@ -706,12 +752,12 @@
       <div class="repeat-track" id="repeatTrack"></div>
 
       <div class="controls-row">
-        <button class="ctrl-btn small" id="btnPrev" title="الآية السابقة">⏮</button>
-        <button class="ctrl-btn main shine-sweep" id="btnPlay" title="تشغيل / إيقاف">▶</button>
-        <button class="ctrl-btn small" id="btnNext" title="الآية التالية">⏭</button>
+        <button class="ctrl-btn small" id="btnPrev" title="الآية السابقة"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="2.6" height="14" rx="1"/><path d="M19 5v14L9 12z"/></svg></button>
+        <button class="ctrl-btn main shine-sweep" id="btnPlay" title="تشغيل / إيقاف"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></button>
+        <button class="ctrl-btn small" id="btnNext" title="الآية التالية"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="16.4" y="5" width="2.6" height="14" rx="1"/><path d="M5 5v14l10-7z"/></svg></button>
       </div>
       <div class="controls-row">
-        <button class="ctrl-btn small" id="btnRepeatAyah" title="إعادة الآية">↻</button>
+        <button class="ctrl-btn small" id="btnRepeatAyah" title="إعادة الآية"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.3-5.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M20 3.5v5.6h-5.6z"/></svg></button>
       </div>
       <div class="status-line" id="statusLine">اضغط تشغيل للبدء</div>
 
@@ -764,7 +810,7 @@
       <div class="section-card glass-card" id="installCard">
         <h3>تثبيت التطبيق</h3>
         <p class="muted" id="installDesc" style="margin:0 0 12px;">ثبّت «أثر» على شاشة جوال الطفل الرئيسية ليفتح كأي تطبيق عادي، بضغطة واحدة وبلا متصفح.</p>
-        <button class="pill-btn shine-sweep" id="btnInstallApp" style="width:100%;justify-content:center;">📲 أضف إلى الشاشة الرئيسية</button>
+        <button class="pill-btn shine-sweep" id="btnInstallApp" style="width:100%;justify-content:center;">أضف إلى الشاشة الرئيسية</button>
       </div>
 
       <div class="section-card">
@@ -851,6 +897,9 @@
   "use strict";
 
   /* ================= البيانات الأساسية: سور جزء عمّ ================= */
+  var PLAY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  var PAUSE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>';
+
   var JUZ_AMMA = [
     {num:78,name:"النبأ",ayahs:40},{num:79,name:"النازعات",ayahs:46},
     {num:80,name:"عبس",ayahs:42},{num:81,name:"التكوير",ayahs:29},
@@ -873,22 +922,9 @@
     {num:114,name:"الناس",ayahs:6}
   ];
 
-  // روحُ كلّ سورة: رمزٌ بصريٌّ بسيط وحركةٌ تُناسب معناها — حتى لا تتشابه
-  // بطاقات الشبكة في شاشةٍ واحدة. الرموز محايدة ولطيفة تناسب الأطفال.
-  var SURAH_ICON = {
-    78:["📰","ic-pulse","#3B82F6"], 79:["🌬️","ic-sway","#06B6D4"], 80:["🙁","ic-wobble","#F59E0B"],
-    81:["☀️","ic-spin-slow","#F97316"], 82:["🌌","ic-twinkle","#6366F1"], 83:["⚖️","ic-sway","#14B8A6"],
-    84:["🌠","ic-twinkle","#8B5CF6"], 85:["✨","ic-twinkle","#A855F7"], 86:["⭐","ic-glow","#EAB308"],
-    87:["🌄","ic-float","#0EA5E9"], 88:["🌑","ic-glow","#7C3AED"], 89:["🌅","ic-glow","#F43F5E"],
-    90:["🏙️","ic-bounce","#10B981"], 91:["☀️","ic-glow","#FBBF24"], 92:["🌙","ic-twinkle","#4338CA"],
-    93:["🌤️","ic-glow","#FACC15"], 94:["💚","ic-glow","#22C55E"], 95:["🍃","ic-sway","#84CC16"],
-    96:["📖","ic-flip","#2563EB"], 97:["✨","ic-twinkle","#7C3AED"], 98:["📜","ic-float","#D946EF"],
-    99:["🌍","ic-shake","#EF4444"], 100:["🐎","ic-bounce","#F97316"], 101:["💥","ic-shake","#F43F5E"],
-    102:["📈","ic-bounce","#16A34A"], 103:["⏳","ic-spin-slow","#0891B2"], 104:["🗣️","ic-shake","#EC4899"],
-    105:["🐘","ic-bounce","#0EA5A4"], 106:["🐪","ic-sway","#D97706"], 107:["🤲","ic-glow","#EC4899"],
-    108:["💧","ic-float","#06B6D4"], 109:["🕊️","ic-sway","#3B82F6"], 110:["🌟","ic-twinkle","#F59E0B"],
-    111:["🌿","ic-sway","#65A30D"], 112:["💎","ic-glow","#FBBF24"], 113:["🌄","ic-glow","#FB7185"],
-    114:["👥","ic-pulse","#8B5CF6"]
+  // لونُ كلّ سورة — كرةٌ مضيئة باسم السورة فقط (بلا صور ولا رموز)
+  var SURAH_COLOR = {
+    78:"#3B82F6", 79:"#06B6D4", 80:"#F59E0B", 81:"#F97316", 82:"#6366F1", 83:"#14B8A6", 84:"#8B5CF6", 85:"#A855F7", 86:"#EAB308", 87:"#0EA5E9", 88:"#7C3AED", 89:"#F43F5E", 90:"#10B981", 91:"#FBBF24", 92:"#4338CA", 93:"#FACC15", 94:"#22C55E", 95:"#84CC16", 96:"#2563EB", 97:"#7C3AED", 98:"#D946EF", 99:"#EF4444", 100:"#F97316", 101:"#F43F5E", 102:"#16A34A", 103:"#0891B2", 104:"#EC4899", 105:"#0EA5A4", 106:"#D97706", 107:"#EC4899", 108:"#06B6D4", 109:"#3B82F6", 110:"#F59E0B", 111:"#65A30D", 112:"#FBBF24", 113:"#FB7185", 114:"#8B5CF6"
   };
 
   // خريطة صفحات مصحف المدينة (الإصدار الرابع) لكل سورة من جزء عمّ —
@@ -1003,14 +1039,14 @@
 
     var text, btnLabel, onYes;
     if(deferredInstallPrompt){
-      text = "ثبّت «أثر» على جهاز الطفل، يفتح كأي تطبيق حقيقي 🌿";
+      text = "ثبّت «أثر» على جهاز الطفل، يفتح كأي تطبيق حقيقي";
       btnLabel = "ثبّت الآن";
       onYes = function(){
         var p = deferredInstallPrompt; deferredInstallPrompt = null;
         if(p){ p.prompt(); p.userChoice.then(function(){}); }
       };
     } else if(isIOSDevice()){
-      text = "لتثبيت «أثر»: اضغط زر المشاركة ⬆ بأسفل Safari، ثم «إضافة إلى الشاشة الرئيسية».";
+      text = "لتثبيت «أثر»: اضغط زر المشاركة بأسفل Safari، ثم «إضافة إلى الشاشة الرئيسية».";
       btnLabel = "فهمت";
       onYes = function(){};
     } else if(isMacSafari()){
@@ -1055,13 +1091,13 @@
     }
     if(isIOSDevice()){
       $("installDesc").textContent = "من متصفح Safari: اضغط زر المشاركة (المربّع وبه سهم للأعلى) بأسفل الشاشة، ثم اختر «إضافة إلى الشاشة الرئيسية».";
-      $("btnInstallApp").textContent = "📲 فهمت، الخطوات أعلاه";
+      $("btnInstallApp").textContent = "فهمت، الخطوات أعلاه";
       $("btnInstallApp").addEventListener("click", function(){
         showToast("اتّبع خطوات Safari الموضّحة أعلاه");
       });
     } else if(isMacSafari()){
       $("installDesc").textContent = "من قائمة مشاركة Safari على ماك: اختر «إضافة إلى Dock».";
-      $("btnInstallApp").textContent = "📲 فهمت، الخطوات أعلاه";
+      $("btnInstallApp").textContent = "فهمت، الخطوات أعلاه";
       $("btnInstallApp").addEventListener("click", function(){
         showToast("اتّبع خطوات Safari الموضّحة أعلاه");
       });
@@ -1086,7 +1122,7 @@
     b.id = "updateBanner";
     b.className = "install-banner update-banner";
     b.innerHTML =
-      '<span class="txt">تحديث جديد لتطبيق «أثر» متاح 🌿</span>' +
+      '<span class="txt">تحديث جديد لتطبيق «أثر» متاح</span>' +
       '<button type="button" class="btn-yes" id="updateYes">تحديث الآن</button>' +
       '<button type="button" class="btn-no" id="updateNo" aria-label="لاحقًا">✕</button>';
     document.body.appendChild(b);
@@ -1146,16 +1182,14 @@
     JUZ_AMMA.forEach(function(s, i){
       var ratio = surahProgressRatio(s.num);
       var dotClass = ratio===0 ? "" : (ratio>=1 ? "done" : "some");
-      var icon = SURAH_ICON[s.num] || ["🌿","ic-sway","#22C55E"];
+      var col = SURAH_COLOR[s.num] || "#22A04B";
       var card = document.createElement("button");
       card.className = "surah-card";
       card.style.animationDelay = (i * 0.025) + "s";
       card.innerHTML =
-        '<span class="surah-icon-badge" style="--c:'+icon[2]+';--glint-delay:'+((i%11)*0.4)+'s">' +
-          '<span class="surah-icon '+icon[1]+'">'+icon[0]+'</span>' +
+        '<span class="surah-icon-badge" style="--c:'+col+';--glint-delay:'+((i%9)*0.45)+'s">' +
+          '<span class="surah-nm">'+s.name+'</span>' +
         '</span>' +
-        '<div class="surah-num">'+s.num+'</div>' +
-        '<div class="surah-name">'+s.name+'</div>' +
         '<div class="surah-progress-dot '+dotClass+'"></div>';
       card.addEventListener("click", function(){ openSurah(s.num); });
       grid.appendChild(card);
@@ -1210,7 +1244,7 @@
           if(getStatus(s.num,a) !== "memorized") setStatus(s.num,a,"trained");
         }
       }
-      showToast("أحسنت! أتممتَ وِرد هذه السورة 🌿");
+      showToast("أحسنت! أتممتَ وِرد هذه السورة");
     };
     w.onMushafClose = function(){
       $("btnBackHome").click();
@@ -1282,7 +1316,7 @@
     updateAyahBadge();
     audioEl.pause();
     player.isPlaying = false;
-    $("btnPlay").textContent = "▶";
+    $("btnPlay").innerHTML = PLAY_SVG;
 
     if(from === 1 && to === total){
       $("statusLine").textContent = "اضغط تشغيل للاستماع";
@@ -1335,7 +1369,7 @@
     player.isPlaying = false;
     $("surahTitle").textContent = s.name;
     $("surahComplete").style.display = "none";
-    $("btnPlay").textContent = "▶";
+    $("btnPlay").innerHTML = PLAY_SVG;
     renderRepeatTrack();
     updateAyahBadge();
     setupRangeInputs();
@@ -1426,8 +1460,8 @@
       $("statusLine").textContent = "اضغط زر التشغيل مرة أخرى للسماح بالصوت";
     });
     player.isPlaying = true;
-    $("btnPlay").textContent = "⏸";
-    $("statusLine").textContent = "🔊 يستمع الآن…";
+    $("btnPlay").innerHTML = PAUSE_SVG;
+    $("statusLine").textContent = "يستمع الآن…";
   }
 
   function togglePlay(){
@@ -1435,7 +1469,7 @@
     if(player.isPlaying){
       audioEl.pause();
       player.isPlaying = false;
-      $("btnPlay").textContent = "▶";
+      $("btnPlay").innerHTML = PLAY_SVG;
       $("statusLine").textContent = "متوقف مؤقتًا";
     } else {
       playCurrentAyah();
@@ -1462,7 +1496,7 @@
     syncMushafToCurrentAyah(delta >= 0 ? 1 : -1);
     audioEl.pause();
     player.isPlaying = false;
-    $("btnPlay").textContent = "▶";
+    $("btnPlay").innerHTML = PLAY_SVG;
     $("statusLine").textContent = "اضغط تشغيل للاستماع";
   }
 
@@ -1494,8 +1528,8 @@
         }, 700);
       } else {
         player.isPlaying = false;
-        $("btnPlay").textContent = "▶";
-        $("statusLine").textContent = "انتهت الآيات المحدّدة 🎉";
+        $("btnPlay").innerHTML = PLAY_SVG;
+        $("statusLine").textContent = "انتهت الآيات المحدّدة";
         $("surahComplete").style.display = "block";
       }
     }
