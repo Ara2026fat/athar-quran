@@ -539,6 +539,55 @@
     position:relative;z-index:1;text-align:center;color:#B9B29C;font-size:10.5px;
     margin-top:20px;padding-bottom:6px;
   }
+
+  /* =====================================================================
+     أيقونات «كواكب» لامعة ملوّنة — كرة بإضاءة من أعلى اليسار وظلّ سفلي،
+     إطار أبيض، وهج بلون الأيقونة نفسها، وطفو متدرّج. (أسلوب تطبيق AIR Lab
+     في الطبقة البصرية فقط، بألوان وأشكال خاصّة بأثر القرآن)
+     ===================================================================== */
+  .brand-mark, .gear-btn, .back-btn, .ctrl-btn, .surah-icon-badge, .custom-pick-btn .icon{
+    background:
+      radial-gradient(circle at 31% 24%, rgba(255,255,255,.88) 0, rgba(255,255,255,.34) 15%, rgba(255,255,255,0) 40%),
+      radial-gradient(circle at 74% 85%, rgba(0,0,0,.45) 0, rgba(0,0,0,0) 62%),
+      var(--c, #22A04B);
+    border:2.5px solid rgba(255,255,255,.82);
+    box-shadow:
+      inset -4px -6px 9px rgba(0,0,0,.34),
+      inset 3px 4px 6px rgba(255,255,255,.5),
+      0 9px 13px -6px rgba(0,0,0,.5),
+      0 0 15px -2px var(--c, #22A04B);
+    color:#fff;
+    text-shadow:0 2px 2px rgba(0,0,0,.35);
+  }
+  .brand-mark{--c:#F5A623;width:48px;height:48px;}
+  .gear-btn{--c:#3B82F6;width:46px;height:46px;font-size:20px;}
+  .back-btn{--c:#22A04B;}
+  .ctrl-btn.small{--c:#3B82F6;width:54px;height:54px;font-size:20px;color:#fff;}
+  #btnRepeatAyah{--c:#A855F7;}
+  .ctrl-btn.main{--c:#22A04B;width:82px;height:82px;font-size:32px;background:
+      radial-gradient(circle at 31% 24%, rgba(255,255,255,.9) 0, rgba(255,255,255,.34) 15%, rgba(255,255,255,0) 40%),
+      radial-gradient(circle at 74% 85%, rgba(0,0,0,.45) 0, rgba(0,0,0,0) 62%),
+      #22A04B;
+    box-shadow:inset -6px -9px 14px rgba(0,0,0,.36),inset 4px 6px 9px rgba(255,255,255,.5),0 14px 18px -8px rgba(0,0,0,.55),0 0 24px 0 rgba(34,160,75,.7);
+    color:#fff;animation:planetFloat 4.2s ease-in-out infinite;}
+  .custom-pick-btn .icon{--c:#F43F5E;width:42px;height:42px;font-size:19px;}
+  .surah-icon-badge{
+    width:50px;height:50px;overflow:visible;
+    animation:planetFloat 4.2s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * -1);
+  }
+  .surah-icon-badge::after{
+    top:0;left:0;right:0;bottom:0;border-radius:50%;
+    background:radial-gradient(circle at 30% 24%, rgba(255,255,255,1), rgba(255,255,255,0) 55%);
+  }
+  .surah-icon{font-size:24px;filter:drop-shadow(0 2px 1px rgba(0,0,0,.4)) drop-shadow(0 -1px 0 rgba(255,255,255,.4));}
+  .surah-card{gap:8px;padding-top:12px;}
+  @keyframes planetFloat{0%,100%{translate:0 0;}50%{translate:0 -3px;}}
+  .brand-mark{overflow:visible;}
+  .brand-mark::after{border-radius:50%;top:0;left:0;right:0;bottom:0;}
+  @media (prefers-reduced-motion: reduce){
+    .surah-icon-badge,.ctrl-btn.main{animation:none;}
+  }
 </style>
 </head>
 <body>
@@ -827,19 +876,19 @@
   // روحُ كلّ سورة: رمزٌ بصريٌّ بسيط وحركةٌ تُناسب معناها — حتى لا تتشابه
   // بطاقات الشبكة في شاشةٍ واحدة. الرموز محايدة ولطيفة تناسب الأطفال.
   var SURAH_ICON = {
-    78:["📰","ic-pulse"], 79:["🌬️","ic-sway"], 80:["🙁","ic-wobble"],
-    81:["☀️","ic-spin-slow"], 82:["🌌","ic-twinkle"], 83:["⚖️","ic-sway"],
-    84:["🌠","ic-twinkle"], 85:["✨","ic-twinkle"], 86:["⭐","ic-glow"],
-    87:["🌄","ic-float"], 88:["🌑","ic-glow"], 89:["🌅","ic-glow"],
-    90:["🏙️","ic-bounce"], 91:["☀️","ic-glow"], 92:["🌙","ic-twinkle"],
-    93:["🌤️","ic-glow"], 94:["💚","ic-glow"], 95:["🍃","ic-sway"],
-    96:["📖","ic-flip"], 97:["✨","ic-twinkle"], 98:["📜","ic-float"],
-    99:["🌍","ic-shake"], 100:["🐎","ic-bounce"], 101:["💥","ic-shake"],
-    102:["📈","ic-bounce"], 103:["⏳","ic-spin-slow"], 104:["🗣️","ic-shake"],
-    105:["🐘","ic-bounce"], 106:["🐪","ic-sway"], 107:["🤲","ic-glow"],
-    108:["💧","ic-float"], 109:["🕊️","ic-sway"], 110:["🌟","ic-twinkle"],
-    111:["🌿","ic-sway"], 112:["💎","ic-glow"], 113:["🌄","ic-glow"],
-    114:["👥","ic-pulse"]
+    78:["📰","ic-pulse","#3B82F6"], 79:["🌬️","ic-sway","#06B6D4"], 80:["🙁","ic-wobble","#F59E0B"],
+    81:["☀️","ic-spin-slow","#F97316"], 82:["🌌","ic-twinkle","#6366F1"], 83:["⚖️","ic-sway","#14B8A6"],
+    84:["🌠","ic-twinkle","#8B5CF6"], 85:["✨","ic-twinkle","#A855F7"], 86:["⭐","ic-glow","#EAB308"],
+    87:["🌄","ic-float","#0EA5E9"], 88:["🌑","ic-glow","#7C3AED"], 89:["🌅","ic-glow","#F43F5E"],
+    90:["🏙️","ic-bounce","#10B981"], 91:["☀️","ic-glow","#FBBF24"], 92:["🌙","ic-twinkle","#4338CA"],
+    93:["🌤️","ic-glow","#FACC15"], 94:["💚","ic-glow","#22C55E"], 95:["🍃","ic-sway","#84CC16"],
+    96:["📖","ic-flip","#2563EB"], 97:["✨","ic-twinkle","#7C3AED"], 98:["📜","ic-float","#D946EF"],
+    99:["🌍","ic-shake","#EF4444"], 100:["🐎","ic-bounce","#F97316"], 101:["💥","ic-shake","#F43F5E"],
+    102:["📈","ic-bounce","#16A34A"], 103:["⏳","ic-spin-slow","#0891B2"], 104:["🗣️","ic-shake","#EC4899"],
+    105:["🐘","ic-bounce","#0EA5A4"], 106:["🐪","ic-sway","#D97706"], 107:["🤲","ic-glow","#EC4899"],
+    108:["💧","ic-float","#06B6D4"], 109:["🕊️","ic-sway","#3B82F6"], 110:["🌟","ic-twinkle","#F59E0B"],
+    111:["🌿","ic-sway","#65A30D"], 112:["💎","ic-glow","#FBBF24"], 113:["🌄","ic-glow","#FB7185"],
+    114:["👥","ic-pulse","#8B5CF6"]
   };
 
   // خريطة صفحات مصحف المدينة (الإصدار الرابع) لكل سورة من جزء عمّ —
@@ -1097,12 +1146,12 @@
     JUZ_AMMA.forEach(function(s, i){
       var ratio = surahProgressRatio(s.num);
       var dotClass = ratio===0 ? "" : (ratio>=1 ? "done" : "some");
-      var icon = SURAH_ICON[s.num] || ["🌿","ic-sway"];
+      var icon = SURAH_ICON[s.num] || ["🌿","ic-sway","#22C55E"];
       var card = document.createElement("button");
       card.className = "surah-card";
       card.style.animationDelay = (i * 0.025) + "s";
       card.innerHTML =
-        '<span class="surah-icon-badge" style="--glint-delay:'+((i%11)*0.4)+'s">' +
+        '<span class="surah-icon-badge" style="--c:'+icon[2]+';--glint-delay:'+((i%11)*0.4)+'s">' +
           '<span class="surah-icon '+icon[1]+'">'+icon[0]+'</span>' +
         '</span>' +
         '<div class="surah-num">'+s.num+'</div>' +
