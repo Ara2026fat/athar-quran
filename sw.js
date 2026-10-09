@@ -1,60 +1,79 @@
-/* أثر — Service Worker
-   يخزّن هيكل التطبيق فقط (الصفحة + الأيقونات)، ولا يتدخّل إطلاقًا في:
-   - تلاوة القرآن (everyayah.com)
-   - توليد الصوت (Gemini / Google TTS)
-   بحيث لا تتأثّر قاعدة "الآيات دائمًا بصوت الحصري" بأي تخزين مؤقت خاطئ. */
+/* ═══════════════════════════════════════════════════════════════
+   أثر | القرآن — Service Worker
 
-const CACHE = "athar-shell-v2";
-const SHELL = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./apple-touch-icon.png"
+   وظيفتان فقط:
+   ١) تخزين ملفات التطبيق نفسها (لا صفحات المصحف ولا الصوتيات — تلك
+      كبيرة ولها تخزينها الخاص أصلًا عبر localStorage في mushaf.html)
+      لتعمل الشاشات والتنقّل دون اتصال بعد أول فتح.
+   ٢) اكتشاف وجود نسخة أحدث من التطبيق نفسه، لإظهار شريط "تحديث
+      التطبيق" في index.html بدل أن يبقى المستخدم على نسخة قديمة
+      بصمت.
+
+   ⚠️ مهمّ عند رفع تحديث جديد لاحقًا:
+   غيّر رقم CACHE_VERSION بالأسفل (مثلاً v1 → v2) في كل مرة تعدّل
+   فيها أي ملف من ملفات التطبيق. هذا هو ما يجعل المتصفح يكتشف وجود
+   نسخة جديدة ويعرض شريط التحديث للمستخدمين الذين ثبّتوا التطبيق
+   سابقًا. لو لم تُغيّر الرقم، لن يظهر شريط التحديث أبدًا مهما رفعت
+   من تعديلات.
+   ═══════════════════════════════════════════════════════════════ */
+
+const CACHE_VERSION = 'v2';
+const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
+
+// الملفات الأساسية للتطبيق نفسه فقط (صغيرة، من نفس المستودع)
+const CORE_ASSETS = [
+  './index.html',
+  './mushaf.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/apple-touch-icon.png'
 ];
 
-self.addEventListener("install", (event) => {
+self.addEventListener('install', function(event){
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(SHELL)).catch(() => {})
-  );
-  // لا نستدعي skipWaiting() هنا عمدًا — يبقى الإصدار الجديد "بانتظار"
-  // حتى يضغط الوالد زر «تحديث» في الشريط، فيصله رسالة SKIP_WAITING أدناه.
-});
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
-});
-
-self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
-
-  // لا نتدخّل أبدًا في الطلبات لخارج نفس الأصل (القرآن، الصوت السحابي، أي API)
-  if (url.origin !== self.location.origin) return;
-  if (event.request.method !== "GET") return;
-
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-          }
-          return res;
-        })
-        .catch(() => cached);
-      // شبكة أولًا مع سقوط فوري للنسخة المخزّنة عند الفشل، لتفادي تقديم نسخة قديمة من الصفحة
-      return fetchPromise || cached;
+    caches.open(CACHE_NAME).then(function(cache){
+      return cache.addAll(CORE_ASSETS);
     })
   );
+});
+
+self.addEventListener('activate', function(event){
+  event.waitUntil(
+    caches.keys().then(function(keys){
+      return Promise.all(
+        keys.filter(function(k){ return k !== CACHE_NAME; })
+            .map(function(k){ return caches.delete(k); })
+      );
+    }).then(function(){ return self.clients.claim(); })
+  );
+});
+
+// كاش أولًا لملفات التطبيق نفسها فقط (نفس المصدر)؛ كل شيء آخر
+// (صوت، خطوط، بيانات المصحف من CDN خارجي) يمرّ للشبكة مباشرةً بلا
+// أي تدخّل — لسنا مسؤولين عن تخزينه هنا.
+self.addEventListener('fetch', function(event){
+  var req = event.request;
+  if(req.method !== 'GET') return;
+  var url = new URL(req.url);
+  if(url.origin !== self.location.origin) return; // اتركه للشبكة كما هو
+
+  event.respondWith(
+    caches.match(req).then(function(cached){
+      var network = fetch(req).then(function(res){
+        if(res && res.status === 200){
+          var copy = res.clone();
+          caches.open(CACHE_NAME).then(function(cache){ cache.put(req, copy); });
+        }
+        return res;
+      }).catch(function(){ return cached; });
+      return cached || network;
+    })
+  );
+});
+
+// يسمح لصفحة index.html بطلب تفعيل النسخة الجديدة فورًا بدل انتظار
+// إغلاق كل التبويبات المفتوحة.
+self.addEventListener('message', function(event){
+  if(event.data === 'SKIP_WAITING') self.skipWaiting();
 });

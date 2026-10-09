@@ -99,9 +99,16 @@ body.embed #screen-mushaf{height:100dvh;}
 #screen-mushaf .ln.mid{justify-content:center;gap:.3em;}
 #screen-mushaf .ln w{display:inline-block;}
 #screen-mushaf .ln w.mus-cur-verse{
-  background:rgba(201,150,58,.30);border-radius:5px;
-  box-shadow:0 0 0 3px rgba(201,150,58,.22);
-  transition:background .25s ease, box-shadow .25s ease;
+  background:rgba(201,150,58,.24);border-radius:6px;
+  transition:background .25s ease;
+  animation:mus-ayah-breathe 2.2s ease-in-out infinite;
+}
+@keyframes mus-ayah-breathe{
+  0%,100%{ box-shadow:0 0 0 2px rgba(201,150,58,.18), 0 0 0 0 rgba(201,150,58,0); }
+  50%{ box-shadow:0 0 0 3px rgba(201,150,58,.34), 0 0 14px 3px rgba(201,150,58,.30); }
+}
+@media (prefers-reduced-motion: reduce){
+  #screen-mushaf .ln w.mus-cur-verse{ animation:none; box-shadow:0 0 0 3px rgba(201,150,58,.26); }
 }
 #screen-mushaf .mus-sheet.framed-sheet{align-items:stretch;}
 #screen-mushaf .mus-page.framed{
