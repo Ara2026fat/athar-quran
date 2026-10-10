@@ -106,7 +106,7 @@
     content:'';position:absolute;top:-15%;left:-15%;right:-15%;bottom:-15%;pointer-events:none;
     background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.98), rgba(255,255,255,0) 52%);
     opacity:0;
-    animation:brandGlint 4.3s ease-in-out infinite;
+    animation:brandGlint 14.3s ease-in-out infinite;
   }
   @keyframes brandFloat{
     0%,100%{transform:translateY(0) rotateY(0deg) rotateX(0deg);}
@@ -114,7 +114,7 @@
   }
   @keyframes brandGlint{
     0%,90.5%{opacity:0;transform:scale(.55) translate(-12%,-10%);}
-    92.5%{opacity:1;transform:scale(1.2) translate(10%,8%);}
+    92.5%{opacity:.6;transform:scale(1.2) translate(10%,8%);}
     94.5%,100%{opacity:0;transform:scale(.55) translate(-12%,-10%);}
   }
   @media (prefers-reduced-motion: reduce){
@@ -177,8 +177,8 @@
     content:'';position:absolute;top:-15%;left:-15%;right:-15%;bottom:-15%;pointer-events:none;
     background:radial-gradient(circle at 30% 24%, rgba(255,255,255,.98), rgba(255,255,255,0) 52%);
     opacity:0;
-    animation:brandGlint 4.3s ease-in-out infinite;
-    animation-delay:var(--glint-delay,0s);
+    animation:brandGlint 14.3s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * 3.3);
   }
   .surah-icon{font-size:16px;line-height:1;display:inline-block;position:relative;z-index:1;
     filter:drop-shadow(0 1px 1px rgba(40,82,47,.3));}
@@ -244,7 +244,7 @@
     content:'';position:absolute;top:-45%;bottom:-45%;width:30%;left:-60%;
     background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
     transform:skewX(-20deg);pointer-events:none;
-    animation:shineSweep 7.5s ease-in-out infinite;
+    animation:shineSweep 25s ease-in-out infinite;
   }
   @keyframes shineSweep{
     0%,55%{left:-60%;}
@@ -613,10 +613,10 @@
   .surah-icon-badge::before{
     content:'';position:absolute;z-index:2;pointer-events:none;
     top:-25%;bottom:-25%;width:30%;left:-50%;
-    background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
     transform:skewX(-20deg);
-    animation:orbStreak 3.4s ease-in-out infinite;
-    animation-delay:var(--glint-delay,0s);
+    animation:orbStreak 11.3s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * 3.3);
   }
   @keyframes orbStreak{
     0%,93%{left:-50%;}
@@ -634,6 +634,223 @@
     .surah-icon-badge{animation:none;}
     .surah-icon-badge::before{animation:none;display:none;}
   }
+
+  /* =====================================================================
+     أيقونات بارزة ثلاثية الأبعاد — بلاطات مستديرة مرتفعة عن الخلفية:
+     وجه متدرّج، شريط زجاجي لامع في النصف العلوي، حافّة ضوء علوية،
+     ظلّ داخلي سفلي، "سُمك" ممتدّ تحت الأيقونة، وظلّ ناعم أسفلها.
+     تنضغط عند اللمس كزرّ حقيقي.
+     ===================================================================== */
+  .surah-grid{gap:16px 12px;}
+  .surah-card{background:none;box-shadow:none;padding:0 0 6px;gap:9px;transition:none;}
+  .surah-card:active{transform:none;}
+  .surah-icon-badge{
+    width:100%;height:auto;aspect-ratio:1/1;border-radius:30px;overflow:hidden;position:relative;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%),
+      var(--c);
+    border:2px solid rgba(255,238,185,.85);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.7),
+      inset 0 -9px 14px rgba(0,0,0,.30),
+      inset 0 0 0 1px rgba(255,255,255,.18),
+      0 7px 0 rgba(0,0,0,.34),
+      0 9px 0 -1px rgba(0,0,0,.10),
+      0 18px 22px -8px rgba(0,0,0,.50),
+      0 14px 26px -12px var(--c);
+    animation:tileFloat 4.6s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * -2);
+    transition:transform .12s ease, box-shadow .12s ease;
+    margin-bottom:8px;
+  }
+  .surah-card:active .surah-icon-badge{
+    transform:translateY(5px);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.55),
+      inset 0 -6px 10px rgba(0,0,0,.30),
+      0 2px 0 rgba(0,0,0,.34),
+      0 8px 12px -6px rgba(0,0,0,.5);
+  }
+  @keyframes tileFloat{0%,100%{translate:0 0;}50%{translate:0 -2.5px;}}
+  /* شريط الزجاج اللامع (ثابت) */
+  .surah-icon-badge::before{
+    content:'';position:absolute;z-index:1;pointer-events:none;
+    top:3%;left:4%;right:4%;width:auto;height:47%;
+    border-radius:26px 26px 55% 55% / 26px 26px 38% 38%;
+    background:linear-gradient(180deg, rgba(255,255,255,.60) 0%, rgba(255,255,255,.12) 100%);
+    transform:none;animation:none;
+  }
+  /* لمعة عابرة نادرة */
+  .surah-icon-badge::after{
+    content:'';position:absolute;z-index:3;pointer-events:none;
+    top:-25%;bottom:-25%;left:-50%;right:auto;width:30%;border-radius:0;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);
+    transform:skewX(-20deg);opacity:1;
+    animation:orbStreak 11.3s ease-in-out infinite;
+    animation-delay:calc(var(--glint-delay,0s) * 3.3);
+  }
+  .surah-nm{
+    z-index:2;font-size:clamp(16px,4.9vw,21px);font-weight:800;letter-spacing:.2px;
+    text-shadow:0 2px 0 rgba(0,0,0,.38),0 4px 8px rgba(0,0,0,.45);
+    padding:0 4px;
+  }
+  .surah-progress-dot{width:10px;height:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 3px rgba(0,0,0,.25);}
+
+  /* بقية الأيقونات المستديرة: نفس لغة الارتفاع والسُّمك */
+  .brand-mark, .gear-btn, .back-btn, .ctrl-btn, .custom-pick-btn .icon{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%),
+      var(--c, #22A04B);
+    border:2px solid rgba(255,238,185,.85);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.7),
+      inset 0 -6px 10px rgba(0,0,0,.30),
+      0 5px 0 rgba(0,0,0,.34),
+      0 12px 16px -6px rgba(0,0,0,.48),
+      0 10px 20px -10px var(--c, #22A04B);
+  }
+  .ctrl-btn.main{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%),
+      #22A04B;
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.7),
+      inset 0 -9px 14px rgba(0,0,0,.30),
+      0 7px 0 rgba(0,0,0,.34),
+      0 16px 20px -8px rgba(0,0,0,.5),
+      0 12px 26px -10px #22A04B;
+  }
+  .ctrl-btn:active, .gear-btn:active, .back-btn:active{transform:translateY(4px);}
+  @media (prefers-reduced-motion: reduce){
+    .surah-icon-badge{animation:none;}
+    .surah-icon-badge::after{animation:none;display:none;}
+  }
+
+  /* =====================================================================
+     الرئيسية: خياران كبيران (حفظ سورة / حفظ آيات) + تبويب علوي + منتقي الآيات
+     ===================================================================== */
+  .intro.small{margin:4px 4px 14px;}
+  .intro.small h1{font-size:19px;}
+  .choice-tile{
+    width:100%;display:flex;align-items:center;gap:16px;text-align:right;color:#fff;cursor:pointer;
+    border-radius:32px;padding:24px 20px;margin:0 0 26px;position:relative;overflow:hidden;
+    font-family:inherit;border:2px solid rgba(255,238,185,.85);
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), var(--c);
+    box-shadow:
+      inset 0 3px 0 rgba(255,255,255,.7),
+      inset 0 -12px 18px rgba(0,0,0,.30),
+      0 9px 0 rgba(0,0,0,.34),
+      0 22px 28px -10px rgba(0,0,0,.5),
+      0 18px 32px -14px var(--c);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .choice-tile:active{
+    transform:translateY(7px);
+    box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -8px 12px rgba(0,0,0,.3),0 2px 0 rgba(0,0,0,.34),0 8px 14px -6px rgba(0,0,0,.5);
+  }
+  .choice-tile::before{
+    content:'';position:absolute;z-index:1;pointer-events:none;
+    top:3%;left:3%;right:3%;height:46%;
+    border-radius:30px 30px 55% 55% / 30px 30px 38% 38%;
+    background:linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.10) 100%);
+  }
+  .choice-tile::after{
+    content:'';position:absolute;z-index:3;pointer-events:none;
+    top:-30%;bottom:-30%;left:-50%;width:26%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+    transform:skewX(-20deg);animation:orbStreak 11.3s ease-in-out infinite;
+  }
+  #choiceAyah::after{animation-delay:5.6s;}
+  .choice-icon{
+    position:relative;z-index:2;flex:none;width:72px;height:72px;border-radius:24px;display:grid;place-items:center;
+    background:rgba(255,255,255,.2);
+    box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -7px 11px rgba(0,0,0,.22),0 7px 12px -5px rgba(0,0,0,.45);
+  }
+  .choice-icon svg{width:40px;height:40px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));}
+  .choice-txt{position:relative;z-index:2;flex:1;display:block;}
+  .ct1{display:block;font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:26px;line-height:1.15;
+    text-shadow:0 2px 0 rgba(0,0,0,.35),0 4px 9px rgba(0,0,0,.4);}
+  .ct2{display:block;font-size:13px;font-weight:600;margin-top:4px;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.45);}
+  .choice-chev{position:relative;z-index:2;flex:none;width:26px;height:26px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4));}
+
+  .browse-head{display:flex;align-items:center;gap:12px;margin:2px 0 16px;}
+  .seg{
+    flex:1;display:flex;padding:5px;border-radius:22px;background:#E1E9DA;
+    box-shadow:inset 0 3px 7px rgba(0,0,0,.18),inset 0 -1px 0 rgba(255,255,255,.85);
+  }
+  .seg-btn{
+    flex:1;border:none;background:none;border-radius:17px;padding:12px 6px;cursor:pointer;
+    font-family:inherit;font-weight:800;font-size:14px;color:var(--text-soft);
+  }
+  .seg-btn.active{
+    color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.4);
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), #22A04B;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 9px rgba(0,0,0,.25),0 4px 0 rgba(0,0,0,.28),0 8px 12px -6px rgba(0,0,0,.4);
+  }
+
+  .surah-strip{
+    display:flex;gap:11px;overflow-x:auto;padding:8px 6px 18px;margin:0 -6px 4px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .surah-strip::-webkit-scrollbar{display:none;}
+  .strip-pill{
+    flex:none;border-radius:19px;padding:13px 20px;cursor:pointer;
+    font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:15px;color:#fff;
+    border:2px solid rgba(255,238,185,.8);
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), var(--c);
+    text-shadow:0 2px 3px rgba(0,0,0,.45);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -6px 9px rgba(0,0,0,.28),0 5px 0 rgba(0,0,0,.30),0 10px 14px -6px rgba(0,0,0,.4);
+    opacity:.72;transition:transform .15s ease, opacity .15s ease;
+  }
+  .strip-pill.active{
+    opacity:1;transform:translateY(-3px) scale(1.07);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -6px 9px rgba(0,0,0,.28),0 5px 0 rgba(0,0,0,.30),0 0 0 3px #fff,0 0 0 6px var(--c),0 14px 18px -6px rgba(0,0,0,.45);
+  }
+
+  .ayah-pick-card{background:var(--card);border-radius:28px;padding:18px 14px 16px;box-shadow:var(--shadow-md);margin-bottom:18px;}
+  .ayah-pick-title{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 14px;
+    font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:17px;color:var(--forest-dark);
+  }
+  .mini-btn{
+    border:none;border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:800;font-size:12.5px;
+    color:var(--forest-dark);background:var(--sage);cursor:pointer;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.85),0 3px 0 rgba(40,82,47,.22);
+  }
+  .mini-btn:active{transform:translateY(3px);box-shadow:inset 0 2px 0 rgba(255,255,255,.85);}
+  .ayah-pick-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .ayah-pick-chip{
+    aspect-ratio:1/1;border-radius:15px;border:none;cursor:pointer;
+    font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:15px;color:var(--forest-dark);
+    background:linear-gradient(180deg,#fff,#E9F0E2);
+    box-shadow:inset 0 2px 0 #fff,inset 0 -4px 6px rgba(40,82,47,.12),0 4px 0 rgba(40,82,47,.20);
+    transition:transform .1s ease;
+  }
+  .ayah-pick-chip.in{
+    color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4);
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), #22A04B;
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.6),inset 0 -5px 7px rgba(0,0,0,.25),0 4px 0 rgba(0,0,0,.28);
+  }
+  .ayah-pick-chip.edge{
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), #E09A00;transform:translateY(-3px) scale(1.08);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.65),inset 0 -5px 7px rgba(0,0,0,.25),0 5px 0 rgba(0,0,0,.30),0 8px 12px -4px rgba(224,154,0,.6);
+  }
+  .ayah-pick-summary{margin-top:16px;text-align:center;font-weight:800;color:var(--forest-dark);font-size:14.5px;min-height:22px;}
+  .start-btn{
+    position:sticky;bottom:14px;z-index:5;width:100%;margin-top:4px;
+    border-radius:26px;padding:18px 0;cursor:pointer;
+    font-family:'Baloo Bhaijan 2','Tajawal',sans-serif;font-weight:800;font-size:19px;color:#fff;
+    border:2px solid rgba(255,238,185,.85);
+    background:linear-gradient(180deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.06) 46%, rgba(0,0,0,.30) 100%), #22A04B;
+    text-shadow:0 2px 0 rgba(0,0,0,.35),0 4px 8px rgba(0,0,0,.4);
+    box-shadow:inset 0 3px 0 rgba(255,255,255,.7),inset 0 -9px 14px rgba(0,0,0,.30),0 7px 0 rgba(0,0,0,.34),0 18px 24px -8px rgba(0,0,0,.5);
+  }
+  .start-btn:active{transform:translateY(5px);box-shadow:inset 0 3px 0 rgba(255,255,255,.55),inset 0 -6px 10px rgba(0,0,0,.3),0 2px 0 rgba(0,0,0,.34),0 6px 10px -4px rgba(0,0,0,.5);}
+  @media (prefers-reduced-motion: reduce){
+    .choice-tile::after{animation:none;display:none;}
+  }
+
+  .surah-strip{padding:16px 14px 22px;margin:0 -14px 2px;}
 </style>
 </head>
 <body>
@@ -713,20 +930,63 @@
 
   <main>
 
-    <!-- الشاشة الرئيسية -->
+    <!-- الشاشة الرئيسية: اختيار طريقة الحفظ -->
     <section class="view active" id="view-home">
       <div class="intro">
-        <h1>اختر سورة</h1>
-        <p>استمع، رددّ، واحفظ آيات جزء عمّ خطوة بخطوة.</p>
+        <h1>ماذا تريد أن تحفظ؟</h1>
+        <p>اختر الطريقة التي تناسب طفلك اليوم.</p>
       </div>
-      <button class="custom-pick-btn shine-sweep" id="btnCustomPick">
-        <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="12" cy="12" r="5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="12" cy="12" r="1.8" fill="#fff"/></svg></span>
-        <span class="txt">
-          <span class="t1">تحديد آيات مخصّصة للحفظ</span>
-          <span class="t2">اختر السورة، ومن أيّ آية إلى أيّ آية</span>
-        </span>
+      <button class="choice-tile" id="choiceSurah" style="--c:#22A04B">
+        <span class="choice-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10 5 7 4.6 3.5 5v13c3.5-.4 6.5 0 8.5 1.5 2-1.5 5-1.9 8.5-1.5V5C17 4.6 14 5 12 6.5z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 6.5v13" stroke="#fff" stroke-width="2.2"/></svg></span>
+        <span class="choice-txt"><span class="ct1">حفظ سورة</span><span class="ct2">اختر سورة كاملة من جزء عمّ — 37 سورة</span></span>
+        <svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+      <button class="choice-tile" id="choiceAyah" style="--c:#E09A00">
+        <span class="choice-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4.5" width="16" height="3.2" rx="1.6" fill="#fff" opacity=".5"/><rect x="4" y="10.4" width="16" height="3.2" rx="1.6" fill="#fff"/><rect x="4" y="16.3" width="16" height="3.2" rx="1.6" fill="#fff" opacity=".5"/><path d="M1.8 9v6M22.2 9v6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <span class="choice-txt"><span class="ct1">حفظ آيات</span><span class="ct2">حدّد السورة، ومن أيّ آية إلى أيّ آية</span></span>
+        <svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </section>
+
+    <!-- اختيار سورة كاملة -->
+    <section class="view" id="view-surahs">
+      <div class="browse-head">
+        <button class="back-btn" data-go="home" aria-label="الرئيسية">→</button>
+        <div class="seg" role="tablist">
+          <button class="seg-btn" data-go="surahs" role="tab">سورة كاملة</button>
+          <button class="seg-btn" data-go="ayahs" role="tab">آيات محدّدة</button>
+        </div>
+      </div>
+      <div class="intro small">
+        <h1>اختر سورة</h1>
+        <p>اضغط على السورة لتبدأ الحفظ.</p>
+      </div>
       <div class="surah-grid" id="surahGrid"></div>
+    </section>
+
+    <!-- اختيار آيات محدّدة -->
+    <section class="view" id="view-ayahs">
+      <div class="browse-head">
+        <button class="back-btn" data-go="home" aria-label="الرئيسية">→</button>
+        <div class="seg" role="tablist">
+          <button class="seg-btn" data-go="surahs" role="tab">سورة كاملة</button>
+          <button class="seg-btn" data-go="ayahs" role="tab">آيات محدّدة</button>
+        </div>
+      </div>
+      <div class="intro small">
+        <h1>اختر الآيات</h1>
+        <p>اختر السورة، ثم اضغط آية البداية وبعدها آية النهاية.</p>
+      </div>
+      <div class="surah-strip" id="ayahSurahStrip"></div>
+      <div class="ayah-pick-card">
+        <div class="ayah-pick-title">
+          <span id="ayahPickSurahName">—</span>
+          <button class="mini-btn" id="btnPickAll">السورة كاملة</button>
+        </div>
+        <div class="ayah-pick-grid" id="ayahPickGrid"></div>
+        <div class="ayah-pick-summary" id="ayahPickSummary"></div>
+      </div>
+      <button class="start-btn shine-sweep" id="btnAyahStart">ابدأ الحفظ</button>
     </section>
 
     <!-- شاشة السورة (تجربة الطفل) -->
@@ -868,30 +1128,6 @@
 
 <div class="toast" id="toast"></div>
 
-<!-- ورقة اختيار آيات مخصّصة من أيّ سورة -->
-<div class="sheet-overlay" id="customPickSheet">
-  <div class="sheet-panel">
-    <div class="sheet-head">
-      <h3>تحديد آيات للحفظ</h3>
-      <button class="sheet-close" id="btnCustomPickClose">✕</button>
-    </div>
-    <div class="sheet-field">
-      <label for="customSurahSelect">السورة</label>
-      <select class="sheet-select" id="customSurahSelect"></select>
-    </div>
-    <div class="sheet-field">
-      <label>من آية — إلى آية</label>
-      <div class="sheet-ayah-row">
-        <input type="number" id="customFromInput" class="range-input" min="1" value="1">
-        <span class="range-label">إلى</span>
-        <input type="number" id="customToInput" class="range-input" min="1" value="1">
-      </div>
-      <div class="sheet-hint" id="customHint"></div>
-    </div>
-    <button class="sheet-start-btn shine-sweep" id="btnCustomStart">ابدأ الحفظ</button>
-  </div>
-</div>
-
 <script>
 (function(){
   "use strict";
@@ -924,7 +1160,7 @@
 
   // لونُ كلّ سورة — كرةٌ مضيئة باسم السورة فقط (بلا صور ولا رموز)
   var SURAH_COLOR = {
-    78:"#3B82F6", 79:"#06B6D4", 80:"#F59E0B", 81:"#F97316", 82:"#6366F1", 83:"#14B8A6", 84:"#8B5CF6", 85:"#A855F7", 86:"#EAB308", 87:"#0EA5E9", 88:"#7C3AED", 89:"#F43F5E", 90:"#10B981", 91:"#FBBF24", 92:"#4338CA", 93:"#FACC15", 94:"#22C55E", 95:"#84CC16", 96:"#2563EB", 97:"#7C3AED", 98:"#D946EF", 99:"#EF4444", 100:"#F97316", 101:"#F43F5E", 102:"#16A34A", 103:"#0891B2", 104:"#EC4899", 105:"#0EA5A4", 106:"#D97706", 107:"#EC4899", 108:"#06B6D4", 109:"#3B82F6", 110:"#F59E0B", 111:"#65A30D", 112:"#FBBF24", 113:"#FB7185", 114:"#8B5CF6"
+    78:"#3B82F6", 79:"#06B6D4", 80:"#F59E0B", 81:"#F97316", 82:"#6366F1", 83:"#14B8A6", 84:"#8B5CF6", 85:"#A855F7", 86:"#E09A00", 87:"#0EA5E9", 88:"#7C3AED", 89:"#F43F5E", 90:"#10B981", 91:"#F29A0A", 92:"#4338CA", 93:"#E8A200", 94:"#22C55E", 95:"#5FB30F", 96:"#2563EB", 97:"#7C3AED", 98:"#D946EF", 99:"#EF4444", 100:"#F97316", 101:"#F43F5E", 102:"#16A34A", 103:"#0891B2", 104:"#EC4899", 105:"#0EA5A4", 106:"#D97706", 107:"#EC4899", 108:"#06B6D4", 109:"#3B82F6", 110:"#F59E0B", 111:"#65A30D", 112:"#F29A0A", 113:"#FB7185", 114:"#8B5CF6"
   };
 
   // خريطة صفحات مصحف المدينة (الإصدار الرابع) لكل سورة من جزء عمّ —
@@ -1378,59 +1614,81 @@
     loadMushafForSurah(num);
   }
 
-  /* ================= ورقة اختيار آيات مخصّصة (من الشاشة الرئيسية) ================= */
-  function renderCustomSurahSelect(){
-    var sel = $("customSurahSelect");
-    sel.innerHTML = "";
+  /* ================= التنقّل: الرئيسية ← سورة كاملة | آيات محدّدة ================= */
+  var browseView = "view-home";
+  var ayahPick = { surah:114, from:1, to:1, step:0 };
+
+  function setSegActive(which){
+    var btns = document.querySelectorAll(".seg-btn");
+    for(var i=0;i<btns.length;i++){
+      btns[i].classList.toggle("active", btns[i].getAttribute("data-go") === which);
+    }
+  }
+  function goBrowse(which){
+    if(which === "home"){ browseView = "view-home"; showView("view-home"); return; }
+    browseView = (which === "ayahs") ? "view-ayahs" : "view-surahs";
+    setSegActive(which);
+    if(which === "ayahs"){ renderAyahStrip(); renderAyahChips(); }
+    else { renderHomeGrid(); }
+    showView(browseView);
+    if(which === "ayahs"){ centerActivePill(); }
+    window.scrollTo(0,0);
+  }
+  function pickSurahData(){
+    return JUZ_AMMA.filter(function(x){return x.num===ayahPick.surah;})[0];
+  }
+  function centerActivePill(){
+    var el = document.querySelector("#ayahSurahStrip .strip-pill.active");
+    if(el && el.scrollIntoView){ try{ el.scrollIntoView({inline:"center", block:"nearest"}); }catch(e){} }
+  }
+  function renderAyahStrip(){
+    var strip = $("ayahSurahStrip");
+    strip.innerHTML = "";
     JUZ_AMMA.forEach(function(s){
-      var opt = document.createElement("option");
-      opt.value = s.num;
-      opt.textContent = "سورة " + s.name + " — " + s.ayahs + " آية";
-      sel.appendChild(opt);
+      var b = document.createElement("button");
+      b.className = "strip-pill" + (s.num === ayahPick.surah ? " active" : "");
+      b.style.setProperty("--c", SURAH_COLOR[s.num] || "#22A04B");
+      b.textContent = s.name;
+      b.addEventListener("click", function(){
+        ayahPick.surah = s.num; ayahPick.from = 1; ayahPick.to = 1; ayahPick.step = 0;
+        renderAyahStrip(); renderAyahChips(); centerActivePill();
+      });
+      strip.appendChild(b);
     });
   }
-
-  function updateCustomAyahBounds(){
-    var num = parseInt($("customSurahSelect").value, 10);
-    var s = JUZ_AMMA.filter(function(x){return x.num===num;})[0];
-    if(!s) return;
-    var fromEl = $("customFromInput"), toEl = $("customToInput");
-    fromEl.min = 1; fromEl.max = s.ayahs;
-    toEl.min = 1; toEl.max = s.ayahs;
-    if(!fromEl.value || parseInt(fromEl.value,10) > s.ayahs) fromEl.value = 1;
-    if(!toEl.value || parseInt(toEl.value,10) > s.ayahs) toEl.value = s.ayahs;
-    $("customHint").textContent = "سورة " + s.name + " فيها " + s.ayahs + " آية";
-    $("customHint").className = "sheet-hint";
-  }
-
-  function validateCustomRange(){
-    var num = parseInt($("customSurahSelect").value, 10);
-    var s = JUZ_AMMA.filter(function(x){return x.num===num;})[0];
-    if(!s) return null;
-    var from = parseInt($("customFromInput").value, 10);
-    var to = parseInt($("customToInput").value, 10);
-    if(!from || !to || from < 1 || to > s.ayahs || from > to){
-      $("customHint").textContent = "تأكّد أن الآيتين داخل مدى السورة (1 إلى " + s.ayahs + ") وأن البداية قبل النهاية";
-      $("customHint").className = "sheet-hint warn";
-      return null;
+  function renderAyahChips(){
+    var s = pickSurahData(); if(!s) return;
+    $("ayahPickSurahName").textContent = "سورة " + s.name + " — " + s.ayahs + " آية";
+    var grid = $("ayahPickGrid");
+    grid.innerHTML = "";
+    for(var a=1;a<=s.ayahs;a++){
+      (function(n){
+        var c = document.createElement("button");
+        var inR = n >= ayahPick.from && n <= ayahPick.to;
+        var edge = (n === ayahPick.from || n === ayahPick.to);
+        c.className = "ayah-pick-chip" + (inR ? " in" : "") + (edge ? " edge" : "");
+        c.textContent = n;
+        c.addEventListener("click", function(){
+          if(ayahPick.step === 0){
+            ayahPick.from = n; ayahPick.to = n; ayahPick.step = 1;
+          } else {
+            var a0 = ayahPick.from;
+            ayahPick.from = Math.min(a0, n); ayahPick.to = Math.max(a0, n); ayahPick.step = 0;
+          }
+          renderAyahChips();
+        });
+        grid.appendChild(c);
+      })(a);
     }
-    return { surah:num, from:from, to:to };
+    var f = ayahPick.from, t = ayahPick.to;
+    $("ayahPickSummary").textContent = (f === t)
+      ? ("الآية " + f + " فقط — اضغط آية أخرى لتمديد النطاق")
+      : ("من الآية " + f + " إلى الآية " + t + " (" + (t - f + 1) + " آيات)");
   }
-
-  function openCustomPickSheet(){
-    renderCustomSurahSelect();
-    updateCustomAyahBounds();
-    $("customPickSheet").classList.add("show");
-  }
-  function closeCustomPickSheet(){
-    $("customPickSheet").classList.remove("show");
-  }
-  function startCustomPick(){
-    var r = validateCustomRange();
-    if(!r) return;
-    closeCustomPickSheet();
-    pendingCustomApply = { surah:r.surah, from:r.from, to:r.to };
-    openSurah(r.surah, r.from);
+  function startAyahPick(){
+    var s = pickSurahData(); if(!s) return;
+    pendingCustomApply = { surah:s.num, from:ayahPick.from, to:ayahPick.to };
+    openSurah(s.num, ayahPick.from);
   }
 
   function renderRepeatTrack(){
@@ -1689,12 +1947,12 @@
       if(audioEl){ audioEl.pause(); }
       if(mushafFrame){ mushafFrame.src = "about:blank"; }
       renderHomeGrid();
-      showView("view-home");
+      showView(browseView);
     });
     $("btnCompleteHome").addEventListener("click", function(){
       if(mushafFrame){ mushafFrame.src = "about:blank"; }
       renderHomeGrid();
-      showView("view-home");
+      showView(browseView);
     });
 
     $("btnPlay").addEventListener("click", togglePlay);
@@ -1705,13 +1963,18 @@
     $("rangeToInput").addEventListener("change", applyRange);
     $("btnRangeReset").addEventListener("click", resetRange);
 
-    $("btnCustomPick").addEventListener("click", openCustomPickSheet);
-    $("btnCustomPickClose").addEventListener("click", closeCustomPickSheet);
-    $("customPickSheet").addEventListener("click", function(e){
-      if(e.target === $("customPickSheet")) closeCustomPickSheet();
+    $("choiceSurah").addEventListener("click", function(){ goBrowse("surahs"); });
+    $("choiceAyah").addEventListener("click", function(){ goBrowse("ayahs"); });
+    var goBtns = document.querySelectorAll("[data-go]");
+    for(var gi=0; gi<goBtns.length; gi++){
+      goBtns[gi].addEventListener("click", function(){ goBrowse(this.getAttribute("data-go")); });
+    }
+    $("btnPickAll").addEventListener("click", function(){
+      var s = pickSurahData(); if(!s) return;
+      ayahPick.from = 1; ayahPick.to = s.ayahs; ayahPick.step = 0;
+      renderAyahChips();
     });
-    $("customSurahSelect").addEventListener("change", updateCustomAyahBounds);
-    $("btnCustomStart").addEventListener("click", startCustomPick);
+    $("btnAyahStart").addEventListener("click", startAyahPick);
 
     $("btnParent").addEventListener("click", function(){
       pinBuffer = "";

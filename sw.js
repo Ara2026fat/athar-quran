@@ -17,7 +17,7 @@
    من تعديلات.
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v11';
 const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
 
 // الملفات الأساسية للتطبيق نفسه فقط (صغيرة، من نفس المستودع)
