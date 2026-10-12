@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>المصحف — مستخرَجٌ من زاحِم لاستخدام «أثر القرآن»</title>
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="shortcut icon" href="icons/favicon.ico">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="shortcut icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -380,11 +380,11 @@ function showToast(msg){
 var MUS_DATA     = 'https://cdn.jsdelivr.net/gh/Ara2026fat/quran-qcf4@main/pages';
 var MUS_DATA_ALT = 'https://raw.githubusercontent.com/Ara2026fat/quran-qcf4/main/pages';
 /* وضع «سورة واحدة»: ?surah=114 → تُقرأ البياناتُ من ملفٍّ مستقلّ لكلّ سورة
-   (surahs/114.json) فلا يظهر من الصفحة إلا سطورُ هذه السورة وحدها. */
+   (114.json) فلا يظهر من الصفحة إلا سطورُ هذه السورة وحدها. */
 var _musSurah = 0, _musLo = 0, _musHi = 0, _musSurahP = null;
 function musSurahFile(){
   if(!_musSurahP){
-    _musSurahP = fetch('surahs/' + musPad(_musSurah) + '.json')
+    _musSurahP = fetch(musPad(_musSurah) + '.json')
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); });
     _musSurahP.catch(function(){ _musSurahP = null; });
   }
@@ -464,7 +464,7 @@ function musFontsReady(names, cb){
   if(!want.length || !document.fonts || !document.fonts.load){ cb(); return; }
   var done = false;
   function fin(){ if(!done){ done = true; cb(); } }
-  var t = setTimeout(fin, 4500);
+  var t = setTimeout(fin, 5500);
   Promise.all(want.map(function(n){
     return document.fonts.load("16px '" + n + "'").catch(function(){});
   })).then(function(){ clearTimeout(t); fin(); },
@@ -480,8 +480,54 @@ function musRender(j){
   var _n = _musPage;
   musFontsReady(_want, function(){
     if(_musPage !== _n) return;
+    if(!musFontsOK(_want)){
+      /* الخطوط لم تُحمَّل (إنترنت بطيء أو غير متوفّر): رسالةٌ واضحة بدل شاشة
+         «يُحمَّل» الدائمة، مع إعادة المحاولة تلقائيًّا إن وصلت الخطوط متأخّرة. */
+      musNeedFonts(_n);
+      var tries = 0;
+      (function poll(){
+        if(_musPage !== _n || tries++ > 75) return;
+        if(musFontsOK(_want)){ musPaint(j); return; }
+        setTimeout(poll, 800);
+      })();
+      return;
+    }
     musPaint(j);
   });
+}
+function musFontsOK(names){
+  try{
+    if(!document.fonts || !document.fonts.check) return true;
+    for(var i = 0; i < names.length; i++){
+      if(names[i] && !document.fonts.check("16px '" + names[i] + "'")) return false;
+    }
+  }catch(e){}
+  return true;
+}
+function musNeedFonts(n){
+  var pg = document.getElementById('musPage');
+  if(!pg) return;
+  clearTimeout(_musWaitT);
+  pg.classList.add('settled');
+  var canDl = false;
+  try{ canDl = window.parent !== window && typeof window.parent.atharDownloadFonts === 'function'; }catch(e){}
+  pg.innerHTML =
+    '<div class="mus-msg"><b>خطوط المصحف لم تُحمَّل بعد</b>'
+    + 'تُحمَّل مرّةً واحدة (نحو ٣ ميغا) ثم تفتح كلّ السور فورًا وبلا إنترنت.'
+    + (canDl ? '<br><button type="button" id="musDlFonts">تحميل الخطوط الآن</button><div id="musDlProg" style="margin-top:8px;font-size:13px"></div>'
+             : '<br><button type="button" onclick="location.reload()">أعِد المحاولة</button>')
+    + '</div>';
+  var b = document.getElementById('musDlFonts');
+  if(b) b.onclick = function(){
+    b.disabled = true; b.textContent = 'جارٍ التحميل…';
+    var pr = document.getElementById('musDlProg');
+    window.parent.atharDownloadFonts(function(done, total){
+      if(pr) pr.textContent = done + ' من ' + total;
+    }).then(function(ok){
+      if(ok) location.reload();
+      else { b.disabled = false; b.textContent = 'أعِد المحاولة'; if(pr) pr.textContent = 'تعذّر التحميل، تأكّد من الإنترنت'; }
+    });
+  };
 }
 
 function musLineHTML(L){

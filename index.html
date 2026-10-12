@@ -6,10 +6,10 @@
 <title>أثر | القرآن</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#28522F">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
-<link rel="shortcut icon" href="icons/favicon.ico">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="أثر القرآن">
@@ -1035,6 +1035,18 @@
   .lt-h:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(0,0,0,.3);}
   .lt-hc{display:block;font-family:'Baloo Bhaijan 2','Amiri',sans-serif;font-weight:800;font-size:42px;line-height:1.3;text-shadow:0 2px 3px rgba(0,0,0,.3);}
   .lt-hn{display:block;font-size:13px;font-weight:700;opacity:.95;}
+
+  .pack-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid rgba(0,0,0,.07);}
+  .pack-txt{min-width:0;flex:1;}
+  .pack-txt b{display:block;font-size:14.5px;color:var(--forest-dark);}
+  .pack-txt > span{display:block;font-size:12px;color:var(--text-soft);margin-top:2px;line-height:1.5;}
+  .pack-status{font-size:12.5px;font-weight:700;color:var(--text-soft);margin-top:6px;}
+  .pack-status.ok{color:#1F8A3F;}
+  .pack-bar{height:6px;border-radius:999px;background:#E3DFD4;margin-top:6px;overflow:hidden;display:none;}
+  .pack-bar.on{display:block;}
+  .pack-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22A04B,#7BD88F);transition:width .2s;}
+  .pack-select{width:100%;margin-top:6px;padding:8px;border-radius:12px;border:2px solid var(--sage);font-family:inherit;font-size:14px;background:#fff;color:var(--forest-dark);}
+  .pack-row .save-btn{flex:none;white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -1454,7 +1466,7 @@
     if(!s) s = {repeatCount:3, pin:"0000"};
     if(!s.pin) s.pin = "0000";
     if(!s.repeatCount) s.repeatCount = 3;
-    var D = {gapMult:1, sessionMin:5, bedtime:false, sfx:true, wordHL:true, childLock:false, voiceRec:false, voicesOn:false, voice:"qari", autoDl:true, voices:[{id:"v1",name:"أمي"},{id:"v2",name:"أبي"}]};
+    var D = {gapMult:1, sessionMin:5, bedtime:false, sfx:true, wordHL:true, childLock:false, voiceRec:false, voicesOn:false, voice:"qari", autoDl:false, voices:[{id:"v1",name:"أمي"},{id:"v2",name:"أبي"}]};
     for(var k in D){ if(s[k] === undefined) s[k] = D[k]; }
     return s;
   }
@@ -1511,16 +1523,22 @@
     var u = navigator.userAgent;
     return /Macintosh/.test(u) && /Safari/.test(u) && !/Chrome|Chromium|Edg|OPR/.test(u);
   }
+  // الإغلاق يُسكت الشريط يومين فقط، ثم يعود ليعرض التثبيت من جديد
   function installDismissedBefore(){
-    try{ return localStorage.getItem(INSTALL_DISMISS_KEY) === "1"; }catch(e){ return false; }
+    try{
+      var t = parseInt(localStorage.getItem(INSTALL_DISMISS_KEY), 10);
+      return !!t && (Date.now() - t) < 2 * 86400000;
+    }catch(e){ return false; }
   }
   function setInstallDismissed(){
-    try{ localStorage.setItem(INSTALL_DISMISS_KEY, "1"); }catch(e){}
+    try{ localStorage.setItem(INSTALL_DISMISS_KEY, String(Date.now())); }catch(e){}
   }
 
   window.addEventListener("beforeinstallprompt", function(e){
     e.preventDefault();
     deferredInstallPrompt = e;
+    // وصل الحدث (قد يتأخّر عن أوّل ثوانٍ) → اعرض التثبيت فورًا
+    setTimeout(showInstallBanner, 1200);
   });
   window.addEventListener("appinstalled", function(){
     deferredInstallPrompt = null;
@@ -1575,9 +1593,12 @@
   // يعرض الشريط تلقائيًّا بعد ثوانٍ من فتح التطبيق (لا ينتظر ضغطة زرّ) —
   // يعمل على أندرويد فور توفّر حدث المتصفح، وعلى آيفون/ماك فورًا بلا انتظار حدث أصلًا
   function autoOfferInstall(){
-    if(installAutoShown) return;
-    installAutoShown = true;
-    showInstallBanner();
+    var tries = 0;
+    (function loop(){
+      if(document.getElementById("installBanner") || isStandaloneApp() || installDismissedBefore()) return;
+      showInstallBanner();
+      if(++tries < 10) setTimeout(loop, 6000);
+    })();
   }
 
   function setupInstallCard(){
@@ -2737,36 +2758,140 @@
       prefetchSurah(num).then(function(){ dlBusy = false; });
     }, 3000);
   }
+  /* ================= مركز التحميل: كلّ شيءٍ اختياريّ ويُحمَّل من هنا فقط ================= */
+  var PACK_CACHE = "athar-packs-v1";
+  var FONT_BASE = "https://cdn.jsdelivr.net/gh/MohamadHajjRabee/quran-qcf4@main/fonts-woff2/";
+  var FONT_PACK = ["QCF4_Hafs_01", "QCF4_Hafs_45", "QCF4_Hafs_46", "QCF4_Hafs_47", "QCF4_QBSML"];
+
+  function fontUrl(n, w){ return FONT_BASE + n + (w ? "_W" : "") + ".woff2"; }
+  function fontsPackStatus(){
+    if(!window.caches) return Promise.resolve(0);
+    return caches.open(PACK_CACHE).then(function(c){
+      return Promise.all(FONT_PACK.map(function(n){
+        return c.match(fontUrl(n, true)).then(function(m){ return m || c.match(fontUrl(n, false)); });
+      })).then(function(r){ return r.filter(Boolean).length; });
+    }).catch(function(){ return 0; });
+  }
+  function fetchFont(c, n){
+    return c.match(fontUrl(n, true)).then(function(m){
+      if(m) return true;
+      return fetch(fontUrl(n, true), {mode:"cors"}).then(function(r){
+        if(r.ok) return c.put(fontUrl(n, true), r).then(function(){ return true; });
+        throw new Error("x");
+      }).catch(function(){
+        return fetch(fontUrl(n, false), {mode:"cors"}).then(function(r){
+          if(!r.ok) return false;
+          return c.put(fontUrl(n, false), r).then(function(){ return true; });
+        });
+      });
+    }).catch(function(){ return false; });
+  }
+  // تُستدعى من شاشة المصحف (iframe) ومن مركز التحميل
+  window.atharDownloadFonts = function(onProg){
+    if(!window.caches) return Promise.resolve(false);
+    return caches.open(PACK_CACHE).then(function(c){
+      var done = 0, ok = 0;
+      return FONT_PACK.reduce(function(chain, n){
+        return chain.then(function(){
+          return fetchFont(c, n).then(function(r){ done++; if(r) ok++; if(onProg) onProg(done, FONT_PACK.length); });
+        });
+      }, Promise.resolve()).then(function(){ return ok === FONT_PACK.length; });
+    }).catch(function(){ return false; });
+  };
+
+  function packRow(title, desc, status, btnLabel, onClick, danger){
+    var r = document.createElement("div"); r.className = "pack-row";
+    var t = document.createElement("div"); t.className = "pack-txt";
+    t.innerHTML = "<b>" + title + "</b><span>" + desc + "</span>";
+    var st = document.createElement("div"); st.className = "pack-status"; st.textContent = status;
+    t.appendChild(st);
+    var bar = document.createElement("div"); bar.className = "pack-bar"; bar.innerHTML = "<i></i>";
+    t.appendChild(bar);
+    var b = document.createElement("button"); b.className = "save-btn" + (danger ? " danger" : ""); b.textContent = btnLabel;
+    b.addEventListener("click", function(){ onClick(b, st, bar); });
+    r.appendChild(t); r.appendChild(b);
+    return r;
+  }
+  function setBar(bar, f){ bar.classList.add("on"); bar.firstChild.style.width = Math.round(f * 100) + "%"; }
+
   function renderOfflineCard(){
     var c = $("offlineCard");
-    c.innerHTML = "<h3>الصوتيات دون إنترنت</h3>";
-    c.appendChild(switchRow("تنزيل تلقائي للسورة", "عند فتح سورة تُحفظ صوتيّاتها على الجهاز لتُسمع بلا اتصال", "autoDl"));
-    var info = document.createElement("div"); info.className = "muted"; info.style.margin = "8px 0";
-    info.textContent = "…";
-    c.appendChild(info);
-    if(window.caches){
-      caches.open(AUDIO_CACHE).then(function(ca){ return ca.keys(); }).then(function(k){
-        info.textContent = "المحفوظ الآن: " + arNum(k.length) + " آية من ٥٦٤.";
-      }).catch(function(){ info.textContent = ""; });
-    } else info.textContent = "هذا المتصفح لا يدعم الحفظ دون اتصال.";
-    var b = document.createElement("button"); b.className = "pill-btn shine-sweep";
-    b.style.cssText = "width:100%;justify-content:center;"; b.textContent = "تنزيل جزء عمّ كاملًا (حجم كبير — يُفضَّل على واي فاي)";
-    b.addEventListener("click", function(){
+    c.innerHTML = "<h3>مركز التحميل</h3><p class=\"muted\" style=\"margin:0 0 6px;\">لا يُحمَّل شيءٌ إلا بطلبك. حمّل ما تحتاجه مرّةً واحدة على واي فاي، وبعدها يعمل دون إنترنت.</p>";
+    var stor = document.createElement("div"); stor.className = "muted"; stor.style.margin = "4px 0 8px";
+    c.appendChild(stor);
+    if(navigator.storage && navigator.storage.estimate){
+      navigator.storage.estimate().then(function(e){
+        if(e && e.usage != null) stor.textContent = "المساحة المستخدمة الآن: " + arNum(Math.round(e.usage / 1048576)) + " ميغابايت.";
+      }).catch(function(){});
+    }
+    if(!window.caches){
+      stor.textContent = "هذا المتصفح لا يدعم الحفظ دون اتصال.";
+      return;
+    }
+
+    // ١) خطوط المصحف
+    var fontsRow = packRow("خطوط المصحف", "تلزم لعرض آيات المصحف نفسها · نحو ٣ ميغا", "…", "تنزيل", function(b, st, bar){
+      if(b.getAttribute("data-mode") === "del"){
+        caches.delete(PACK_CACHE).then(function(){ renderOfflineCard(); showToast("حُذفت الخطوط"); });
+        return;
+      }
+      b.disabled = true; b.textContent = "جارٍ التنزيل…";
+      window.atharDownloadFonts(function(d, t){ setBar(bar, d / t); st.textContent = "جارٍ التنزيل: " + arNum(d) + " من " + arNum(t); })
+        .then(function(ok){ showToast(ok ? "تمّ تنزيل الخطوط" : "تعذّر التنزيل، تأكّد من الإنترنت"); renderOfflineCard(); });
+    });
+    c.appendChild(fontsRow);
+    fontsPackStatus().then(function(n){
+      var st = fontsRow.querySelector(".pack-status"), b = fontsRow.querySelector("button");
+      if(n >= FONT_PACK.length){ st.textContent = "محمَّلة ✓"; st.classList.add("ok"); b.textContent = "حذف"; b.classList.add("danger"); b.setAttribute("data-mode", "del"); }
+      else { st.textContent = n ? "ناقصة (" + arNum(n) + " من " + arNum(FONT_PACK.length) + ")" : "غير محمَّلة"; }
+    });
+
+    // ٢) صوتيات سورة محدّدة
+    var sel = document.createElement("select"); sel.className = "pack-select";
+    JUZ_AMMA.forEach(function(s){ var o = document.createElement("option"); o.value = s.num; o.textContent = s.name + " (" + arNum(s.ayahs) + " آية)"; sel.appendChild(o); });
+    var oneRow = packRow("صوتيات سورة", "اختر السورة ثم نزّل صوتها الكامل", "", "تنزيل", function(b, st, bar){
+      if(dlBusy){ showToast("هناك تنزيل جارٍ"); return; }
+      var num = parseInt(sel.value, 10), total = JUZ_AMMA.filter(function(x){ return x.num === num; })[0].ayahs, d = 0;
+      dlBusy = true; dlCancel = false; b.disabled = true;
+      prefetchSurah(num, function(){ d++; setBar(bar, d / total); st.textContent = arNum(d) + " من " + arNum(total); })
+        .then(function(r){ dlBusy = false; showToast(r.fail ? "تعذّر تنزيل بعض الآيات" : "تمّ تنزيل السورة"); renderOfflineCard(); });
+    });
+    oneRow.querySelector(".pack-txt").insertBefore(sel, oneRow.querySelector(".pack-status"));
+    c.appendChild(oneRow);
+
+    // ٣) كل صوتيات جزء عمّ
+    var allRow = packRow("صوتيات جزء عمّ كاملًا", "٥٦٤ آية · حجم كبير (عشرات الميغابايتات)، يُفضَّل واي فاي", "…", "تنزيل الكلّ", function(b, st, bar){
       if(dlBusy){ dlCancel = true; b.textContent = "جارٍ الإيقاف…"; return; }
       dlBusy = true; dlCancel = false;
-      var done = 0, fails = 0, total = 564, idx = 0;
-      b.textContent = "إيقاف التنزيل";
+      var done = 0, fails = 0, idx = 0;
+      b.textContent = "إيقاف";
       (function nextSurah(){
         if(dlCancel || idx >= JUZ_AMMA.length){
           dlBusy = false; renderOfflineCard();
           showToast(fails ? "اكتمل مع تعذّر بعض الآيات" : "تمّ التنزيل");
           return;
         }
-        prefetchSurah(JUZ_AMMA[idx++].num, function(){ done++; info.textContent = "جارٍ التنزيل: " + arNum(done) + " من " + arNum(total); })
+        prefetchSurah(JUZ_AMMA[idx++].num, function(){ done++; setBar(bar, done / 564); st.textContent = "جارٍ التنزيل: " + arNum(done) + " من ٥٦٤"; })
           .then(function(r){ fails += r.fail; nextSurah(); });
       })();
     });
-    c.appendChild(b);
+    c.appendChild(allRow);
+    caches.open(AUDIO_CACHE).then(function(ca){ return ca.keys(); }).then(function(k){
+      var st = allRow.querySelector(".pack-status");
+      st.textContent = "المحفوظ الآن: " + arNum(k.length) + " من ٥٦٤ آية";
+      if(k.length >= 564) st.classList.add("ok");
+      var b = allRow.querySelector("button");
+      if(k.length > 0 && !dlBusy){
+        var del = document.createElement("button"); del.className = "save-btn danger"; del.style.marginTop = "6px"; del.textContent = "حذف الصوتيات";
+        del.addEventListener("click", function(){
+          if(!confirm("حذف كلّ الصوتيات المحفوظة؟")) return;
+          caches.delete(AUDIO_CACHE).then(function(){ renderOfflineCard(); showToast("حُذفت الصوتيات"); });
+        });
+        b.parentNode.appendChild(del);
+      }
+    }).catch(function(){});
+
+    c.appendChild(switchRow("تنزيل تلقائي لصوتيات السورة عند فتحها", "يستهلك إنترنت دون سؤال — الأفضل إبقاؤه متوقفًا", "autoDl"));
   }
 
   function renderVoicesCard(){
@@ -3156,7 +3281,7 @@
     audioEl.addEventListener("ended", onAyahEnded);
     setupInstallCard();
     setupServiceWorker();
-    setTimeout(autoOfferInstall, 6000);
+    setTimeout(autoOfferInstall, 2500);
 
     mushafFrame = $("mushafFrame");
     mushafFrame.addEventListener("load", attachMushafHooks);

@@ -17,62 +17,67 @@
    من تعديلات.
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v13';
+const CACHE_VERSION = 'v15';
 const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
 // ذاكرة الصوتيات مستقلّة عن رقم النسخة فلا تُمسح عند كلّ تحديث
 const AUDIO_CACHE = 'athar-audio-v1';
+// خطوط المصحف تُخزَّن هنا بعد أول تحميل (أو من «مركز التحميل») ولا تُمسح بالتحديثات
+const PACK_CACHE = 'athar-packs-v1';
 
 // الملفات الأساسية للتطبيق نفسه فقط (صغيرة، من نفس المستودع)
 const CORE_ASSETS = [
   './index.html',
   './mushaf.html',
   './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/apple-touch-icon.png',
-  './surahs/078.json',
-  './surahs/079.json',
-  './surahs/080.json',
-  './surahs/081.json',
-  './surahs/082.json',
-  './surahs/083.json',
-  './surahs/084.json',
-  './surahs/085.json',
-  './surahs/086.json',
-  './surahs/087.json',
-  './surahs/088.json',
-  './surahs/089.json',
-  './surahs/090.json',
-  './surahs/091.json',
-  './surahs/092.json',
-  './surahs/093.json',
-  './surahs/094.json',
-  './surahs/095.json',
-  './surahs/096.json',
-  './surahs/097.json',
-  './surahs/098.json',
-  './surahs/099.json',
-  './surahs/100.json',
-  './surahs/101.json',
-  './surahs/102.json',
-  './surahs/103.json',
-  './surahs/104.json',
-  './surahs/105.json',
-  './surahs/106.json',
-  './surahs/107.json',
-  './surahs/108.json',
-  './surahs/109.json',
-  './surahs/110.json',
-  './surahs/111.json',
-  './surahs/112.json',
-  './surahs/113.json',
-  './surahs/114.json'
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
+  './078.json',
+  './079.json',
+  './080.json',
+  './081.json',
+  './082.json',
+  './083.json',
+  './084.json',
+  './085.json',
+  './086.json',
+  './087.json',
+  './088.json',
+  './089.json',
+  './090.json',
+  './091.json',
+  './092.json',
+  './093.json',
+  './094.json',
+  './095.json',
+  './096.json',
+  './097.json',
+  './098.json',
+  './099.json',
+  './100.json',
+  './101.json',
+  './102.json',
+  './103.json',
+  './104.json',
+  './105.json',
+  './106.json',
+  './107.json',
+  './108.json',
+  './109.json',
+  './110.json',
+  './111.json',
+  './112.json',
+  './113.json',
+  './114.json'
 ];
 
 self.addEventListener('install', function(event){
   event.waitUntil(
+    // كلّ ملفٍّ على حدة: غيابُ ملفٍّ واحد لا يُفشل تثبيت العامل كلّه
     caches.open(CACHE_NAME).then(function(cache){
-      return cache.addAll(CORE_ASSETS);
+      return Promise.all(CORE_ASSETS.map(function(u){
+        return cache.add(u).catch(function(){});
+      }));
     })
   );
 });
@@ -81,7 +86,7 @@ self.addEventListener('activate', function(event){
   event.waitUntil(
     caches.keys().then(function(keys){
       return Promise.all(
-        keys.filter(function(k){ return k !== CACHE_NAME && k !== AUDIO_CACHE; })
+        keys.filter(function(k){ return k !== CACHE_NAME && k !== AUDIO_CACHE && k !== PACK_CACHE; })
             .map(function(k){ return caches.delete(k); })
       );
     }).then(function(){ return self.clients.claim(); })
@@ -99,6 +104,11 @@ self.addEventListener('fetch', function(event){
   // التي يرسلها مشغّل الصوت)، وإلا تمرّ للشبكة كما هي.
   if(url.hostname === 'everyayah.com'){
     event.respondWith(audioFromCache(req));
+    return;
+  }
+  // خطوط المصحف من CDN: كاش أولًا، وتُحفظ تلقائيًّا بعد أول تحميل ناجح.
+  if(url.hostname === 'cdn.jsdelivr.net' && url.pathname.indexOf('/fonts-woff2/') !== -1){
+    event.respondWith(fontFromCache(req));
     return;
   }
   if(url.origin !== self.location.origin) return; // اتركه للشبكة كما هو
@@ -144,6 +154,18 @@ function audioFromCache(req){
             'Accept-Ranges': 'bytes'
           }
         });
+      });
+    });
+  }).catch(function(){ return fetch(req); });
+}
+
+function fontFromCache(req){
+  return caches.open(PACK_CACHE).then(function(cache){
+    return cache.match(req.url).then(function(hit){
+      if(hit) return hit;
+      return fetch(req).then(function(res){
+        if(res && res.ok){ cache.put(req.url, res.clone()); }
+        return res;
       });
     });
   }).catch(function(){ return fetch(req); });
