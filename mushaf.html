@@ -103,6 +103,12 @@ body.embed #screen-mushaf{height:100dvh;}
   transition:background .25s ease;
   animation:mus-ayah-breathe 2.2s ease-in-out infinite;
 }
+#screen-mushaf .ln w.mus-w-read{color:#1F7A3A;transition:color .2s ease;}
+#screen-mushaf .ln w.mus-w-now{
+  background:rgba(34,160,75,.30);border-radius:6px;color:#0E5A24;
+  box-shadow:0 0 0 2px rgba(34,160,75,.45), 0 0 12px 2px rgba(34,160,75,.35);
+  transition:background .12s ease;
+}
 @keyframes mus-ayah-breathe{
   0%,100%{ box-shadow:0 0 0 2px rgba(201,150,58,.18), 0 0 0 0 rgba(201,150,58,0); }
   50%{ box-shadow:0 0 0 3px rgba(201,150,58,.34), 0 0 14px 3px rgba(201,150,58,.30); }
@@ -373,7 +379,25 @@ function showToast(msg){
    ═══════════════════════════════════════════════════════════ */
 var MUS_DATA     = 'https://cdn.jsdelivr.net/gh/Ara2026fat/quran-qcf4@main/pages';
 var MUS_DATA_ALT = 'https://raw.githubusercontent.com/Ara2026fat/quran-qcf4/main/pages';
+/* وضع «سورة واحدة»: ?surah=114 → تُقرأ البياناتُ من ملفٍّ مستقلّ لكلّ سورة
+   (surahs/114.json) فلا يظهر من الصفحة إلا سطورُ هذه السورة وحدها. */
+var _musSurah = 0, _musLo = 0, _musHi = 0, _musSurahP = null;
+function musSurahFile(){
+  if(!_musSurahP){
+    _musSurahP = fetch('surahs/' + musPad(_musSurah) + '.json')
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); });
+    _musSurahP.catch(function(){ _musSurahP = null; });
+  }
+  return _musSurahP;
+}
 function musFetchJSON(n){
+  if(_musSurah){
+    return musSurahFile().then(function(f){
+      var j = f.pages[String(n)];
+      if(!j) throw new Error('no page');
+      return j;
+    });
+  }
   var pad = musPad(n);
   return fetch(MUS_DATA + '/' + pad + '.json')
     .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
@@ -389,9 +413,11 @@ var _musPage = 1, _musFonts = {}, _musFrom = 0, _musTo = 0, _musCache = {};
 
 var MUS_KEEP = 60;
 function musDisk(){
+  if(_musSurah) return {};
   try{ return JSON.parse(localStorage.getItem(MUS_CK) || '{}'); }catch(e){ return {}; }
 }
 function musSave(n, j){
+  if(_musSurah) return;
   try{
     var d = musDisk();
     d[n] = j;
@@ -469,7 +495,8 @@ function musLineHTML(L){
     var g = w.char || w.text || '';
     var fam = w.font ? " style=\"font-family:'" + w.font + "','Amiri',serif\"" : '';
     var vk = w.verse_key ? ' data-verse="' + w.verse_key + '"' : '';
-    return '<w' + fam + vk + '>' + musEsc(g) + '</w>';
+    var tk = String(w.type || 'word').toLowerCase() === 'word' ? '' : ' data-k="x"';
+    return '<w' + fam + vk + tk + '>' + musEsc(g) + '</w>';
   }).join('');
   if(isSurah) return musBand(out);
   return '<div class="ln' + (isText ? '' : ' mid') + '">' + out + '</div>';
@@ -477,6 +504,7 @@ function musLineHTML(L){
 
 var _musLastJSON = null;
 function musPaint(j){
+  clearTimeout(_musWaitT);
   var page = document.getElementById('musPage');
   var lines = j.lines || [];
   musFont(j.font);
@@ -519,7 +547,45 @@ window.mushafHighlightVerse = function(verseKey){
   var all = page.querySelectorAll('w[data-verse]');
   for(var i=0;i<all.length;i++){
     all[i].classList.toggle('mus-cur-verse', all[i].getAttribute('data-verse') === verseKey);
+    all[i].classList.remove('mus-w-read','mus-w-now');
   }
+};
+
+/* تظليل كلمة بعينها داخل الآية الحالية (تقريبي، متزامن مع الصوت).
+   idx = رقم الكلمة (٠..) ؛ -1 يمسح التظليل. علامة نهاية الآية مستثناة. */
+window.mushafHighlightWord = function(verseKey, idx, total){
+  var page = document.getElementById('musPage');
+  if(!page) return 0;
+  var ws = page.querySelectorAll('w[data-verse="' + verseKey + '"]:not([data-k])');
+  for(var i=0;i<ws.length;i++){
+    ws[i].classList.toggle('mus-w-now', i === idx);
+    ws[i].classList.toggle('mus-w-read', idx >= 0 && i < idx);
+  }
+  return ws.length;
+};
+/* لعبة «الكلمة الناقصة»: تُعيد كلماتِ الآية (رموز الخطّ) وكلماتِ بقيّة الصفحة
+   لاستخدامها خياراتٍ مضلِّلة، مع اسم الخطّ لكلّ كلمة. */
+window.mushafWordGlyphs = function(verseKey){
+  var page = document.getElementById('musPage');
+  var out = { words:[], pool:[] };
+  if(!page) return out;
+  var all = page.querySelectorAll('w[data-verse]:not([data-k])');
+  for(var i=0;i<all.length;i++){
+    var m = (all[i].getAttribute('style') || '').match(/font-family:'([^']+)'/);
+    var o = { t:all[i].textContent, f:m ? m[1] : '' };
+    if(all[i].getAttribute('data-verse') === verseKey) out.words.push(o); else out.pool.push(o);
+  }
+  return out;
+};
+window.mushafFontFaces = function(){
+  var st = document.head.querySelectorAll('style'), css = [];
+  for(var i=0;i<st.length;i++){ if(st[i].textContent.indexOf('@font-face') >= 0) css.push(st[i].textContent); }
+  return css.join('\n');
+};
+window.mushafWordCount = function(verseKey){
+  var page = document.getElementById('musPage');
+  if(!page) return 0;
+  return page.querySelectorAll('w[data-verse="' + verseKey + '"]:not([data-k])').length;
 };
 
 /* عرضُ نطاقٍ محدَّدٍ من الآيات وحده (بلا بقيّة الصفحة) — لجلسة حفظ
@@ -724,6 +790,7 @@ function musPrefetch(n){
 var _musWaitT = null;
 function musLoad(n){
   n = Math.max(1, Math.min(604, n | 0));
+  if(_musSurah && _musLo && (n < _musLo || n > _musHi)) return;
   clearTimeout(_musWaitT);
   _musPage = n;
   musSaveResume(n);
@@ -999,6 +1066,8 @@ document.addEventListener('change', function(e){
   var to   = parseInt(qs.get('to'),   10) || 604;
   var page = parseInt(qs.get('page'), 10) || 0;
   if(qs.get('embed') === '1') document.body.classList.add('embed');
+  var sr = parseInt(qs.get('surah'), 10) || 0;
+  if(sr >= 78 && sr <= 114){ _musSurah = sr; _musLo = from; _musHi = to; }
   openMushaf(from, to, page || undefined);
 })();
 </script>
