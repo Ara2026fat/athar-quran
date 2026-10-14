@@ -1047,6 +1047,89 @@
   .pack-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22A04B,#7BD88F);transition:width .2s;}
   .pack-select{width:100%;margin-top:6px;padding:8px;border-radius:12px;border:2px solid var(--sage);font-family:inherit;font-size:14px;background:#fff;color:var(--forest-dark);}
   .pack-row .save-btn{flex:none;white-space:nowrap;}
+
+  /* ===== شاشة السورة: شاشةٌ واحدة تتّسع كاملةً (المصحف + أدوات التحكّم) ===== */
+  body.in-surah #app{height:100vh;height:100dvh;min-height:0;display:flex;flex-direction:column;padding-bottom:0;overflow:hidden;}
+  body.in-surah header{padding:10px 18px 2px;}
+  body.in-surah .brand-mark{width:34px;height:34px;}
+  body.in-surah .gear-btn{width:38px;height:38px;}
+  body.in-surah main{flex:1;min-height:0;display:flex;flex-direction:column;padding:2px 14px calc(14px + env(safe-area-inset-bottom));}
+  body.in-surah footer.sig{display:none;}
+  #view-surah.active{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;}
+  #view-surah .back-row{flex:none;margin-bottom:4px;}
+  #view-surah .back-btn{width:36px;height:36px;}
+  #view-surah .mushaf-frame{flex:1 1 auto;height:auto;min-height:200px;max-height:none;margin:2px 0 6px;}
+  #view-surah .meta-row{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
+  #view-surah .ayah-badge-row{margin:0;}
+  #view-surah .ayah-badge{font-size:13px;padding:4px 14px;}
+  #view-surah .range-picker{margin:0;gap:4px;font-size:12px;flex-wrap:nowrap;}
+  #view-surah .range-input{width:38px;font-size:12.5px;padding:3px 2px;}
+  #view-surah .range-reset{padding:4px 10px;font-size:11.5px;}
+  #view-surah .repeat-track{flex:none;margin:0 0 2px;}
+  #view-surah .voice-bar{flex:none;margin:0 0 4px;}
+  #view-surah .orb-row{flex:none;margin:0;gap:10px;}
+  #view-surah .orb-wrap{width:124px;height:124px;}
+  #view-surah .orb{left:16px;top:16px;width:92px;height:92px;box-shadow:inset 0 3px 0 rgba(255,255,255,.7),inset 0 -6px 10px rgba(0,0,0,.25),0 6px 0 rgba(0,0,0,.34),0 12px 18px rgba(0,0,0,.26);}
+  #view-surah .orb svg{width:42px;height:42px;}
+  #view-surah .orb-wrap::before,#view-surah .orb-wrap::after{left:16px;top:16px;width:92px;height:92px;}
+  #view-surah .ctrl-btn.small{width:44px;height:44px;}
+  #view-surah .orb-label{flex:none;font-size:15px;margin:0 0 4px;min-height:20px;}
+  #view-surah .controls-row{flex:none;margin-bottom:0;gap:10px;}
+  #view-surah .surah-complete{flex:none;}
+  /* ===== التحديث 15: حروف أجمل + أذكار ===== */
+  .letter-tile{flex-direction:column;gap:2px;position:relative;}
+  .letter-tile .lt-em{position:absolute;left:5px;bottom:3px;font-size:15px;line-height:1;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));}
+  .letter-tile.huge.pic .lt-emoji{font-size:58px;line-height:1;}
+  .lt-emoji{font-size:64px;line-height:1;display:block;}
+  .lt-top{display:flex;gap:14px;justify-content:center;align-items:center;}
+  .lt-pic{width:130px;height:130px;border-radius:34px;border:2px solid rgba(255,238,185,.9);background:#fff;box-shadow:0 8px 0 rgba(0,0,0,.2);cursor:pointer;}
+  .lt-pic.pop .lt-emoji{animation:ltPop .5s;}
+  @keyframes ltPop{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-8deg)}100%{transform:scale(1)}}
+  .lt-word{font-size:26px;}
+  .lt-nav{display:flex;gap:10px;justify-content:center;margin-top:12px;}
+  .lt-nav .lq-say{margin:0;}
+  .pad-wrap{margin-top:8px;} .pad-cv{display:block;margin:0 auto;border-radius:22px;background:#FFFDF4;border:2px solid rgba(255,238,185,.9);touch-action:none;max-width:100%;}
+  .pad-wrap .lq-say{margin:10px auto 0;}
+  .dots-prog{display:flex;gap:7px;justify-content:center;margin:8px 0 0;}
+  .dots-prog i{width:12px;height:12px;border-radius:50%;background:#E3DFD4;display:block;}
+  .dots-prog i.on{background:#22A04B;} .dots-prog i.cur{background:#FFC93C;box-shadow:0 0 0 3px rgba(255,201,60,.35);}
+  .stars-row{text-align:center;font-size:40px;} .stars-row span{filter:grayscale(1);opacity:.35;} .stars-row span.on{filter:none;opacity:1;animation:ltPop .6s;}
+  .burst{position:fixed;bottom:-30px;z-index:9999;pointer-events:none;animation:burstUp 2s ease-out forwards;}
+  @keyframes burstUp{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-85vh) rotate(40deg);opacity:0}}
+  .balloon-sky{display:grid;grid-template-columns:repeat(3,1fr);gap:18px 10px;padding:14px 4px 30px;}
+  .balloon{position:relative;aspect-ratio:.82/1;border:none;cursor:pointer;border-radius:50% 50% 48% 48%/58% 58% 42% 42%;color:#fff;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.75),rgba(255,255,255,0) 34%),var(--c);box-shadow:inset -6px -10px 16px rgba(0,0,0,.22),0 8px 14px rgba(0,0,0,.18);
+    animation:blFloat 3.2s ease-in-out infinite;animation-delay:var(--d);}
+  .balloon .bl-ch{font-family:'Baloo Bhaijan 2','Amiri',sans-serif;font-weight:800;font-size:46px;text-shadow:0 2px 3px rgba(0,0,0,.35);}
+  .balloon .bl-str{position:absolute;left:50%;bottom:-22px;width:2px;height:22px;background:rgba(0,0,0,.35);}
+  @keyframes blFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+  .balloon.pop{animation:blPop .35s forwards;} @keyframes blPop{to{transform:scale(1.6);opacity:0}}
+  .balloon.shake{animation:wgShake .35s;}
+  .adk-hero{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;margin-top:8px;border-radius:24px;border:2px solid rgba(255,238,185,.9);cursor:pointer;text-align:right;color:#fff;
+    background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(0,0,0,.25)),#14B8A6;box-shadow:inset 0 3px 0 rgba(255,255,255,.6),0 7px 0 rgba(0,0,0,.28);}
+  .adk-hero-e{font-size:52px;line-height:1;animation:blFloat 3s ease-in-out infinite;}
+  .adk-hero-t{min-width:0;display:block;} .adk-hero-t b{display:block;font-family:'Baloo Bhaijan 2';font-size:20px;line-height:1.35;text-shadow:0 2px 2px rgba(0,0,0,.25);} .adk-hero-t small{display:block;font-size:12.5px;opacity:.95;font-weight:700;}
+  .adk-prog{display:flex;align-items:center;gap:10px;margin:14px 2px 2px;font-weight:800;color:var(--forest-dark);font-size:14px;}
+  .adk-prog i{flex:1;height:10px;border-radius:99px;background:#E3DFD4;overflow:hidden;display:block;} .adk-prog i b{display:block;height:100%;background:linear-gradient(90deg,#FFC93C,#FF9A1F);border-radius:99px;}
+  .adk-gh{font-family:'Baloo Bhaijan 2';font-weight:800;font-size:18px;color:var(--forest-dark);margin:18px 2px 8px;} .adk-gh span{margin-left:6px;}
+  .adk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .adk-tile{position:relative;min-width:0;border-radius:22px;border:2px solid rgba(255,238,185,.85);cursor:pointer;padding:14px 8px 12px;color:#fff;display:flex;flex-direction:column;align-items:center;gap:6px;
+    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(0,0,0,.28)),var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.6),0 6px 0 rgba(0,0,0,.3);}
+  .adk-tile:active{transform:translateY(5px);box-shadow:0 1px 0 rgba(0,0,0,.3);}
+  .adk-e{font-size:42px;line-height:1;display:block;} .adk-w{display:block;font-weight:800;font-size:13.5px;line-height:1.4;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .adk-star{position:absolute;top:4px;left:6px;font-size:18px;display:block;} .adk-star small{font-size:10px;font-weight:800;margin-right:1px;}
+  .dk-panel{text-align:center;padding-top:6px;}
+  .dk-scene{width:130px;height:130px;margin:0 auto;border-radius:50%;background:radial-gradient(circle,#FFF6D0,#FFE08A);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 0 rgba(0,0,0,.16);}
+  .dk-scene.big{width:150px;height:150px;margin:14px auto 0;}
+  .dk-e{font-size:68px;line-height:1;animation:blFloat 3s ease-in-out infinite;display:block;}
+  .dk-when{font-weight:800;color:var(--text-soft);margin:12px 0 6px;font-size:15px;}
+  .dk-text{font-family:'Amiri','Baloo Bhaijan 2',serif;font-weight:700;font-size:29px;line-height:1.9;color:var(--forest-dark);padding:0 6px;}
+  .dk-src{font-size:12px;color:var(--text-soft);margin:4px 0 12px;}
+  .dk-dots{display:flex;gap:12px;justify-content:center;margin:12px 0 4px;} .dk-dots i{width:22px;height:22px;border-radius:50%;background:#E3DFD4;display:block;transition:.2s;} .dk-dots i.on{background:#FFC93C;transform:scale(1.2);box-shadow:0 0 0 4px rgba(255,201,60,.35);}
+  .adk-opts{display:flex;flex-direction:column;gap:12px;margin-top:8px;padding-bottom:20px;}
+  .adk-opt{border-radius:22px;border:2px solid rgba(255,238,185,.85);padding:16px 14px;cursor:pointer;color:#fff;font-weight:800;font-size:19px;line-height:1.5;
+    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(0,0,0,.28)),var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.6),0 6px 0 rgba(0,0,0,.3);text-shadow:0 1px 2px rgba(0,0,0,.3);}
+  .adk-opt:active{transform:translateY(5px);} .adk-opt.ok{outline:5px solid #FFE27A;} .adk-opt.bad{opacity:.35;animation:wgShake .35s;}
 </style>
 </head>
 <body>
@@ -1148,6 +1231,11 @@
         <span class="choice-txt"><span class="ct1">لعبة الحروف</span><span class="ct2">تعرّف على الحروف بحركاتها، ثم اختبر نفسك</span></span>
         <svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
+      <button class="choice-tile small" id="choiceAdhkar" style="--c:#14B8A6">
+        <span class="choice-icon"><span class="choice-letter" style="font-size:26px">📿</span></span>
+        <span class="choice-txt"><span class="ct1">أذكاري الصغيرة</span><span class="ct2">أذكار اليوم بالصور، ولعبة «متى أقول؟»</span></span>
+        <svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <div class="lantern-card" id="lanternCard">
         <svg class="lantern-svg" viewBox="0 0 80 112" aria-hidden="true">
           <defs>
@@ -1227,6 +1315,7 @@
       <div class="mushaf-frame">
         <iframe id="mushafFrame" class="mushaf-iframe" title="صفحة المصحف" loading="eager"></iframe>
       </div>
+      <div class="meta-row">
       <div class="ayah-badge-row"><span class="ayah-badge" id="ayahBadge">الآية 1 من 1</span></div>
 
       <div class="range-picker">
@@ -1235,6 +1324,7 @@
         <span class="range-label">إلى</span>
         <input type="number" id="rangeToInput" class="range-input" min="1">
         <button class="range-reset" id="btnRangeReset" title="عرض السورة كاملة">↺ الكل</button>
+      </div>
       </div>
 
       <div class="repeat-track" id="repeatTrack"></div>
@@ -1274,9 +1364,22 @@
         <div class="seg" role="tablist">
           <button class="seg-btn active" id="lettersTabLearn" role="tab">تعرّف</button>
           <button class="seg-btn" id="lettersTabQuiz" role="tab">اختبرني</button>
+          <button class="seg-btn" id="lettersTabBalloon" role="tab">بالونات</button>
         </div>
       </div>
       <div id="lettersBody"></div>
+    </section>
+
+    <!-- الأذكار -->
+    <section class="view" id="view-adhkar">
+      <div class="browse-head">
+        <button class="back-btn" data-go="home" aria-label="الرئيسية">→</button>
+        <div class="seg" role="tablist">
+          <button class="seg-btn active" id="adkTabList" role="tab">أذكاري</button>
+          <button class="seg-btn" id="adkTabQuiz" role="tab">متى أقول؟</button>
+        </div>
+      </div>
+      <div id="adhkarBody"></div>
     </section>
 
     <!-- شاشة PIN لولي الأمر -->
@@ -3012,6 +3115,13 @@
     ["ق","قاف","قَ","قُ","قِ"],["ك","كاف","كَ","كُ","كِ"],["ل","لام","لَ","لُ","لِ"],["م","ميم","مَ","مُ","مِ"],
     ["ن","نون","نَ","نُ","نِ"],["ه","هاء","هَ","هُ","هِ"],["و","واو","وَ","وُ","وِ"],["ي","ياء","يَ","يُ","يِ"]
   ];
+  // لكلّ حرف كلمة وصورة تبدأ به (نفس ترتيب LETTERS)
+  var LWORDS = [
+    ["أَرْنَب","🐰"],["بَطَّة","🦆"],["تُفَّاحَة","🍎"],["ثَعْلَب","🦊"],["جَمَل","🐪"],["حِصَان","🐴"],["خَرُوف","🐑"],
+    ["دَجَاجَة","🐔"],["ذُرَة","🌽"],["رِيشَة","🪶"],["زَرَافَة","🦒"],["سَمَكَة","🐟"],["شَمْس","☀️"],["صَقْر","🦅"],
+    ["ضِفْدَع","🐸"],["طَائِرَة","✈️"],["ظَرْف","✉️"],["عِنَب","🍇"],["غَيْمَة","☁️"],["فِيل","🐘"],["قِطَّة","🐱"],
+    ["كِتَاب","📖"],["لَيْمُون","🍋"],["مَوْزَة","🍌"],["نَخْلَة","🌴"],["هِلَال","🌙"],["وَرْدَة","🌹"],["يَاسَمِين","🌼"]
+  ];
   var LCOL = ["#22A04B","#3B82F6","#F43F5E","#E09A00","#8B5CF6","#0EA5E9","#EC4899","#14B8A6","#F97316"];
   function speak(text){
     try{
@@ -3021,33 +3131,83 @@
       speechSynthesis.cancel(); speechSynthesis.speak(u);
     }catch(e){}
   }
+  var lettersTab = "learn";
   function openLetters(tab){
-    $("lettersTabLearn").classList.toggle("active", tab !== "quiz");
-    $("lettersTabQuiz").classList.toggle("active", tab === "quiz");
+    lettersTab = tab || "learn";
+    ["Learn","Quiz","Balloon"].forEach(function(n){
+      $("lettersTab" + n).classList.toggle("active", n.toLowerCase() === lettersTab);
+    });
     showView("view-letters");
     window.scrollTo(0, 0);
-    if(tab === "quiz") lettersQuiz(0, 0); else lettersLearn();
+    if(lettersTab === "quiz") lettersQuiz(0, 0);
+    else if(lettersTab === "balloon") lettersBalloons(0, 0);
+    else lettersLearn();
   }
   function lettersLearn(){
     var body = $("lettersBody"); body.innerHTML = "";
     var intro = document.createElement("div"); intro.className = "intro small";
-    intro.innerHTML = "<h1>تعرّف على الحروف</h1><p>اضغط حرفًا، ثم اضغط حركاته لتسمعها.</p>";
+    intro.innerHTML = "<h1>تعرّف على الحروف</h1><p>اضغط حرفًا لترى صورته وتسمع حركاته وترسمه بإصبعك.</p>";
     var grid = document.createElement("div"); grid.className = "letter-grid";
     LETTERS.forEach(function(L, i){
       var b = document.createElement("button"); b.className = "letter-tile";
       b.style.setProperty("--c", LCOL[i % LCOL.length]);
-      b.innerHTML = '<span class="lt-ch">' + L[0] + '</span>';
+      b.innerHTML = '<span class="lt-ch">' + L[0] + '</span><span class="lt-em">' + LWORDS[i][1] + '</span>';
       b.addEventListener("click", function(){ speak(L[1]); showLetter(i); });
       grid.appendChild(b);
     });
     body.appendChild(intro); body.appendChild(grid);
   }
+  function burst(list, n){
+    for(var k = 0; k < (n || 14); k++){
+      var s = document.createElement("span"); s.className = "burst";
+      s.textContent = list[k % list.length];
+      s.style.left = (8 + Math.random() * 84) + "vw";
+      s.style.animationDelay = (Math.random() * .35) + "s";
+      s.style.fontSize = (22 + Math.random() * 20) + "px";
+      document.body.appendChild(s);
+      (function(x){ setTimeout(function(){ if(x.parentNode) x.parentNode.removeChild(x); }, 2200); })(s);
+    }
+  }
+  function drawPad(letter, color){
+    var wrap = document.createElement("div"); wrap.className = "pad-wrap";
+    var cv = document.createElement("canvas"); cv.className = "pad-cv";
+    var W = 300, H = 210, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px";
+    var c = cv.getContext("2d"); c.scale(dpr, dpr);
+    function ghost(){
+      c.clearRect(0, 0, W, H);
+      c.font = "800 190px 'Baloo Bhaijan 2','Amiri',sans-serif";
+      c.textAlign = "center"; c.textBaseline = "middle";
+      c.fillStyle = "rgba(120,120,120,.18)"; c.fillText(letter, W / 2, H / 2 + 8);
+      c.setLineDash([6, 6]); c.lineWidth = 2; c.strokeStyle = "rgba(90,90,90,.35)"; c.strokeText(letter, W / 2, H / 2 + 8); c.setLineDash([]);
+    }
+    ghost();
+    var down = false, last = null, hue = 0;
+    function pt(e){ var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+    cv.addEventListener("pointerdown", function(e){ down = true; last = pt(e); try{ cv.setPointerCapture(e.pointerId); }catch(x){} e.preventDefault(); });
+    cv.addEventListener("pointermove", function(e){
+      if(!down) return; var p = pt(e);
+      hue = (hue + 6) % 360; c.strokeStyle = "hsl(" + hue + ",85%,55%)"; c.lineWidth = 14; c.lineCap = "round"; c.lineJoin = "round";
+      c.beginPath(); c.moveTo(last[0], last[1]); c.lineTo(p[0], p[1]); c.stroke(); last = p; e.preventDefault();
+    });
+    function up(){ down = false; }
+    cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+    var clr = document.createElement("button"); clr.className = "lq-say"; clr.textContent = "امسح وأعد";
+    clr.addEventListener("click", ghost);
+    wrap.appendChild(cv); wrap.appendChild(clr);
+    return wrap;
+  }
   function showLetter(i){
-    var L = LETTERS[i];
+    var L = LETTERS[i], W = LWORDS[i];
     var box = document.createElement("div"); box.className = "lt-panel";
+    var top = document.createElement("div"); top.className = "lt-top";
     var big = document.createElement("div"); big.className = "lt-big"; big.textContent = L[0];
     big.style.setProperty("--c", LCOL[i % LCOL.length]);
-    var nm = document.createElement("div"); nm.className = "lt-name"; nm.textContent = "حرف " + L[1];
+    var pic = document.createElement("button"); pic.className = "lt-pic"; pic.innerHTML = '<span class="lt-emoji">' + W[1] + '</span>';
+    pic.addEventListener("click", function(){ speak(W[0]); pic.classList.remove("pop"); void pic.offsetWidth; pic.classList.add("pop"); sfx("tap"); });
+    top.appendChild(big); top.appendChild(pic);
+    var nm = document.createElement("div"); nm.className = "lt-name";
+    nm.innerHTML = 'حرف ' + L[1] + ' — <span class="lt-word"><b style="color:' + LCOL[i % LCOL.length] + '">' + W[0].charAt(0) + '</b>' + W[0].slice(1) + '</span>';
     var row = document.createElement("div"); row.className = "lt-row";
     [["فتحة", L[2]], ["ضمّة", L[3]], ["كسرة", L[4]]].forEach(function(h, k){
       var b = document.createElement("button"); b.className = "lt-h";
@@ -3056,43 +3216,212 @@
       b.addEventListener("click", function(){ speak(h[1]); tone(520 + k * 120, 0, .25, .08); haptic(10); });
       row.appendChild(b);
     });
-    box.appendChild(big); box.appendChild(nm); box.appendChild(row);
+    var navr = document.createElement("div"); navr.className = "lt-nav";
+    var pv = document.createElement("button"); pv.className = "lq-say"; pv.textContent = "→ السابق";
+    var nx = document.createElement("button"); nx.className = "lq-say"; nx.textContent = "التالي ←";
+    pv.addEventListener("click", function(){ var j = (i + LETTERS.length - 1) % LETTERS.length; speak(LETTERS[j][1]); showLetter(j); });
+    nx.addEventListener("click", function(){ var j = (i + 1) % LETTERS.length; speak(LETTERS[j][1]); showLetter(j); });
+    navr.appendChild(nx); navr.appendChild(pv);
+    var padHost = document.createElement("div");
+    var padBtn = document.createElement("button"); padBtn.className = "pill-btn"; padBtn.style.margin = "14px auto 4px"; padBtn.textContent = "✏️ ارسم الحرف بإصبعك";
+    padBtn.addEventListener("click", function(){ padHost.innerHTML = ""; padHost.appendChild(drawPad(L[0])); padBtn.style.display = "none"; });
+    box.appendChild(top); box.appendChild(nm); box.appendChild(row); box.appendChild(padBtn); box.appendChild(padHost); box.appendChild(navr);
     openSheet(box);
   }
+  function lettersEnd(right, max, again){
+    var body = $("lettersBody"); body.innerHTML = "";
+    markDayActive();
+    var w = document.createElement("div"); w.className = "wg";
+    w.innerHTML = '<div class="wg-big">أحسنت!</div><p class="muted" style="text-align:center">عرفتَ ' + arNum(right) + ' من ' + arNum(max) + ' من أول مرّة.</p><div class="stars-row">' +
+      [0,1,2].map(function(k){ return '<span class="' + (right >= Math.ceil(max * (k + 1) / 3) - (k === 0 ? 1 : 0) ? "on" : "") + '">⭐</span>'; }).join("") + '</div>';
+    body.appendChild(w);
+    var b = document.createElement("button"); b.className = "pill-btn"; b.style.margin = "10px auto"; b.textContent = "جولة أخرى";
+    b.addEventListener("click", again); body.appendChild(b);
+    sfx("done"); burst(["⭐","🌟","✨","🎈"], 16);
+  }
+  // اختبار: مرّة "أين الحرف؟" ومرّة "أيّ صورة تبدأ بالحرف؟"
   function lettersQuiz(round, right){
     var body = $("lettersBody"); body.innerHTML = "";
     var max = 6;
-    if(round >= max){
-      markDayActive();
-      body.innerHTML = '<div class="wg"><div class="wg-big">أحسنت!</div><p class="muted" style="text-align:center">عرفتَ ' + arNum(right) + ' من ' + arNum(max) + ' من أول مرّة.</p></div>';
-      var again = document.createElement("button"); again.className = "pill-btn"; again.style.margin = "10px auto"; again.textContent = "جولة أخرى";
-      again.addEventListener("click", function(){ lettersQuiz(0, 0); }); body.appendChild(again);
-      sfx("done"); return;
-    }
+    if(round >= max){ lettersEnd(right, max, function(){ lettersQuiz(0, 0); }); return; }
     var idx = Math.floor(Math.random() * LETTERS.length), target = LETTERS[idx];
-    var others = shuffle(LETTERS.filter(function(_, i){ return i !== idx; })).slice(0, 2);
-    var opts = shuffle([target].concat(others));
+    var pics = round % 2 === 1;
+    var otherIdx = shuffle(LETTERS.map(function(_, i){ return i; }).filter(function(i){ return i !== idx; })).slice(0, 2);
+    var optIdx = shuffle([idx].concat(otherIdx));
     var q = document.createElement("div"); q.className = "lq-q";
-    q.innerHTML = "أين حرف<b>" + target[1] + "</b>؟";
-    var again2 = document.createElement("button"); again2.className = "lq-say"; again2.textContent = "اسمع";
-    again2.addEventListener("click", function(){ speak(target[1]); });
+    q.innerHTML = pics ? "أيّ صورة تبدأ بحرف<b>" + target[1] + "</b>؟" : "أين حرف<b>" + target[1] + "</b>؟";
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع";
+    var qText = pics ? "أي صورة تبدأ بحرف " + target[1] : "أين حرف " + target[1];
+    say.addEventListener("click", function(){ speak(qText); });
     var row = document.createElement("div"); row.className = "lq-opts";
     var first = true, locked = false;
-    opts.forEach(function(L){
-      var b = document.createElement("button"); b.className = "letter-tile huge";
-      b.style.setProperty("--c", LCOL[LETTERS.indexOf(L) % LCOL.length]);
-      b.innerHTML = '<span class="lt-ch">' + L[0] + '</span>';
+    optIdx.forEach(function(i){
+      var L = LETTERS[i];
+      var b = document.createElement("button"); b.className = "letter-tile huge" + (pics ? " pic" : "");
+      b.style.setProperty("--c", LCOL[i % LCOL.length]);
+      b.innerHTML = pics ? '<span class="lt-emoji big">' + LWORDS[i][1] + '</span>' : '<span class="lt-ch">' + L[0] + '</span>';
       b.addEventListener("click", function(){
         if(locked) return;
-        if(L === target){
-          locked = true; b.classList.add("ok"); sfx("done");
-          setTimeout(function(){ lettersQuiz(round + 1, right + (first ? 1 : 0)); }, 900);
+        if(i === idx){
+          locked = true; b.classList.add("ok"); sfx("done"); burst([LWORDS[idx][1], "⭐"], 8);
+          speak(LWORDS[idx][0]);
+          setTimeout(function(){ lettersQuiz(round + 1, right + (first ? 1 : 0)); }, 1300);
         } else { first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
       row.appendChild(b);
     });
-    body.appendChild(q); body.appendChild(again2); body.appendChild(row);
-    speak("أين حرف " + target[1]);
+    var prog = document.createElement("div"); prog.className = "dots-prog";
+    prog.innerHTML = Array.apply(null, Array(max)).map(function(_, k){ return '<i class="' + (k < round ? "on" : (k === round ? "cur" : "")) + '"></i>'; }).join("");
+    body.appendChild(prog); body.appendChild(q); body.appendChild(say); body.appendChild(row);
+    speak(qText);
+  }
+  // بالونات الحروف: اضغط البالون الذي عليه الحرف المطلوب
+  function lettersBalloons(round, right){
+    var body = $("lettersBody"); body.innerHTML = "";
+    var max = 5;
+    if(round >= max){ lettersEnd(right, max, function(){ lettersBalloons(0, 0); }); return; }
+    var idx = Math.floor(Math.random() * LETTERS.length), target = LETTERS[idx];
+    var optIdx = shuffle([idx].concat(shuffle(LETTERS.map(function(_, i){ return i; }).filter(function(i){ return i !== idx; })).slice(0, 5)));
+    var q = document.createElement("div"); q.className = "lq-q";
+    q.innerHTML = "فرقع البالون الذي عليه حرف<b>" + target[1] + "</b>";
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع";
+    say.addEventListener("click", function(){ speak("فرقع بالون حرف " + target[1]); });
+    var sky = document.createElement("div"); sky.className = "balloon-sky";
+    var first = true, locked = false;
+    optIdx.forEach(function(i, k){
+      var b = document.createElement("button"); b.className = "balloon";
+      b.style.setProperty("--c", LCOL[(k * 2) % LCOL.length]);
+      b.style.setProperty("--d", (k * .37) + "s");
+      b.innerHTML = '<span class="bl-ch">' + LETTERS[i][0] + '</span><i class="bl-str"></i>';
+      b.addEventListener("click", function(){
+        if(locked) return;
+        if(i === idx){
+          locked = true; b.classList.add("pop"); sfx("done"); burst(["🎈","⭐","✨"], 10); speak(target[1]);
+          setTimeout(function(){ lettersBalloons(round + 1, right + (first ? 1 : 0)); }, 1100);
+        } else { first = false; b.classList.add("shake"); setTimeout(function(){ b.classList.remove("shake"); }, 400); tone(220, 0, .2, .06); haptic(20); }
+      });
+      sky.appendChild(b);
+    });
+    body.appendChild(q); body.appendChild(say); body.appendChild(sky);
+    speak("فرقع بالون حرف " + target[1]);
+  }
+
+  /* ================= الأذكار ================= */
+  // نصوص قصيرة ثابتة من القرآن والسنّة الصحيحة، مع المصدر
+  var ADHKAR = [
+    {id:"wake", g:0, e:"🌅", w:"عندما أستيقظ", q:"الحمد لله الذي أحيانا", t:"الحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", s:"رواه البخاري (٦٣١٢)"},
+    {id:"sleep", g:0, e:"🌙", w:"عندما أنام", q:"باسمك اللهم أموت وأحيا", t:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", s:"رواه البخاري (٦٣٢٤)"},
+    {id:"eat1", g:1, e:"🍽️", w:"قبل الأكل", q:"بسم الله", t:"بِسْمِ اللَّهِ", s:"رواه أبو داود (٣٧٦٧) وصحّحه الألباني. وإن نسي في أوّله قال: بسم الله في أوّله وآخره"},
+    {id:"eat2", g:1, e:"🥛", w:"بعد الأكل", q:"الحمد لله", t:"الحَمْدُ لِلَّهِ", s:"حديث مسلم (٢٧٣٤): «إنّ الله ليرضى عن العبد أن يأكل الأكلة فيحمده عليها»"},
+    {id:"out", g:2, e:"🚪", w:"عندما أخرج من البيت", q:"بسم الله توكلت على الله", t:"بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", s:"رواه أبو داود (٥٠٩٥) وصحّحه الألباني"},
+    {id:"wc", g:2, e:"🚽", w:"عند دخول الخلاء", q:"أعوذ بك من الخبث والخبائث", t:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ", s:"متفق عليه: البخاري ومسلم"},
+    {id:"mosque", g:2, e:"🕌", w:"عند دخول المسجد", q:"افتح لي أبواب رحمتك", t:"اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", s:"رواه مسلم (٧١٣)"},
+    {id:"salam", g:3, e:"💬", w:"عندما ألقى أحدًا", q:"السلام عليكم ورحمة الله", t:"السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ", s:"رواه أبو داود (٥١٩٥) والترمذي (٢٦٨٩)"},
+    {id:"thanks", g:3, e:"🎁", w:"عندما يُعطيني أحدٌ شيئًا", q:"جزاك الله خيرًا", t:"جَزَاكَ اللَّهُ خَيْرًا", s:"رواه الترمذي (٢٠٣٥) وقال: حسن جيّد غريب"},
+    {id:"sneeze", g:3, e:"🌬️", w:"عندما أعطس", q:"الحمد لله", t:"الْحَمْدُ لِلَّهِ", s:"رواه البخاري (٦٢٢٤)"},
+    {id:"hear", g:3, e:"🔔", w:"عندما يعطس أحدٌ ويقول الحمد لله", q:"يرحمك الله", t:"يَرْحَمُكَ اللَّهُ", s:"رواه البخاري (٦٢٢٤)"},
+    {id:"parents", g:3, e:"💞", w:"عندما ندعو لأمي وأبي", q:"رب ارحمهما كما ربياني", t:"رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", s:"سورة الإسراء، الآية ٢٤"},
+    {id:"anger", g:4, e:"🔥", w:"عندما أغضب", q:"أعوذ بالله من الشيطان", t:"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ", s:"متفق عليه: البخاري (٣٢٨٢) ومسلم (٢٦١٠)"},
+    {id:"rain", g:4, e:"🌧️", w:"عندما ينزل المطر", q:"صيبًا نافعًا", t:"صَيِّبًا نَافِعًا", s:"رواه البخاري (١٠٣٢): كان ﷺ إذا رأى المطر قال ذلك"},
+    {id:"tasbih", g:4, e:"🌟", w:"عندما أريد أن أُسبّح الله", q:"سبحان الله والحمد لله", t:"سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ", s:"رواه مسلم (٢١٣٧)"}
+  ];
+  var ADHKAR_GROUPS = [["☀️","الصباح والنوم","#F59E0B"],["🍽️","المائدة","#22A04B"],["🏠","البيت والمسجد","#3B82F6"],["🤝","مع الناس","#EC4899"],["✨","في أيّ وقت","#8B5CF6"]];
+  function adkKey(){ return "athar_adhkar_v1_" + profiles.active; }
+  function adkGet(){ try{ return JSON.parse(localStorage.getItem(adkKey())) || {}; }catch(e){ return {}; } }
+  function adkAdd(id){ var d = adkGet(); d[id] = (d[id] || 0) + 1; try{ localStorage.setItem(adkKey(), JSON.stringify(d)); }catch(e){} return d; }
+  var adkTab = "list";
+  function openAdhkar(tab){
+    adkTab = tab || "list";
+    $("adkTabList").classList.toggle("active", adkTab === "list");
+    $("adkTabQuiz").classList.toggle("active", adkTab === "quiz");
+    showView("view-adhkar"); window.scrollTo(0, 0);
+    if(adkTab === "quiz") adkQuiz(0, 0); else adkList();
+  }
+  function adkList(){
+    var body = $("adhkarBody"); body.innerHTML = "";
+    var done = adkGet(), n = 0;
+    ADHKAR.forEach(function(a){ if(done[a.id]) n++; });
+    var today = ADHKAR[Math.floor(Date.now() / 86400000) % ADHKAR.length];
+    var hero = document.createElement("button"); hero.className = "adk-hero";
+    hero.innerHTML = '<span class="adk-hero-e">' + today.e + '</span><span class="adk-hero-t"><small>ذكر اليوم</small><b>' + today.q + '</b><small>' + today.w + '</small></span>';
+    hero.addEventListener("click", function(){ showDhikr(ADHKAR.indexOf(today)); });
+    var prog = document.createElement("div"); prog.className = "adk-prog";
+    prog.innerHTML = '<span>⭐ ' + arNum(n) + ' من ' + arNum(ADHKAR.length) + '</span><i><b style="width:' + Math.round(n / ADHKAR.length * 100) + '%"></b></i>';
+    body.appendChild(hero); body.appendChild(prog);
+    ADHKAR_GROUPS.forEach(function(G, gi){
+      var h = document.createElement("div"); h.className = "adk-gh"; h.innerHTML = '<span>' + G[0] + '</span>' + G[1];
+      var grid = document.createElement("div"); grid.className = "adk-grid";
+      ADHKAR.forEach(function(a, ai){
+        if(a.g !== gi) return;
+        var b = document.createElement("button"); b.className = "adk-tile"; b.style.setProperty("--c", G[2]);
+        b.innerHTML = '<span class="adk-e">' + a.e + '</span><span class="adk-w">' + a.w + '</span>' + (done[a.id] ? '<span class="adk-star">⭐' + (done[a.id] > 1 ? '<small>' + arNum(done[a.id]) + '</small>' : '') + '</span>' : '');
+        b.addEventListener("click", function(){ showDhikr(ai); });
+        grid.appendChild(b);
+      });
+      body.appendChild(h); body.appendChild(grid);
+    });
+  }
+  function showDhikr(i){
+    var a = ADHKAR[i];
+    var box = document.createElement("div"); box.className = "dk-panel";
+    box.innerHTML = '<div class="dk-scene"><span class="dk-e">' + a.e + '</span></div><div class="dk-when">' + a.w + '</div><div class="dk-text">' + a.t + '</div><div class="dk-src">' + a.s + '</div>';
+    var hear = document.createElement("button"); hear.className = "lq-say"; hear.textContent = "🔊 اسمعها";
+    hear.addEventListener("click", function(){ speak(a.t); });
+    var dots = document.createElement("div"); dots.className = "dk-dots";
+    dots.innerHTML = '<i></i><i></i><i></i>';
+    var say = document.createElement("button"); say.className = "pill-btn"; say.style.margin = "8px auto"; say.textContent = "قلتُها معك";
+    var n = 0;
+    say.addEventListener("click", function(){
+      if(n >= 3) return;
+      dots.children[n].classList.add("on"); n++; sfx("tap");
+      if(n === 3){
+        adkAdd(a.id); markDayActive(); sfx("done"); burst(["⭐","🌟","✨"], 14);
+        say.textContent = "أحسنت! 🌟"; say.disabled = true;
+        adkList();
+      }
+    });
+    var navr = document.createElement("div"); navr.className = "lt-nav";
+    var nx = document.createElement("button"); nx.className = "lq-say"; nx.textContent = "التالي ←";
+    var pv = document.createElement("button"); pv.className = "lq-say"; pv.textContent = "→ السابق";
+    nx.addEventListener("click", function(){ showDhikr((i + 1) % ADHKAR.length); });
+    pv.addEventListener("click", function(){ showDhikr((i + ADHKAR.length - 1) % ADHKAR.length); });
+    navr.appendChild(nx); navr.appendChild(pv);
+    box.appendChild(hear); box.appendChild(dots); box.appendChild(say); box.appendChild(navr);
+    openSheet(box);
+    speak(a.t);
+  }
+  // لعبة «متى أقول؟»
+  function adkQuiz(round, right){
+    var body = $("adhkarBody"); body.innerHTML = "";
+    var max = 6;
+    if(round >= max){ lettersEnd(right, max, function(){ adkQuiz(0, 0); }); return; }
+    var a = ADHKAR[Math.floor(Math.random() * ADHKAR.length)];
+    var others = shuffle(ADHKAR.filter(function(x){ return x.t !== a.t; }));
+    var picks = [], seen = {};
+    others.forEach(function(x){ if(picks.length < 2 && !seen[x.t]){ seen[x.t] = 1; picks.push(x); } });
+    var opts = shuffle([a].concat(picks));
+    var prog = document.createElement("div"); prog.className = "dots-prog";
+    prog.innerHTML = Array.apply(null, Array(max)).map(function(_, k){ return '<i class="' + (k < round ? "on" : (k === round ? "cur" : "")) + '"></i>'; }).join("");
+    var sc = document.createElement("div"); sc.className = "dk-scene big"; sc.innerHTML = '<span class="dk-e">' + a.e + '</span>';
+    var q = document.createElement("div"); q.className = "lq-q"; q.style.fontSize = "22px"; q.textContent = "ماذا نقول " + a.w + "؟";
+    var list = document.createElement("div"); list.className = "adk-opts";
+    var first = true, locked = false;
+    opts.forEach(function(o, k){
+      var b = document.createElement("button"); b.className = "adk-opt"; b.style.setProperty("--c", LCOL[(k * 3 + 1) % LCOL.length]);
+      b.textContent = o.q;
+      b.addEventListener("click", function(){
+        if(locked) return;
+        if(o.t === a.t){
+          locked = true; b.classList.add("ok"); sfx("done"); burst(["⭐", a.e], 8); speak(a.t);
+          setTimeout(function(){ adkQuiz(round + 1, right + (first ? 1 : 0)); }, 1500);
+        } else { first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
+      });
+      list.appendChild(b);
+    });
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع";
+    say.addEventListener("click", function(){ speak("ماذا نقول " + a.w); });
+    body.appendChild(prog); body.appendChild(sc); body.appendChild(q); body.appendChild(say); body.appendChild(list);
+    speak("ماذا نقول " + a.w);
   }
 
   /* ================= تطبيق المؤثّرات العامّة ================= */
@@ -3305,6 +3634,10 @@
     $("choiceLetters").addEventListener("click", function(){ openLetters("learn"); });
     $("lettersTabLearn").addEventListener("click", function(){ openLetters("learn"); });
     $("lettersTabQuiz").addEventListener("click", function(){ openLetters("quiz"); });
+    $("lettersTabBalloon").addEventListener("click", function(){ openLetters("balloon"); });
+    $("choiceAdhkar").addEventListener("click", function(){ openAdhkar("list"); });
+    $("adkTabList").addEventListener("click", function(){ openAdhkar("list"); });
+    $("adkTabQuiz").addEventListener("click", function(){ openAdhkar("quiz"); });
     renderLantern(); renderProfileBar();
     applyFX();
     renderSky();

@@ -17,7 +17,7 @@
    من تعديلات.
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v15';
+const CACHE_VERSION = 'v20';
 const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
 // ذاكرة الصوتيات مستقلّة عن رقم النسخة فلا تُمسح عند كلّ تحديث
 const AUDIO_CACHE = 'athar-audio-v1';
