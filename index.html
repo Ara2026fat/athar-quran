@@ -291,6 +291,13 @@
     font-family:'Baloo Bhaijan 2';font-weight:700;font-size:14px;
     padding:6px 18px;border-radius:999px;
   }
+  .rep-picker{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:-4px 0 14px;}
+  .rep-grp{display:flex;align-items:center;gap:6px;background:#fff;border:2px solid var(--sage);border-radius:16px;padding:4px 8px;font-size:12.5px;color:var(--text-soft);}
+  .rep-lb{font-weight:700;color:var(--forest-dark);}
+  .rep-b{width:30px;height:30px;border-radius:50%;border:0;background:var(--forest);color:#fff;font-size:18px;font-weight:800;line-height:1;cursor:pointer;font-family:inherit;}
+  .rep-b.rep-inf{background:#8b87a8;} .rep-b.on{background:#E09A00;}
+  .rep-v{min-width:28px;text-align:center;font-size:16px;color:var(--forest-dark);}
+  body.child-lock .rep-picker{display:none;}
   .range-picker{
     display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
     margin-bottom:14px;font-size:12.5px;color:var(--text-soft);
@@ -1501,6 +1508,10 @@
         <input type="number" id="rangeToInput" class="range-input" min="1">
         <button class="range-reset" id="btnRangeReset" title="عرض السورة كاملة">↺ الكل</button>
       </div>
+      <div class="rep-picker" id="repPicker">
+        <div class="rep-grp"><span class="rep-lb">كرّر الآية</span><button class="rep-b" id="rpAm" aria-label="أقلّ">−</button><b class="rep-v" id="rpAv">3</b><button class="rep-b" id="rpAp" aria-label="أكثر">+</button><button class="rep-b rep-inf" id="rpAi" title="بلا حدّ">∞</button></div>
+        <div class="rep-grp"><span class="rep-lb">كرّر السورة</span><button class="rep-b" id="rpSm" aria-label="أقلّ">−</button><b class="rep-v" id="rpSv">1</b><button class="rep-b" id="rpSp" aria-label="أكثر">+</button><button class="rep-b rep-inf" id="rpSi" title="بلا حدّ">∞</button></div>
+      </div>
       </div>
 
       <div class="repeat-track" id="repeatTrack"></div>
@@ -1831,7 +1842,7 @@
     if(!s) s = {repeatCount:3, pin:"0000"};
     if(!s.pin) s.pin = "0000";
     if(!s.repeatCount) s.repeatCount = 3;
-    var D = {gapMult:1, sessionMin:5, bedtime:false, sfx:true, wordHL:true, childLock:false, voiceRec:false, voicesOn:false, voice:"qari", autoDl:false, voices:[{id:"v1",name:"أمي"},{id:"v2",name:"أبي"}]};
+    var D = {surahRepeat:1, gapMult:1, sessionMin:5, bedtime:false, sfx:true, wordHL:true, childLock:false, voiceRec:false, voicesOn:false, voice:"qari", autoDl:false, voices:[{id:"v1",name:"أمي"},{id:"v2",name:"أبي"}]};
     for(var k in D){ if(s[k] === undefined) s[k] = D[k]; }
     return s;
   }
@@ -2242,6 +2253,25 @@
     return JUZ_AMMA.filter(function(x){return x.num===player.surah;})[0];
   }
 
+
+  /* ===== ضبط التكرار من لوحة المشغّل: تكرار الآية وتكرار السورة ===== */
+  function renderRepPicker(){
+    var a = settings.repeatCount, sr = settings.surahRepeat || 1;
+    if($("rpAv")){ $("rpAv").textContent = a === "inf" ? "∞" : arNum(a); $("rpAi").classList.toggle("on", a === "inf"); }
+    if($("rpSv")){ $("rpSv").textContent = sr === "inf" ? "∞" : arNum(sr); $("rpSi").classList.toggle("on", sr === "inf"); }
+  }
+  function setupRepPicker(){
+    function ayahSet(v){ settings.repeatCount = v; saveSettings(settings); renderRepPicker(); renderRepeatTrack(); try{ renderRepeatOptions(); }catch(e){} }
+    function surahSet(v){ settings.surahRepeat = v; saveSettings(settings); renderRepPicker(); }
+    $("rpAm").addEventListener("click", function(){ var a = settings.repeatCount === "inf" ? 3 : settings.repeatCount; ayahSet(Math.max(1, a - 1)); });
+    $("rpAp").addEventListener("click", function(){ var a = settings.repeatCount === "inf" ? 3 : settings.repeatCount; ayahSet(Math.min(50, a + 1)); });
+    $("rpAi").addEventListener("click", function(){ ayahSet(settings.repeatCount === "inf" ? 3 : "inf"); });
+    $("rpSm").addEventListener("click", function(){ var a = settings.surahRepeat === "inf" ? 3 : (settings.surahRepeat || 1); surahSet(Math.max(1, a - 1)); });
+    $("rpSp").addEventListener("click", function(){ var a = settings.surahRepeat === "inf" ? 3 : (settings.surahRepeat || 1); surahSet(Math.min(99, a + 1)); });
+    $("rpSi").addEventListener("click", function(){ surahSet(settings.surahRepeat === "inf" ? 1 : "inf"); });
+    renderRepPicker();
+  }
+
   function openSurah(num, startAyah){
     var s = JUZ_AMMA.filter(function(x){return x.num===num;})[0];
     if(!s) return;
@@ -2250,7 +2280,7 @@
     player.currentAyah = startAyah || 1;
     player.rangeFrom = 1;
     player.rangeTo = s.ayahs;
-    player.repeatsDone = 0;
+    player.repeatsDone = 0; player.surahRound = 1;
     haltPlayback("idle");
     $("surahTitle").textContent = s.name;
     $("surahComplete").style.display = "none";
@@ -2258,7 +2288,7 @@
     $("btnStory").style.display = STORIES[num] ? "" : "none";
     renderRepeatTrack();
     updateAyahBadge();
-    setupRangeInputs();
+    setupRangeInputs(); renderRepPicker();
     autoPrefetch(num);
     $("statusLine").textContent = "اضغط للاستماع";
     showView("view-surah");
@@ -2624,7 +2654,9 @@
     renderRepeatTrack();
     var inf = settings.repeatCount === "inf";
     var cycleDone = !inf && player.repeatsDone >= settings.repeatCount;
-    var lastOfAll = cycleDone && player.currentAyah >= player.rangeTo;
+    var sr = settings.surahRepeat === "inf" ? "inf" : (settings.surahRepeat || 1);
+    var again = cycleDone && player.currentAyah >= player.rangeTo && (sr === "inf" || (player.surahRound || 1) < sr);
+    var lastOfAll = cycleDone && player.currentAyah >= player.rangeTo && !again;
 
     function proceed(){
       if(!player.isPlaying) return;
@@ -2636,6 +2668,15 @@
         renderRepeatTrack();
         updateAyahBadge();
         syncMushafToCurrentAyah(1);
+        playCurrentAyah();
+      } else if(again){
+        player.surahRound = (player.surahRound || 1) + 1;
+        player.currentAyah = player.rangeFrom;
+        player.repeatsDone = 0;
+        renderRepeatTrack();
+        updateAyahBadge();
+        syncMushafToCurrentAyah(1);
+        showToast("جولة " + arNum(player.surahRound) + (sr === "inf" ? "" : " من " + arNum(sr)));
         playCurrentAyah();
       }
     }
@@ -10690,6 +10731,7 @@
 
   /* ================= لوحة ولي الأمر ================= */
   function renderRepeatOptions(){
+    try{ renderRepPicker(); }catch(e){}
     var wrap = $("repeatOptions");
     wrap.innerHTML = "";
     [1,2,3,5,"inf"].forEach(function(n){
@@ -10847,6 +10889,7 @@
     $("btnRepeatAyah").addEventListener("click", repeatAyahManually);
     $("btnNext").addEventListener("click", function(){ goToAyah(1); });
     $("btnPrev").addEventListener("click", function(){ goToAyah(-1); });
+    setupRepPicker();
     $("rangeFromInput").addEventListener("change", applyRange);
     $("rangeToInput").addEventListener("change", applyRange);
     $("btnRangeReset").addEventListener("click", resetRange);
