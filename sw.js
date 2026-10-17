@@ -17,7 +17,7 @@
    من تعديلات.
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v19';
+const CACHE_VERSION = 'v68';
 const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
 // ذاكرة الصوتيات مستقلّة عن رقم النسخة فلا تُمسح عند كلّ تحديث
 const AUDIO_CACHE = 'athar-audio-v1';
@@ -32,6 +32,8 @@ const CORE_ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './apple-touch-icon.png',
+  './favicon.ico',
+  './packs.json',
   './078.json',
   './079.json',
   './080.json',
@@ -106,9 +108,10 @@ self.addEventListener('fetch', function(event){
     event.respondWith(audioFromCache(req));
     return;
   }
-  // خطوط المصحف من CDN: كاش أولًا، وتُحفظ تلقائيًّا بعد أول تحميل ناجح.
-  if(url.hostname === 'cdn.jsdelivr.net' && url.pathname.indexOf('/fonts-woff2/') !== -1){
-    event.respondWith(fontFromCache(req));
+  // ملفات حزم التنزيل (خطوط المصحف وصفحاته): كاش أولًا، والمرايا المختلفة تُعامَل كمفتاح واحد
+  var pk = packKey(url);
+  if(pk){
+    event.respondWith(packFromCache(req, pk));
     return;
   }
   if(url.origin !== self.location.origin) return; // اتركه للشبكة كما هو
@@ -154,6 +157,29 @@ function audioFromCache(req){
             'Accept-Ranges': 'bytes'
           }
         });
+      });
+    });
+  }).catch(function(){ return fetch(req); });
+}
+
+// يوحّد عناوين المرايا (cdn/fastly/gcore) إلى العنوان الأول المحفوظ في الكاش
+function packKey(url){
+  var h = url.hostname, p = url.pathname;
+  if((h === 'cdn.jsdelivr.net' || h === 'fastly.jsdelivr.net' || h === 'gcore.jsdelivr.net') && p.indexOf('/fonts-woff2/') !== -1){
+    return 'https://cdn.jsdelivr.net' + p;
+  }
+  if((h === 'cdn.jsdelivr.net' || h === 'fastly.jsdelivr.net' || h === 'gcore.jsdelivr.net') && p.indexOf('/gh/Ara2026fat/quran-qcf4') === 0){
+    return 'https://cdn.jsdelivr.net' + p;
+  }
+  return null;
+}
+function packFromCache(req, key){
+  return caches.open(PACK_CACHE).then(function(cache){
+    return cache.match(key).then(function(hit){
+      if(hit) return hit;
+      return fetch(req).then(function(res){
+        if(res && res.ok){ cache.put(key, res.clone()); }
+        return res;
       });
     });
   }).catch(function(){ return fetch(req); });
