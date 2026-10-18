@@ -4221,15 +4221,15 @@
     return s + '<circle cx="100" cy="100" r="7" fill="#2b2150"/></svg>';
   }
   var MQ_COINS = [
-    { v:"٥٠ هللة", say:"خمسون هللة، أي نصف ريال", k:"coin s", t:"٥٠", u:"هللة" },
-    { v:"ريال", say:"ريال واحد، ويساوي مئة هللة", k:"coin g", t:"١", u:"ريال" },
-    { v:"ريالان", say:"ريالان", k:"coin g", t:"٢", u:"ريال" },
-    { v:"٥ ريال", say:"خمسة ريالات", k:"note n5", t:"٥", u:"ريال" },
-    { v:"١٠ ريال", say:"عشرة ريالات", k:"note n10", t:"١٠", u:"ريال" },
-    { v:"٥٠ ريال", say:"خمسون ريالًا", k:"note n50", t:"٥٠", u:"ريال" },
-    { v:"١٠٠ ريال", say:"مئة ريال", k:"note n100", t:"١٠٠", u:"ريال" },
-    { v:"٢٠٠ ريال", say:"مئتا ريال", k:"note n200", t:"٢٠٠", u:"ريال" },
-    { v:"٥٠٠ ريال", say:"خمسمئة ريال", k:"note n500", t:"٥٠٠", u:"ريال" }
+    { v:"٥٠ هللة", say:"خمسون هللة، أي نصف ريال", k:"coin s", t:"50", u:"هللة" },
+    { v:"ريال", say:"ريال واحد، ويساوي مئة هللة", k:"coin g", t:"1", u:"ريال" },
+    { v:"ريالان", say:"ريالان", k:"coin g", t:"2", u:"ريال" },
+    { v:"٥ ريال", say:"خمسة ريالات", k:"note n5", t:"5", u:"ريال" },
+    { v:"١٠ ريال", say:"عشرة ريالات", k:"note n10", t:"10", u:"ريال" },
+    { v:"٥٠ ريال", say:"خمسون ريالًا", k:"note n50", t:"50", u:"ريال" },
+    { v:"١٠٠ ريال", say:"مئة ريال", k:"note n100", t:"100", u:"ريال" },
+    { v:"٢٠٠ ريال", say:"مئتا ريال", k:"note n200", t:"200", u:"ريال" },
+    { v:"٥٠٠ ريال", say:"خمسمئة ريال", k:"note n500", t:"500", u:"ريال" }
   ];
   function mqToken(v){
     var d = document.createElement("span");
@@ -4281,7 +4281,7 @@
     function mk(label, fn){ var b = document.createElement("button"); b.className = "nm-chip"; b.textContent = label; b.addEventListener("click", function(){ sfx("tap"); fn(); }); row.appendChild(b); }
     mk("ساعة بعد ▲", function(){ mqClockLearn(h % 12 + 1, m); });
     mk("ساعة قبل ▼", function(){ mqClockLearn((h + 10) % 12 + 1, m); });
-    mk(m === 30 ? "تمامًا (٠٠)" : "والنصف (٣٠)", function(){ mqClockLearn(h, m === 30 ? 0 : 30); });
+    mk(m === 30 ? "تمامًا (" + nm("00") + ")" : "والنصف (" + nm(30) + ")", function(){ mqClockLearn(h, m === 30 ? 0 : 30); });
     var hear = document.createElement("button"); hear.className = "lq-say"; hear.textContent = "🔊 اسمع الوقت"; hear.addEventListener("click", function(){ speak(mqClockText(h, m)); });
     body.appendChild(row); body.appendChild(hear); body.appendChild(mqBackBtn());
     speak(mqClockText(h, m));
@@ -4294,7 +4294,7 @@
     body.appendChild(intro);
     var grid = document.createElement("div"); grid.className = "mq-grid";
     MQ_COINS.forEach(function(c){
-      var b = document.createElement("button"); b.className = "mq-tok " + c.k; b.innerHTML = '<b>' + c.t + '</b><i>' + c.u + '</i>';
+      var b = document.createElement("button"); b.className = "mq-tok " + c.k; b.innerHTML = '<b>' + nm(c.t) + '</b><i>' + c.u + '</i>';
       b.addEventListener("click", function(){ sfx("tap"); speak(c.say); });
       grid.appendChild(b);
     });
@@ -4311,7 +4311,7 @@
     var body = $("numbersBody"); body.innerHTML = "";
     var max = 6;
     if(round >= max){ nmEnd(right, max, function(){ mqPlay(game, 0, 0); }, mqHome); return; }
-    var qText = "", vis = null, optsEl = document.createElement("div"), first = true, locked = false;
+    var qText = "", qSay = "", vis = null, optsEl = document.createElement("div"), first = true, locked = false;
     optsEl.className = "lq-opts"; optsEl.style.flexWrap = "wrap";
     function win(sayText){
       locked = true; sfx("done"); burst(["⭐", "✨"], 8); speak((sayText ? sayText + ". " : "") + nmPraise());
@@ -4338,6 +4338,7 @@
       var h = MQ_HEAVY[nmRand(MQ_HEAVY.length)], l = MQ_LIGHT[nmRand(MQ_LIGHT.length)], heavier = nmRand(2) === 0;
       var pair = nmRand(2) === 0 ? [h, l] : [l, h];
       qText = "أيّهما " + (heavier ? "أثقل" : "أخفّ") + ": " + pair[0][1] + " أم " + pair[1][1] + "؟";
+      qSay = "أيّهما " + (heavier ? "أثقل" : "أخفّ") + "؟ " + pair[0][1] + ". أم " + pair[1][1] + "؟";
       pair.forEach(function(p, i){
         var isHeavy = p === h;
         optsEl.appendChild(tile('<span class="lt-emoji" style="font-size:56px;line-height:1">' + p[0] + '</span><span class="lt-ch" style="font-size:18px">' + p[1] + '</span>', MQ_TCOL[(i + round) % MQ_TCOL.length], heavier === isHeavy, heavier ? p[1] + " أثقل" : p[1] + " أخفّ"));
@@ -4380,6 +4381,7 @@
       var th = MQ_THINGS[nmRand(MQ_THINGS.length)], price = 2 + nmRand(8), ok = nmRand(2) === 0, have = ok ? price + nmRand(4) : Math.max(1, price - 1 - nmRand(Math.min(price - 1, 3)));
       if(!ok && have >= price) have = price - 1;
       qText = "معك " + mqRiyal(have) + ". ثمن " + th[1] + " " + mqRiyal(price) + ". هل يكفي ما معك؟";
+      qSay = "معك. " + mqRiyal(have) + ". ثمن " + th[1] + ". " + mqRiyal(price) + ". هل يكفي ما معك؟";
       vis = document.createElement("div"); vis.className = "mq-box";
       vis.innerHTML = '<div class="mq-item"><span style="font-size:54px;line-height:1">' + th[0] + '</span><b>' + nm(price) + ' ريال</b></div><div class="mq-have">معك: ' + nm(have) + ' ريال</div>';
       [["نعم، يكفي", true], ["لا، لا يكفي", false]].forEach(function(o, i){
@@ -4390,6 +4392,7 @@
     } else if(game === "change"){
       var th2 = MQ_THINGS[nmRand(MQ_THINGS.length)], pr = 1 + nmRand(8), pay = pr < 5 ? 5 : 10, ans2 = pay - pr;
       qText = "ثمن " + th2[1] + " " + mqRiyal(pr) + ". دفعتَ " + mqRiyal(pay) + ". كم الباقي؟";
+      qSay = "ثمن " + th2[1] + ". " + mqRiyal(pr) + ". دفعتَ. " + mqRiyal(pay) + ". كم الباقي؟";
       vis = document.createElement("div"); vis.className = "mq-box";
       vis.innerHTML = '<div class="mq-item"><span style="font-size:54px;line-height:1">' + th2[0] + '</span><b>' + nm(pr) + ' ريال</b></div><div class="mq-have">دفعتَ: ' + nm(pay) + ' ريال</div>';
       nmOpts(ans2, 1, 1, 10).forEach(function(x){
@@ -4397,11 +4400,11 @@
       });
     }
     var q = document.createElement("div"); q.className = "lq-q"; q.textContent = qText;
-    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qText); });
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qSay || qText); });
     body.appendChild(nmDots(round, max)); body.appendChild(q);
     if(vis) body.appendChild(vis);
     body.appendChild(say); body.appendChild(optsEl); body.appendChild(mqBackBtn());
-    speak(qText);
+    speak(qSay || qText);
   }
 
   function nmPlayTile(html, color, onClick){
