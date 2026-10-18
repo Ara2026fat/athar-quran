@@ -17,7 +17,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijan+2:wght@500;600;700;800&family=Tajawal:wght@400;500;700;800&family=Amiri+Quran&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#F3F7EF;
@@ -968,6 +968,10 @@
   .locked{opacity:.55;filter:grayscale(.4);}
   .noor-it{min-width:96px;min-height:92px;padding:8px 10px;}
   .noor-it small{display:block;font-size:10px;opacity:.9;margin-top:2px;}
+  .noor-ay{width:100%;max-width:none;aspect-ratio:auto !important;height:auto;min-height:86px;padding:8px 12px;margin:6px 0;}
+  .noor-ay .lt-ch{font-family:'Amiri Quran','Amiri','Scheherazade New',serif !important;font-weight:400;}
+  .noor-ay small{font-size:12px;}
+
   .mis-card{margin-top:16px;padding:14px 14px 12px;border-radius:24px;color:#fff;background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(0,0,0,.22)),#6D5BEF;border:2px solid rgba(255,255,255,.7);box-shadow:inset 0 3px 0 rgba(255,255,255,.5),0 7px 0 rgba(0,0,0,.28),0 14px 24px rgba(60,40,140,.30);}
   .mis-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
   .mis-rank{display:flex;align-items:center;gap:10px;} .mis-re{font-size:38px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
@@ -1209,6 +1213,27 @@
   /* ===== الأرقام والحساب ===== */
   .letter-tile{position:relative;}
   .nm-alt{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-size:11px;font-weight:800;opacity:.9;}
+  #view-numbers .seg-btn{padding:12px 2px;font-size:13px;}
+  .mq-box{background:#fff;border-radius:18px;padding:12px;margin:8px 0;text-align:center;box-shadow:0 3px 0 rgba(60,40,140,.12);}
+  .mq-clock{width:min(70vw,260px);height:auto;display:block;margin:0 auto;}
+  .mq-bars{display:flex;flex-direction:column;gap:14px;margin:14px 6px;align-items:flex-start;direction:ltr;}
+  .mq-bar{border:none;height:44px;border-radius:12px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.2);min-width:12%;}
+  .mq-bar.ok{outline:4px solid #22A04B;} .mq-bar.bad{opacity:.4;}
+  .mq-group{border:none;background:#fff;border-radius:18px;padding:8px;min-width:42%;max-width:48%;cursor:pointer;box-shadow:0 4px 0 rgba(60,40,140,.15);}
+  .mq-group.ok{outline:4px solid #22A04B;} .mq-group.bad{opacity:.45;}
+  .nm-chip.big{font-size:18px;padding:12px 20px;margin:6px;}
+  .nm-chip.ok{background:#22A04B;color:#fff;} .nm-chip.bad{background:#F9D6D6;color:#a33;}
+  .mq-wallet{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 4px;}
+  .mq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 4px;}
+  .mq-tok{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;font-family:inherit;border:none;cursor:pointer;color:#2b2150;box-shadow:0 3px 0 rgba(0,0,0,.2);}
+  .mq-tok b{font-size:24px;line-height:1.1;} .mq-tok i{font-style:normal;font-size:12px;font-weight:700;}
+  .mq-tok.coin{width:68px;height:68px;border-radius:50%;} .mq-grid .mq-tok.coin{width:84px;height:84px;margin:0 auto;}
+  .mq-tok.coin.g{background:radial-gradient(circle at 35% 30%,#ffe9a0,#e0a800);} .mq-tok.coin.g2{background:radial-gradient(circle at 35% 30%,#e8eef5,#a9b6c6);}
+  .mq-tok.coin.s{background:radial-gradient(circle at 35% 30%,#f2f5f8,#aab6c4);}
+  .mq-tok.note{width:96px;height:56px;border-radius:8px;} .mq-grid .mq-tok.note{width:100%;max-width:110px;height:62px;margin:0 auto;}
+  .mq-tok.note.n5{background:#cfe9d4;} .mq-tok.note.n10{background:#f7d9c4;} .mq-tok.note.n50{background:#cfe0f5;} .mq-tok.note.n100{background:#e7d3f5;}
+  .mq-tok.note.n200{background:#f5cfe0;} .mq-tok.note.n500{background:#f5e9b8;}
+  .mq-item{display:flex;align-items:center;justify-content:center;gap:12px;font-size:22px;} .mq-have{margin-top:8px;font-weight:800;color:#6D5BEF;font-size:18px;}
   .nm-stars{direction:ltr;display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center;font-size:30px;margin:10px 4px;line-height:1.2;}
   .nm-stars .gone{opacity:.2;filter:grayscale(1);} .nm-plus{font-size:30px;color:#8B5CF6;margin:0 6px;}
   .nm-eq{direction:ltr;display:flex;justify-content:center;align-items:center;gap:12px;font-family:'Baloo Bhaijan 2','Amiri',sans-serif;font-weight:800;font-size:54px;color:var(--forest-dark);margin:10px 0;}
@@ -1567,6 +1592,7 @@
           <button class="seg-btn" id="numTabAdd" role="tab">أجمع</button>
           <button class="seg-btn" id="numTabSub" role="tab">أطرح</button>
           <button class="seg-btn" id="numTabMul" role="tab">أضرب</button>
+          <button class="seg-btn" id="numTabMeasure" role="tab">قياس</button>
           <button class="seg-btn" id="numTabPlay" role="tab">ألعاب</button>
         </div>
       </div>
@@ -3644,6 +3670,25 @@
     if(i >= 7 && i <= 24) VPRE.push([n, p[0]]);
   });
   VPRE.sort(function(a, b){ return b[0].length - a[0].length; });
+  var VST = null, vPacks = {};
+  function vHash(t){
+    var n = vNorm(t), x = 5381;
+    for(var i = 0; i < n.length; i++) x = (((x << 5) + x) ^ n.charCodeAt(i)) >>> 0;
+    return x.toString(16);
+  }
+  function vLoadIndex(){
+    try{
+      fetch("story-index.json").then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(j){ if(j && j.e) VST = j; }).catch(function(){});
+    }catch(e){}
+  }
+  function vPackBlob(ref){
+    var name = VST.packs[ref[0]];
+    if(!vPacks[name]) vPacks[name] = fetch(name).then(function(r){ if(!r.ok) throw 0; return r.arrayBuffer(); });
+    return vPacks[name].then(function(buf){
+      return new Blob([buf.slice(ref[1], ref[1] + ref[2])], { type: "audio/mpeg" });
+    });
+  }
   function ttsSay(text, done){
     try{
       if(!window.speechSynthesis){ if(done) done(); return; }
@@ -3656,9 +3701,11 @@
   function vPlan(text){
     var out = [], whole = vNorm(text);
     if(VCL[whole]) return [{ c: VCL[whole], t: text }];
+    if(VST && VST.e[vHash(text)]) return [{ s: VST.e[vHash(text)], t: text }];
     String(text).split(/[.!؟?]+\s+/).forEach(function(sen){
       var n = vNorm(sen); if(!n) return;
       if(VCL[n]){ out.push({ c: VCL[n], t: sen }); return; }
+      if(VST && VST.e[vHash(sen)]){ out.push({ s: VST.e[vHash(sen)], t: sen }); return; }
       for(var k = 0; k < VPRE.length; k++){
         if(n.indexOf(VPRE[k][0] + " ") === 0){
           out.push({ c: VPRE[k][1], t: VPRE[k][0] });
@@ -3678,6 +3725,20 @@
     function next(){
       if(tok !== spkTok || i >= plan.length) return;
       var st = plan[i++];
+      if(st.s){
+        var fell2 = false;
+        var fb2 = function(){ if(fell2 || tok !== spkTok) return; fell2 = true; ttsSay(st.t, next); };
+        vPackBlob(st.s).then(function(bl){
+          if(tok !== spkTok) return;
+          var u = URL.createObjectURL(bl), a2 = new Audio(u);
+          vAudio = a2;
+          a2.onended = function(){ try{ URL.revokeObjectURL(u); }catch(e){} if(tok === spkTok) next(); };
+          a2.onerror = fb2;
+          var pr2; try{ pr2 = a2.play(); }catch(e){ fb2(); return; }
+          if(pr2 && pr2.catch) pr2.catch(fb2);
+        }).catch(fb2);
+        return;
+      }
       if(!st.c){ ttsSay(st.t, next); return; }
       var a = new Audio(st.c + ".mp3"), fell = false;
       vAudio = a;
@@ -3689,6 +3750,7 @@
     }
     next();
   }
+  setTimeout(vLoadIndex, 1500);
   var lettersTab = "learn";
   function openLetters(tab){
     lettersTab = tab || "learn";
@@ -4005,11 +4067,12 @@
   }
   function openNumbers(tab){
     numTab = tab || "digits";
-    ["Digits","Add","Sub","Mul","Play"].forEach(function(n){ $("numTab" + n).classList.toggle("active", n.toLowerCase() === numTab); });
+    ["Digits","Add","Sub","Mul","Measure","Play"].forEach(function(n){ $("numTab" + n).classList.toggle("active", n.toLowerCase() === numTab); });
     showView("view-numbers"); window.scrollTo(0, 0);
     if(numTab === "add") nmArith("add", 0, 0);
     else if(numTab === "sub") nmArith("sub", 0, 0);
     else if(numTab === "mul") nmMulHome();
+    else if(numTab === "measure") mqHome();
     else if(numTab === "play") nmPlayHome();
     else nmDigits();
   }
@@ -4137,6 +4200,210 @@
     par.innerHTML = "<b>لولي الأمر</b><span>ألعاب قصيرة (٦ جولات) لتنمية حسّ العدد والمقارنة والنمط والأشكال. شجّع طفلك بعبارة «أحسنت» حتى لو أخطأ أول مرة، فالتجربة جزء من التعلّم.</span>";
     body.appendChild(par);
   }
+  /* ===== قياس ونقود وساعة (الأرقام — تبويب «قياس») ===== */
+  var MQ_ORD = ["", "الواحدة", "الثانية", "الثالثة", "الرابعة", "الخامسة", "السادسة", "السابعة", "الثامنة", "التاسعة", "العاشرة", "الحادية عشرة", "الثانية عشرة"];
+  function mqRiyal(n){
+    if(n === 1) return "ريال واحد";
+    if(n === 2) return "ريالان";
+    if(n <= 10) return nmWord(n) + " ريالات";
+    return nmWord(n) + " ريالًا";
+  }
+  function mqClockText(h, m){ return "الساعة " + MQ_ORD[h] + (m === 30 ? " والنصف" : ""); }
+  function mqClockSVG(h, m){
+    var s = '<svg viewBox="0 0 200 200" class="mq-clock" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#fff" stroke="#6D5BEF" stroke-width="8"/>';
+    for(var i = 1; i <= 12; i++){
+      var a = i * Math.PI / 6, x = 100 + 70 * Math.sin(a), y = 100 - 70 * Math.cos(a) + 6;
+      s += '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="middle" font-size="19" font-weight="800" fill="#2b2150">' + nm(i) + '</text>';
+    }
+    var ha = ((h % 12) * 30 + m * 0.5) * Math.PI / 180, ma = m * 6 * Math.PI / 180;
+    s += '<line x1="100" y1="100" x2="' + (100 + 42 * Math.sin(ha)).toFixed(1) + '" y2="' + (100 - 42 * Math.cos(ha)).toFixed(1) + '" stroke="#E5489B" stroke-width="9" stroke-linecap="round"/>';
+    s += '<line x1="100" y1="100" x2="' + (100 + 62 * Math.sin(ma)).toFixed(1) + '" y2="' + (100 - 62 * Math.cos(ma)).toFixed(1) + '" stroke="#22A04B" stroke-width="6" stroke-linecap="round"/>';
+    return s + '<circle cx="100" cy="100" r="7" fill="#2b2150"/></svg>';
+  }
+  var MQ_COINS = [
+    { v:"٥٠ هللة", say:"خمسون هللة، أي نصف ريال", k:"coin s", t:"٥٠", u:"هللة" },
+    { v:"ريال", say:"ريال واحد، ويساوي مئة هللة", k:"coin g", t:"١", u:"ريال" },
+    { v:"ريالان", say:"ريالان", k:"coin g", t:"٢", u:"ريال" },
+    { v:"٥ ريال", say:"خمسة ريالات", k:"note n5", t:"٥", u:"ريال" },
+    { v:"١٠ ريال", say:"عشرة ريالات", k:"note n10", t:"١٠", u:"ريال" },
+    { v:"٥٠ ريال", say:"خمسون ريالًا", k:"note n50", t:"٥٠", u:"ريال" },
+    { v:"١٠٠ ريال", say:"مئة ريال", k:"note n100", t:"١٠٠", u:"ريال" },
+    { v:"٢٠٠ ريال", say:"مئتا ريال", k:"note n200", t:"٢٠٠", u:"ريال" },
+    { v:"٥٠٠ ريال", say:"خمسمئة ريال", k:"note n500", t:"٥٠٠", u:"ريال" }
+  ];
+  function mqToken(v){
+    var d = document.createElement("span");
+    var isNote = v >= 5;
+    d.className = "mq-tok " + (isNote ? "note " + (v === 5 ? "n5" : "n10") : "coin " + (v === 2 ? "g2" : "g"));
+    d.innerHTML = '<b>' + nm(v) + '</b><i>ريال</i>';
+    return d;
+  }
+  function mqHome(){
+    var body = $("numbersBody"); body.innerHTML = "";
+    var intro = document.createElement("div"); intro.className = "intro small";
+    intro.innerHTML = "<h1>قياس ونقود</h1><p>أطول وأقصر، أثقل وأخفّ، الساعة، وعملتنا الريال.</p>";
+    body.appendChild(intro);
+    var G = [
+      { k:"clockLearn", e:"🕒", t:"أتعلّم الساعة", d:"أحرّك العقارب وأسمع الوقت", c:"#6D5BEF", learn:1 },
+      { k:"moneyLearn", e:"💰", t:"أتعرّف على الريال", d:"العملات والأوراق وهللات الريال", c:"#E09A00", learn:1 },
+      { k:"length", e:"📏", t:"أطول وأقصر", d:"أيّ الشريطين أطول؟", c:"#22B8F0" },
+      { k:"weight", e:"⚖️", t:"أثقل وأخفّ", d:"أيّهما أثقل؟", c:"#18B87A" },
+      { k:"more", e:"🔢", t:"أكثر وأقلّ", d:"أيّ المجموعتين أكثر؟", c:"#F43F5E" },
+      { k:"clock", e:"⏰", t:"كم الساعة؟", d:"اقرأ الساعة والنصف", c:"#8B5CF6" },
+      { k:"count", e:"🪙", t:"كم ريالًا معي؟", d:"اجمع النقود", c:"#F2B705" },
+      { k:"buy", e:"🛒", t:"هل يكفي مالي؟", d:"قارن مالك بالثمن", c:"#EC4899" },
+      { k:"change", e:"🔁", t:"كم الباقي؟", d:"اطرح الثمن من المدفوع", c:"#14B8A6" }
+    ];
+    G.forEach(function(g){
+      var b = document.createElement("button"); b.className = "choice-tile small"; b.style.setProperty("--c", g.c);
+      b.innerHTML = '<span class="choice-icon" style="font-size:28px;line-height:1">' + g.e + '</span><span class="choice-txt"><span class="ct1">' + g.t + '</span><span class="ct2">' + g.d + '</span></span><svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      b.addEventListener("click", function(){ sfx("tap"); if(g.k === "clockLearn") mqClockLearn(8, 0); else if(g.k === "moneyLearn") mqMoneyLearn(); else mqPlay(g.k, 0, 0); });
+      body.appendChild(b);
+    });
+    var par = document.createElement("div"); par.className = "us-parent"; par.style.marginTop = "14px";
+    par.innerHTML = "<b>لولي الأمر</b><span>جرّب مع طفلك أشياء حقيقية: قارن طول قلمين، ووزن كتابين بيده، واجعله يقرأ ساعة الجدار، ويعدّ نقودًا حقيقية في البيت. فئات النقود المعروضة هي المتداولة في المملكة، وتُراجَع إن تغيّرت.</span>";
+    body.appendChild(par);
+  }
+  function mqBackBtn(fn){
+    var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "رجوع"; ex.addEventListener("click", fn || mqHome); return ex;
+  }
+  function mqClockLearn(h, m){
+    var body = $("numbersBody"); body.innerHTML = "";
+    markDayActive();
+    var intro = document.createElement("div"); intro.className = "intro small";
+    intro.innerHTML = "<h1>الساعة</h1><p>العقرب القصير الوردي يدلّ على الساعة، والطويل الأخضر يدلّ على الدقائق.</p>";
+    body.appendChild(intro);
+    var box = document.createElement("div"); box.className = "mq-box";
+    box.innerHTML = mqClockSVG(h, m);
+    var tx = document.createElement("div"); tx.className = "lq-q"; tx.textContent = mqClockText(h, m); box.appendChild(tx);
+    body.appendChild(box);
+    var row = document.createElement("div"); row.className = "lq-opts"; row.style.flexWrap = "wrap"; row.style.marginBottom = "12px";
+    function mk(label, fn){ var b = document.createElement("button"); b.className = "nm-chip"; b.textContent = label; b.addEventListener("click", function(){ sfx("tap"); fn(); }); row.appendChild(b); }
+    mk("ساعة بعد ▲", function(){ mqClockLearn(h % 12 + 1, m); });
+    mk("ساعة قبل ▼", function(){ mqClockLearn((h + 10) % 12 + 1, m); });
+    mk(m === 30 ? "تمامًا (٠٠)" : "والنصف (٣٠)", function(){ mqClockLearn(h, m === 30 ? 0 : 30); });
+    var hear = document.createElement("button"); hear.className = "lq-say"; hear.textContent = "🔊 اسمع الوقت"; hear.addEventListener("click", function(){ speak(mqClockText(h, m)); });
+    body.appendChild(row); body.appendChild(hear); body.appendChild(mqBackBtn());
+    speak(mqClockText(h, m));
+  }
+  function mqMoneyLearn(){
+    var body = $("numbersBody"); body.innerHTML = "";
+    markDayActive();
+    var intro = document.createElement("div"); intro.className = "intro small";
+    intro.innerHTML = "<h1>الريال</h1><p>اضغط أي قطعة أو ورقة لتسمع قيمتها. الريال الواحد يساوي مئة هللة.</p>";
+    body.appendChild(intro);
+    var grid = document.createElement("div"); grid.className = "mq-grid";
+    MQ_COINS.forEach(function(c){
+      var b = document.createElement("button"); b.className = "mq-tok " + c.k; b.innerHTML = '<b>' + c.t + '</b><i>' + c.u + '</i>';
+      b.addEventListener("click", function(){ sfx("tap"); speak(c.say); });
+      grid.appendChild(b);
+    });
+    body.appendChild(grid);
+    var par = document.createElement("div"); par.className = "us-parent"; par.style.marginTop = "12px";
+    par.innerHTML = "<b>تنبيه</b><span>هذه رسوم مبسّطة للقيمة فقط وليست صورًا للعملة الحقيقية. أرِ طفلك النقود الحقيقية ليطابقها بما رأى.</span>";
+    body.appendChild(par); body.appendChild(mqBackBtn());
+  }
+  var MQ_HEAVY = [["🪨", "الحجر"], ["🧱", "الطوب"], ["📚", "الكتب"], ["🧳", "الحقيبة"], ["🚗", "السيارة"], ["🛋️", "الأريكة"]];
+  var MQ_LIGHT = [["✏️", "القلم"], ["📄", "الورقة"], ["🎈", "البالون"], ["🍃", "الورقة الخضراء"], ["🧵", "الخيط"], ["🪁", "الطائرة الورقية"]];
+  var MQ_THINGS = [["🍬", "الحلوى"], ["🍪", "البسكويت"], ["🥤", "العصير"], ["📒", "الدفتر"], ["✏️", "القلم"], ["🧃", "علبة العصير"]];
+  var MQ_TCOL = ["#22A04B", "#3B82F6", "#F43F5E", "#E09A00", "#8B5CF6", "#0EA5E9"];
+  function mqPlay(game, round, right){
+    var body = $("numbersBody"); body.innerHTML = "";
+    var max = 6;
+    if(round >= max){ nmEnd(right, max, function(){ mqPlay(game, 0, 0); }, mqHome); return; }
+    var qText = "", vis = null, optsEl = document.createElement("div"), first = true, locked = false;
+    optsEl.className = "lq-opts"; optsEl.style.flexWrap = "wrap";
+    function win(sayText){
+      locked = true; sfx("done"); burst(["⭐", "✨"], 8); speak((sayText ? sayText + ". " : "") + nmPraise());
+      setTimeout(function(){ mqPlay(game, round + 1, right + (first ? 1 : 0)); }, 1500);
+    }
+    function wrong(b){ first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); speak("حاول مرة أخرى"); }
+    function tile(html, color, ok, sayWin){
+      var b = nmPlayTile(html, color, function(){ if(locked) return; if(ok){ b.classList.add("ok"); win(sayWin); } else wrong(b); });
+      return b;
+    }
+    if(game === "length"){
+      var big = nmRand(2) === 0, a = 30 + nmRand(60), c = a + 25 + nmRand(25); if(c > 100){ c = 100; a = 40 + nmRand(25); }
+      var longRight = nmRand(2) === 0, w1 = longRight ? a : c, w2 = longRight ? c : a;
+      qText = big ? "أيّ الشريطين أطول؟" : "أيّ الشريطين أقصر؟";
+      var bars = document.createElement("div"); bars.className = "mq-bars";
+      [[w1, "#22A04B"], [w2, "#3B82F6"]].forEach(function(p, i){
+        var other = i === 0 ? w2 : w1, isLong = p[0] > other;
+        var b = document.createElement("button"); b.className = "mq-bar"; b.style.width = p[0] + "%"; b.style.background = p[1];
+        b.addEventListener("click", function(){ if(locked) return; if(big === isLong){ b.classList.add("ok"); win(big ? "هذا أطول" : "هذا أقصر"); } else wrong(b); });
+        bars.appendChild(b);
+      });
+      vis = bars;
+    } else if(game === "weight"){
+      var h = MQ_HEAVY[nmRand(MQ_HEAVY.length)], l = MQ_LIGHT[nmRand(MQ_LIGHT.length)], heavier = nmRand(2) === 0;
+      var pair = nmRand(2) === 0 ? [h, l] : [l, h];
+      qText = "أيّهما " + (heavier ? "أثقل" : "أخفّ") + ": " + pair[0][1] + " أم " + pair[1][1] + "؟";
+      pair.forEach(function(p, i){
+        var isHeavy = p === h;
+        optsEl.appendChild(tile('<span class="lt-emoji" style="font-size:56px;line-height:1">' + p[0] + '</span><span class="lt-ch" style="font-size:18px">' + p[1] + '</span>', MQ_TCOL[(i + round) % MQ_TCOL.length], heavier === isHeavy, heavier ? p[1] + " أثقل" : p[1] + " أخفّ"));
+      });
+    } else if(game === "more"){
+      var n1 = 1 + nmRand(9), n2 = 1 + nmRand(9); while(n2 === n1) n2 = 1 + nmRand(9);
+      var most = nmRand(2) === 0;
+      qText = most ? "أيّ المجموعتين أكثر؟" : "أيّ المجموعتين أقلّ؟";
+      [[n1, "⭐"], [n2, "🔷"]].forEach(function(p, i){
+        var other = i === 0 ? n2 : n1, isMore = p[0] > other;
+        var b = nmPlayTile('', MQ_TCOL[(i * 2 + round) % MQ_TCOL.length], function(){ if(locked) return; if(most === isMore){ b.classList.add("ok"); win(nmWord(p[0])); } else wrong(b); });
+        b.appendChild(nmStarsEl(p[0], p[1])); b.className = "mq-group"; optsEl.appendChild(b);
+      });
+    } else if(game === "clock"){
+      var hh = 1 + nmRand(12), mm = nmRand(2) === 0 ? 0 : 30;
+      qText = "كم الساعة؟";
+      vis = document.createElement("div"); vis.className = "mq-box"; vis.innerHTML = mqClockSVG(hh, mm);
+      var opts = [[hh, mm]], guard = 0;
+      while(opts.length < 3 && guard++ < 40){
+        var oh = 1 + nmRand(12), om = nmRand(2) === 0 ? 0 : 30;
+        if(!opts.some(function(o){ return o[0] === oh && o[1] === om; })) opts.push([oh, om]);
+      }
+      shuffle(opts).forEach(function(o, i){
+        var txt = MQ_ORD[o[0]] + (o[1] === 30 ? " والنصف" : "");
+        var b = document.createElement("button"); b.className = "nm-chip big"; b.textContent = txt;
+        b.addEventListener("click", function(){ if(locked) return; if(o[0] === hh && o[1] === mm){ b.classList.add("ok"); win(mqClockText(hh, mm)); } else wrong(b); });
+        optsEl.appendChild(b);
+      });
+    } else if(game === "count"){
+      var vals = [1, 2, 5, 10], toks = [], sum = 0, k = 2 + nmRand(4);
+      while(toks.length < k){ var v = vals[nmRand(vals.length)]; if(sum + v <= 20){ toks.push(v); sum += v; } else if(sum < 20 && sum + 1 <= 20){ toks.push(1); sum += 1; } else break; }
+      toks.sort(function(x, y){ return y - x; });
+      qText = "كم ريالًا معك؟";
+      vis = document.createElement("div"); vis.className = "mq-wallet";
+      toks.forEach(function(v){ vis.appendChild(mqToken(v)); });
+      nmOpts(sum, 1, 1, 25).forEach(function(x){
+        optsEl.appendChild(tile('<span class="lt-ch">' + nm(x) + '</span>', MQ_TCOL[x % MQ_TCOL.length], x === sum, mqRiyal(sum)));
+      });
+    } else if(game === "buy"){
+      var th = MQ_THINGS[nmRand(MQ_THINGS.length)], price = 2 + nmRand(8), ok = nmRand(2) === 0, have = ok ? price + nmRand(4) : Math.max(1, price - 1 - nmRand(Math.min(price - 1, 3)));
+      if(!ok && have >= price) have = price - 1;
+      qText = "معك " + mqRiyal(have) + ". ثمن " + th[1] + " " + mqRiyal(price) + ". هل يكفي ما معك؟";
+      vis = document.createElement("div"); vis.className = "mq-box";
+      vis.innerHTML = '<div class="mq-item"><span style="font-size:54px;line-height:1">' + th[0] + '</span><b>' + nm(price) + ' ريال</b></div><div class="mq-have">معك: ' + nm(have) + ' ريال</div>';
+      [["نعم، يكفي", true], ["لا، لا يكفي", false]].forEach(function(o, i){
+        var b = document.createElement("button"); b.className = "nm-chip big"; b.textContent = o[0];
+        b.addEventListener("click", function(){ if(locked) return; if(o[1] === ok){ b.classList.add("ok"); win(ok ? "نعم يكفي" : "لا يكفي"); } else wrong(b); });
+        optsEl.appendChild(b);
+      });
+    } else if(game === "change"){
+      var th2 = MQ_THINGS[nmRand(MQ_THINGS.length)], pr = 1 + nmRand(8), pay = pr < 5 ? 5 : 10, ans2 = pay - pr;
+      qText = "ثمن " + th2[1] + " " + mqRiyal(pr) + ". دفعتَ " + mqRiyal(pay) + ". كم الباقي؟";
+      vis = document.createElement("div"); vis.className = "mq-box";
+      vis.innerHTML = '<div class="mq-item"><span style="font-size:54px;line-height:1">' + th2[0] + '</span><b>' + nm(pr) + ' ريال</b></div><div class="mq-have">دفعتَ: ' + nm(pay) + ' ريال</div>';
+      nmOpts(ans2, 1, 1, 10).forEach(function(x){
+        optsEl.appendChild(tile('<span class="lt-ch">' + nm(x) + '</span>', MQ_TCOL[x % MQ_TCOL.length], x === ans2, "الباقي " + mqRiyal(ans2)));
+      });
+    }
+    var q = document.createElement("div"); q.className = "lq-q"; q.textContent = qText;
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qText); });
+    body.appendChild(nmDots(round, max)); body.appendChild(q);
+    if(vis) body.appendChild(vis);
+    body.appendChild(say); body.appendChild(optsEl); body.appendChild(mqBackBtn());
+    speak(qText);
+  }
+
   function nmPlayTile(html, color, onClick){
     var b = document.createElement("button"); b.className = "letter-tile huge"; b.style.setProperty("--c", color);
     b.innerHTML = html; b.addEventListener("click", onClick); return b;
@@ -9382,6 +9649,8 @@
   /* ================= القاعدة النورانية: مراحل ودروس صغيرة كثيرة ================= */
   var NOOR = [{"id": "nl1", "title": "الحرفان: ألف وباء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: ألف ثم باء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ا", "r": "", "say": "ألف"}, {"t": "ب", "r": "", "say": "باء"}, {"t": "أَ", "r": "", "say": "أَ"}, {"t": "بَ", "r": "", "say": "بَ"}]}, {"id": "nl2", "title": "الحرفان: تاء وثاء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: تاء ثم ثاء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ت", "r": "", "say": "تاء"}, {"t": "ث", "r": "", "say": "ثاء"}, {"t": "تَ", "r": "", "say": "تَ"}, {"t": "ثَ", "r": "", "say": "ثَ"}]}, {"id": "nl3", "title": "الحرفان: جيم وحاء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: جيم ثم حاء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ج", "r": "", "say": "جيم"}, {"t": "ح", "r": "", "say": "حاء"}, {"t": "جَ", "r": "", "say": "جَ"}, {"t": "حَ", "r": "", "say": "حَ"}]}, {"id": "nl4", "title": "الحرفان: خاء ودال", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: خاء ثم دال. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "خ", "r": "", "say": "خاء"}, {"t": "د", "r": "", "say": "دال"}, {"t": "خَ", "r": "", "say": "خَ"}, {"t": "دَ", "r": "", "say": "دَ"}]}, {"id": "nl5", "title": "الحرفان: ذال وراء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: ذال ثم راء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ذ", "r": "", "say": "ذال"}, {"t": "ر", "r": "", "say": "راء"}, {"t": "ذَ", "r": "", "say": "ذَ"}, {"t": "رَ", "r": "", "say": "رَ"}]}, {"id": "nl6", "title": "الحرفان: زاي وسين", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: زاي ثم سين. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ز", "r": "", "say": "زاي"}, {"t": "س", "r": "", "say": "سين"}, {"t": "زَ", "r": "", "say": "زَ"}, {"t": "سَ", "r": "", "say": "سَ"}]}, {"id": "nl7", "title": "الحرفان: شين وصاد", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: شين ثم صاد. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ش", "r": "", "say": "شين"}, {"t": "ص", "r": "", "say": "صاد"}, {"t": "شَ", "r": "", "say": "شَ"}, {"t": "صَ", "r": "", "say": "صَ"}]}, {"id": "nl8", "title": "الحرفان: ضاد وطاء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: ضاد ثم طاء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ض", "r": "", "say": "ضاد"}, {"t": "ط", "r": "", "say": "طاء"}, {"t": "ضَ", "r": "", "say": "ضَ"}, {"t": "طَ", "r": "", "say": "طَ"}]}, {"id": "nl9", "title": "الحرفان: ظاء وعين", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: ظاء ثم عين. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ظ", "r": "", "say": "ظاء"}, {"t": "ع", "r": "", "say": "عين"}, {"t": "ظَ", "r": "", "say": "ظَ"}, {"t": "عَ", "r": "", "say": "عَ"}]}, {"id": "nl10", "title": "الحرفان: غين وفاء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: غين ثم فاء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "غ", "r": "", "say": "غين"}, {"t": "ف", "r": "", "say": "فاء"}, {"t": "غَ", "r": "", "say": "غَ"}, {"t": "فَ", "r": "", "say": "فَ"}]}, {"id": "nl11", "title": "الحرفان: قاف وكاف", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: قاف ثم كاف. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ق", "r": "", "say": "قاف"}, {"t": "ك", "r": "", "say": "كاف"}, {"t": "قَ", "r": "", "say": "قَ"}, {"t": "كَ", "r": "", "say": "كَ"}]}, {"id": "nl12", "title": "الحرفان: لام وميم", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: لام ثم ميم. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ل", "r": "", "say": "لام"}, {"t": "م", "r": "", "say": "ميم"}, {"t": "لَ", "r": "", "say": "لَ"}, {"t": "مَ", "r": "", "say": "مَ"}]}, {"id": "nl13", "title": "الحرفان: نون وهاء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: نون ثم هاء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "ن", "r": "", "say": "نون"}, {"t": "ه", "r": "", "say": "هاء"}, {"t": "نَ", "r": "", "say": "نَ"}, {"t": "هَ", "r": "", "say": "هَ"}]}, {"id": "nl14", "title": "الحرفان: واو وياء", "rule": "اسمع اسم كل حرف وصوته، وكرّر خلف المعلّم: واو ثم ياء. انظر إلى شكل الحرف جيدًا.", "tip": "اجعل الطفل يذكر اسم الحرف قبل أن يضغط عليه، ثم يسمع الصوت ويكرّره.", "st": 0, "items": [{"t": "و", "r": "", "say": "واو"}, {"t": "ي", "r": "", "say": "ياء"}, {"t": "وَ", "r": "", "say": "وَ"}, {"t": "يَ", "r": "", "say": "يَ"}]}, {"id": "nf1", "title": "أشكال: باء وتاء", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "بـ", "r": "أول الكلمة", "say": "باء"}, {"t": "ـبـ", "r": "وسط الكلمة", "say": "باء"}, {"t": "ـب", "r": "آخر الكلمة", "say": "باء"}, {"t": "تـ", "r": "أول الكلمة", "say": "تاء"}, {"t": "ـتـ", "r": "وسط الكلمة", "say": "تاء"}, {"t": "ـت", "r": "آخر الكلمة", "say": "تاء"}]}, {"id": "nf2", "title": "أشكال: ثاء وجيم", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "ثـ", "r": "أول الكلمة", "say": "ثاء"}, {"t": "ـثـ", "r": "وسط الكلمة", "say": "ثاء"}, {"t": "ـث", "r": "آخر الكلمة", "say": "ثاء"}, {"t": "جـ", "r": "أول الكلمة", "say": "جيم"}, {"t": "ـجـ", "r": "وسط الكلمة", "say": "جيم"}, {"t": "ـج", "r": "آخر الكلمة", "say": "جيم"}]}, {"id": "nf3", "title": "أشكال: حاء وخاء", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "حـ", "r": "أول الكلمة", "say": "حاء"}, {"t": "ـحـ", "r": "وسط الكلمة", "say": "حاء"}, {"t": "ـح", "r": "آخر الكلمة", "say": "حاء"}, {"t": "خـ", "r": "أول الكلمة", "say": "خاء"}, {"t": "ـخـ", "r": "وسط الكلمة", "say": "خاء"}, {"t": "ـخ", "r": "آخر الكلمة", "say": "خاء"}]}, {"id": "nf4", "title": "أشكال: سين وشين", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "سـ", "r": "أول الكلمة", "say": "سين"}, {"t": "ـسـ", "r": "وسط الكلمة", "say": "سين"}, {"t": "ـس", "r": "آخر الكلمة", "say": "سين"}, {"t": "شـ", "r": "أول الكلمة", "say": "شين"}, {"t": "ـشـ", "r": "وسط الكلمة", "say": "شين"}, {"t": "ـش", "r": "آخر الكلمة", "say": "شين"}]}, {"id": "nf5", "title": "أشكال: صاد وضاد", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "صـ", "r": "أول الكلمة", "say": "صاد"}, {"t": "ـصـ", "r": "وسط الكلمة", "say": "صاد"}, {"t": "ـص", "r": "آخر الكلمة", "say": "صاد"}, {"t": "ضـ", "r": "أول الكلمة", "say": "ضاد"}, {"t": "ـضـ", "r": "وسط الكلمة", "say": "ضاد"}, {"t": "ـض", "r": "آخر الكلمة", "say": "ضاد"}]}, {"id": "nf6", "title": "أشكال: طاء وظاء", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "طـ", "r": "أول الكلمة", "say": "طاء"}, {"t": "ـطـ", "r": "وسط الكلمة", "say": "طاء"}, {"t": "ـط", "r": "آخر الكلمة", "say": "طاء"}, {"t": "ظـ", "r": "أول الكلمة", "say": "ظاء"}, {"t": "ـظـ", "r": "وسط الكلمة", "say": "ظاء"}, {"t": "ـظ", "r": "آخر الكلمة", "say": "ظاء"}]}, {"id": "nf7", "title": "أشكال: عين وغين", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "عـ", "r": "أول الكلمة", "say": "عين"}, {"t": "ـعـ", "r": "وسط الكلمة", "say": "عين"}, {"t": "ـع", "r": "آخر الكلمة", "say": "عين"}, {"t": "غـ", "r": "أول الكلمة", "say": "غين"}, {"t": "ـغـ", "r": "وسط الكلمة", "say": "غين"}, {"t": "ـغ", "r": "آخر الكلمة", "say": "غين"}]}, {"id": "nf8", "title": "أشكال: فاء وقاف", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "فـ", "r": "أول الكلمة", "say": "فاء"}, {"t": "ـفـ", "r": "وسط الكلمة", "say": "فاء"}, {"t": "ـف", "r": "آخر الكلمة", "say": "فاء"}, {"t": "قـ", "r": "أول الكلمة", "say": "قاف"}, {"t": "ـقـ", "r": "وسط الكلمة", "say": "قاف"}, {"t": "ـق", "r": "آخر الكلمة", "say": "قاف"}]}, {"id": "nf9", "title": "أشكال: كاف ولام", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "كـ", "r": "أول الكلمة", "say": "كاف"}, {"t": "ـكـ", "r": "وسط الكلمة", "say": "كاف"}, {"t": "ـك", "r": "آخر الكلمة", "say": "كاف"}, {"t": "لـ", "r": "أول الكلمة", "say": "لام"}, {"t": "ـلـ", "r": "وسط الكلمة", "say": "لام"}, {"t": "ـل", "r": "آخر الكلمة", "say": "لام"}]}, {"id": "nf10", "title": "أشكال: ميم ونون", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "مـ", "r": "أول الكلمة", "say": "ميم"}, {"t": "ـمـ", "r": "وسط الكلمة", "say": "ميم"}, {"t": "ـم", "r": "آخر الكلمة", "say": "ميم"}, {"t": "نـ", "r": "أول الكلمة", "say": "نون"}, {"t": "ـنـ", "r": "وسط الكلمة", "say": "نون"}, {"t": "ـن", "r": "آخر الكلمة", "say": "نون"}]}, {"id": "nf11", "title": "أشكال: هاء وياء", "rule": "للحرف ثلاثة أشكال: في أول الكلمة ووسطها وآخرها، لكن اسمه وصوته لا يتغيّران.", "tip": "اطلب من الطفل أن يشير إلى الحرف نفسه في كل شكل.", "st": 1, "items": [{"t": "هـ", "r": "أول الكلمة", "say": "هاء"}, {"t": "ـهـ", "r": "وسط الكلمة", "say": "هاء"}, {"t": "ـه", "r": "آخر الكلمة", "say": "هاء"}, {"t": "يـ", "r": "أول الكلمة", "say": "ياء"}, {"t": "ـيـ", "r": "وسط الكلمة", "say": "ياء"}, {"t": "ـي", "r": "آخر الكلمة", "say": "ياء"}]}, {"id": "nf12", "title": "حروف لا تتصل بما بعدها", "rule": "الحروف: ا د ذ ر ز و تتصل بما قبلها فقط ولا تتصل بما بعدها.", "tip": "أمثلة: دَارَ ، وَرَدَ ، زَادَ: لاحظ أن الحرف التالي يبدأ منفصلًا.", "st": 1, "items": [{"t": "ا", "r": "", "say": "ألف"}, {"t": "د", "r": "", "say": "دال"}, {"t": "ذ", "r": "", "say": "ذال"}, {"t": "ر", "r": "", "say": "راء"}, {"t": "ز", "r": "", "say": "زاي"}, {"t": "و", "r": "", "say": "واو"}, {"t": "دَارَ", "r": "", "say": "دَارَ"}, {"t": "وَرَدَ", "r": "", "say": "وَرَدَ"}, {"t": "زَادَ", "r": "", "say": "زَادَ"}]}, {"id": "nh1_1", "title": "الفتحة مع: أ ب ت ث", "rule": "الفتحة: نفتح الفم قليلًا ونقول أَ ثم بَ ثم تَ ثم ثَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "أَ", "r": "", "say": "أَ"}, {"t": "بَ", "r": "", "say": "بَ"}, {"t": "تَ", "r": "", "say": "تَ"}, {"t": "ثَ", "r": "", "say": "ثَ"}]}, {"id": "nh1_2", "title": "الضمة مع: أ ب ت ث", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول أُ ثم بُ ثم تُ ثم ثُ.", "tip": "", "st": 2, "items": [{"t": "أُ", "r": "", "say": "أُ"}, {"t": "بُ", "r": "", "say": "بُ"}, {"t": "تُ", "r": "", "say": "تُ"}, {"t": "ثُ", "r": "", "say": "ثُ"}]}, {"id": "nh1_3", "title": "الكسرة مع: أ ب ت ث", "rule": "الكسرة: نخفض الفك ونقول أِ ثم بِ ثم تِ ثم ثِ.", "tip": "", "st": 2, "items": [{"t": "أِ", "r": "", "say": "أِ"}, {"t": "بِ", "r": "", "say": "بِ"}, {"t": "تِ", "r": "", "say": "تِ"}, {"t": "ثِ", "r": "", "say": "ثِ"}]}, {"id": "nh1_4", "title": "مراجعة الحركات: أ ب ت ث", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "أَ", "r": "", "say": "أَ"}, {"t": "أُ", "r": "", "say": "أُ"}, {"t": "أِ", "r": "", "say": "أِ"}, {"t": "بَ", "r": "", "say": "بَ"}, {"t": "بُ", "r": "", "say": "بُ"}, {"t": "بِ", "r": "", "say": "بِ"}, {"t": "تَ", "r": "", "say": "تَ"}, {"t": "تُ", "r": "", "say": "تُ"}, {"t": "تِ", "r": "", "say": "تِ"}, {"t": "ثَ", "r": "", "say": "ثَ"}, {"t": "ثُ", "r": "", "say": "ثُ"}, {"t": "ثِ", "r": "", "say": "ثِ"}]}, {"id": "nh2_1", "title": "الفتحة مع: ج ح خ د", "rule": "الفتحة: نفتح الفم قليلًا ونقول جَ ثم حَ ثم خَ ثم دَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "جَ", "r": "", "say": "جَ"}, {"t": "حَ", "r": "", "say": "حَ"}, {"t": "خَ", "r": "", "say": "خَ"}, {"t": "دَ", "r": "", "say": "دَ"}]}, {"id": "nh2_2", "title": "الضمة مع: ج ح خ د", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول جُ ثم حُ ثم خُ ثم دُ.", "tip": "", "st": 2, "items": [{"t": "جُ", "r": "", "say": "جُ"}, {"t": "حُ", "r": "", "say": "حُ"}, {"t": "خُ", "r": "", "say": "خُ"}, {"t": "دُ", "r": "", "say": "دُ"}]}, {"id": "nh2_3", "title": "الكسرة مع: ج ح خ د", "rule": "الكسرة: نخفض الفك ونقول جِ ثم حِ ثم خِ ثم دِ.", "tip": "", "st": 2, "items": [{"t": "جِ", "r": "", "say": "جِ"}, {"t": "حِ", "r": "", "say": "حِ"}, {"t": "خِ", "r": "", "say": "خِ"}, {"t": "دِ", "r": "", "say": "دِ"}]}, {"id": "nh2_4", "title": "مراجعة الحركات: ج ح خ د", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "جَ", "r": "", "say": "جَ"}, {"t": "جُ", "r": "", "say": "جُ"}, {"t": "جِ", "r": "", "say": "جِ"}, {"t": "حَ", "r": "", "say": "حَ"}, {"t": "حُ", "r": "", "say": "حُ"}, {"t": "حِ", "r": "", "say": "حِ"}, {"t": "خَ", "r": "", "say": "خَ"}, {"t": "خُ", "r": "", "say": "خُ"}, {"t": "خِ", "r": "", "say": "خِ"}, {"t": "دَ", "r": "", "say": "دَ"}, {"t": "دُ", "r": "", "say": "دُ"}, {"t": "دِ", "r": "", "say": "دِ"}]}, {"id": "nh3_1", "title": "الفتحة مع: ذ ر ز س", "rule": "الفتحة: نفتح الفم قليلًا ونقول ذَ ثم رَ ثم زَ ثم سَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "ذَ", "r": "", "say": "ذَ"}, {"t": "رَ", "r": "", "say": "رَ"}, {"t": "زَ", "r": "", "say": "زَ"}, {"t": "سَ", "r": "", "say": "سَ"}]}, {"id": "nh3_2", "title": "الضمة مع: ذ ر ز س", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول ذُ ثم رُ ثم زُ ثم سُ.", "tip": "", "st": 2, "items": [{"t": "ذُ", "r": "", "say": "ذُ"}, {"t": "رُ", "r": "", "say": "رُ"}, {"t": "زُ", "r": "", "say": "زُ"}, {"t": "سُ", "r": "", "say": "سُ"}]}, {"id": "nh3_3", "title": "الكسرة مع: ذ ر ز س", "rule": "الكسرة: نخفض الفك ونقول ذِ ثم رِ ثم زِ ثم سِ.", "tip": "", "st": 2, "items": [{"t": "ذِ", "r": "", "say": "ذِ"}, {"t": "رِ", "r": "", "say": "رِ"}, {"t": "زِ", "r": "", "say": "زِ"}, {"t": "سِ", "r": "", "say": "سِ"}]}, {"id": "nh3_4", "title": "مراجعة الحركات: ذ ر ز س", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "ذَ", "r": "", "say": "ذَ"}, {"t": "ذُ", "r": "", "say": "ذُ"}, {"t": "ذِ", "r": "", "say": "ذِ"}, {"t": "رَ", "r": "", "say": "رَ"}, {"t": "رُ", "r": "", "say": "رُ"}, {"t": "رِ", "r": "", "say": "رِ"}, {"t": "زَ", "r": "", "say": "زَ"}, {"t": "زُ", "r": "", "say": "زُ"}, {"t": "زِ", "r": "", "say": "زِ"}, {"t": "سَ", "r": "", "say": "سَ"}, {"t": "سُ", "r": "", "say": "سُ"}, {"t": "سِ", "r": "", "say": "سِ"}]}, {"id": "nh4_1", "title": "الفتحة مع: ش ص ض ط", "rule": "الفتحة: نفتح الفم قليلًا ونقول شَ ثم صَ ثم ضَ ثم طَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "شَ", "r": "", "say": "شَ"}, {"t": "صَ", "r": "", "say": "صَ"}, {"t": "ضَ", "r": "", "say": "ضَ"}, {"t": "طَ", "r": "", "say": "طَ"}]}, {"id": "nh4_2", "title": "الضمة مع: ش ص ض ط", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول شُ ثم صُ ثم ضُ ثم طُ.", "tip": "", "st": 2, "items": [{"t": "شُ", "r": "", "say": "شُ"}, {"t": "صُ", "r": "", "say": "صُ"}, {"t": "ضُ", "r": "", "say": "ضُ"}, {"t": "طُ", "r": "", "say": "طُ"}]}, {"id": "nh4_3", "title": "الكسرة مع: ش ص ض ط", "rule": "الكسرة: نخفض الفك ونقول شِ ثم صِ ثم ضِ ثم طِ.", "tip": "", "st": 2, "items": [{"t": "شِ", "r": "", "say": "شِ"}, {"t": "صِ", "r": "", "say": "صِ"}, {"t": "ضِ", "r": "", "say": "ضِ"}, {"t": "طِ", "r": "", "say": "طِ"}]}, {"id": "nh4_4", "title": "مراجعة الحركات: ش ص ض ط", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "شَ", "r": "", "say": "شَ"}, {"t": "شُ", "r": "", "say": "شُ"}, {"t": "شِ", "r": "", "say": "شِ"}, {"t": "صَ", "r": "", "say": "صَ"}, {"t": "صُ", "r": "", "say": "صُ"}, {"t": "صِ", "r": "", "say": "صِ"}, {"t": "ضَ", "r": "", "say": "ضَ"}, {"t": "ضُ", "r": "", "say": "ضُ"}, {"t": "ضِ", "r": "", "say": "ضِ"}, {"t": "طَ", "r": "", "say": "طَ"}, {"t": "طُ", "r": "", "say": "طُ"}, {"t": "طِ", "r": "", "say": "طِ"}]}, {"id": "nh5_1", "title": "الفتحة مع: ظ ع غ ف", "rule": "الفتحة: نفتح الفم قليلًا ونقول ظَ ثم عَ ثم غَ ثم فَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "ظَ", "r": "", "say": "ظَ"}, {"t": "عَ", "r": "", "say": "عَ"}, {"t": "غَ", "r": "", "say": "غَ"}, {"t": "فَ", "r": "", "say": "فَ"}]}, {"id": "nh5_2", "title": "الضمة مع: ظ ع غ ف", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول ظُ ثم عُ ثم غُ ثم فُ.", "tip": "", "st": 2, "items": [{"t": "ظُ", "r": "", "say": "ظُ"}, {"t": "عُ", "r": "", "say": "عُ"}, {"t": "غُ", "r": "", "say": "غُ"}, {"t": "فُ", "r": "", "say": "فُ"}]}, {"id": "nh5_3", "title": "الكسرة مع: ظ ع غ ف", "rule": "الكسرة: نخفض الفك ونقول ظِ ثم عِ ثم غِ ثم فِ.", "tip": "", "st": 2, "items": [{"t": "ظِ", "r": "", "say": "ظِ"}, {"t": "عِ", "r": "", "say": "عِ"}, {"t": "غِ", "r": "", "say": "غِ"}, {"t": "فِ", "r": "", "say": "فِ"}]}, {"id": "nh5_4", "title": "مراجعة الحركات: ظ ع غ ف", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "ظَ", "r": "", "say": "ظَ"}, {"t": "ظُ", "r": "", "say": "ظُ"}, {"t": "ظِ", "r": "", "say": "ظِ"}, {"t": "عَ", "r": "", "say": "عَ"}, {"t": "عُ", "r": "", "say": "عُ"}, {"t": "عِ", "r": "", "say": "عِ"}, {"t": "غَ", "r": "", "say": "غَ"}, {"t": "غُ", "r": "", "say": "غُ"}, {"t": "غِ", "r": "", "say": "غِ"}, {"t": "فَ", "r": "", "say": "فَ"}, {"t": "فُ", "r": "", "say": "فُ"}, {"t": "فِ", "r": "", "say": "فِ"}]}, {"id": "nh6_1", "title": "الفتحة مع: ق ك ل م", "rule": "الفتحة: نفتح الفم قليلًا ونقول قَ ثم كَ ثم لَ ثم مَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "قَ", "r": "", "say": "قَ"}, {"t": "كَ", "r": "", "say": "كَ"}, {"t": "لَ", "r": "", "say": "لَ"}, {"t": "مَ", "r": "", "say": "مَ"}]}, {"id": "nh6_2", "title": "الضمة مع: ق ك ل م", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول قُ ثم كُ ثم لُ ثم مُ.", "tip": "", "st": 2, "items": [{"t": "قُ", "r": "", "say": "قُ"}, {"t": "كُ", "r": "", "say": "كُ"}, {"t": "لُ", "r": "", "say": "لُ"}, {"t": "مُ", "r": "", "say": "مُ"}]}, {"id": "nh6_3", "title": "الكسرة مع: ق ك ل م", "rule": "الكسرة: نخفض الفك ونقول قِ ثم كِ ثم لِ ثم مِ.", "tip": "", "st": 2, "items": [{"t": "قِ", "r": "", "say": "قِ"}, {"t": "كِ", "r": "", "say": "كِ"}, {"t": "لِ", "r": "", "say": "لِ"}, {"t": "مِ", "r": "", "say": "مِ"}]}, {"id": "nh6_4", "title": "مراجعة الحركات: ق ك ل م", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "قَ", "r": "", "say": "قَ"}, {"t": "قُ", "r": "", "say": "قُ"}, {"t": "قِ", "r": "", "say": "قِ"}, {"t": "كَ", "r": "", "say": "كَ"}, {"t": "كُ", "r": "", "say": "كُ"}, {"t": "كِ", "r": "", "say": "كِ"}, {"t": "لَ", "r": "", "say": "لَ"}, {"t": "لُ", "r": "", "say": "لُ"}, {"t": "لِ", "r": "", "say": "لِ"}, {"t": "مَ", "r": "", "say": "مَ"}, {"t": "مُ", "r": "", "say": "مُ"}, {"t": "مِ", "r": "", "say": "مِ"}]}, {"id": "nh7_1", "title": "الفتحة مع: ن ه و ي", "rule": "الفتحة: نفتح الفم قليلًا ونقول نَ ثم هَ ثم وَ ثم يَ.", "tip": "كرّر النطق ببطء ثم أسرع تدريجيًا.", "st": 2, "items": [{"t": "نَ", "r": "", "say": "نَ"}, {"t": "هَ", "r": "", "say": "هَ"}, {"t": "وَ", "r": "", "say": "وَ"}, {"t": "يَ", "r": "", "say": "يَ"}]}, {"id": "nh7_2", "title": "الضمة مع: ن ه و ي", "rule": "الضمة: نضمّ الشفتين قليلًا ونقول نُ ثم هُ ثم وُ ثم يُ.", "tip": "", "st": 2, "items": [{"t": "نُ", "r": "", "say": "نُ"}, {"t": "هُ", "r": "", "say": "هُ"}, {"t": "وُ", "r": "", "say": "وُ"}, {"t": "يُ", "r": "", "say": "يُ"}]}, {"id": "nh7_3", "title": "الكسرة مع: ن ه و ي", "rule": "الكسرة: نخفض الفك ونقول نِ ثم هِ ثم وِ ثم يِ.", "tip": "", "st": 2, "items": [{"t": "نِ", "r": "", "say": "نِ"}, {"t": "هِ", "r": "", "say": "هِ"}, {"t": "وِ", "r": "", "say": "وِ"}, {"t": "يِ", "r": "", "say": "يِ"}]}, {"id": "nh7_4", "title": "مراجعة الحركات: ن ه و ي", "rule": "اقرأ كل حرف بالفتحة والضمة والكسرة.", "tip": "اطلب من الطفل أن يقرأ بنفسه قبل أن يسمع.", "st": 2, "items": [{"t": "نَ", "r": "", "say": "نَ"}, {"t": "نُ", "r": "", "say": "نُ"}, {"t": "نِ", "r": "", "say": "نِ"}, {"t": "هَ", "r": "", "say": "هَ"}, {"t": "هُ", "r": "", "say": "هُ"}, {"t": "هِ", "r": "", "say": "هِ"}, {"t": "وَ", "r": "", "say": "وَ"}, {"t": "وُ", "r": "", "say": "وُ"}, {"t": "وِ", "r": "", "say": "وِ"}, {"t": "يَ", "r": "", "say": "يَ"}, {"t": "يُ", "r": "", "say": "يُ"}, {"t": "يِ", "r": "", "say": "يِ"}]}, {"id": "nm1", "title": "حروف الحلق: الهمزة والهاء", "rule": "من أعمق الحلق تخرج الهمزة والهاء.", "tip": "اهمس بالهاء وكأنك تنفخ على كوب ساخن.", "st": 3, "items": [{"t": "أَ", "r": "همزة", "say": "أَ"}, {"t": "هَ", "r": "هاء", "say": "هَ"}]}, {"id": "nm2", "title": "حروف الحلق: العين والحاء", "rule": "من وسط الحلق تخرج العين والحاء.", "tip": "العين فيها صوت، والحاء فيها همس.", "st": 3, "items": [{"t": "عَ", "r": "عين", "say": "عَ"}, {"t": "حَ", "r": "حاء", "say": "حَ"}]}, {"id": "nm3", "title": "حروف الحلق: الغين والخاء", "rule": "من أقرب الحلق إلى الفم تخرج الغين والخاء.", "tip": "الخاء همس والغين فيها صوت.", "st": 3, "items": [{"t": "غَ", "r": "غين", "say": "غَ"}, {"t": "خَ", "r": "خاء", "say": "خَ"}]}, {"id": "nm4", "title": "حروف الشفتين", "rule": "الباء والميم والواو تخرج من الشفتين.", "tip": "الفاء تخرج من الشفة السفلى مع طرف الثنايا العليا.", "st": 3, "items": [{"t": "بَ", "r": "باء", "say": "بَ"}, {"t": "مَ", "r": "ميم", "say": "مَ"}, {"t": "وَ", "r": "واو", "say": "وَ"}]}, {"id": "nm5", "title": "الفاء", "rule": "تخرج الفاء من باطن الشفة السفلى مع أطراف الثنايا العليا.", "tip": "انظر في المرآة وأنت تنطق الفاء.", "st": 3, "items": [{"t": "فَ", "r": "فاء", "say": "فَ"}]}, {"id": "nm6", "title": "القاف والكاف", "rule": "القاف من آخر اللسان مع ما يحاذيه من سقف الحلق، والكاف أقرب إلى الفم قليلًا.", "tip": "القاف ثقيلة مفخّمة، والكاف خفيفة.", "st": 3, "items": [{"t": "قَ", "r": "قاف", "say": "قَ"}, {"t": "كَ", "r": "كاف", "say": "كَ"}]}, {"id": "nm7", "title": "الجيم والشين والياء", "rule": "من وسط اللسان مع ما يحاذيه من سقف الفم.", "tip": "", "st": 3, "items": [{"t": "جَ", "r": "جيم", "say": "جَ"}, {"t": "شَ", "r": "شين", "say": "شَ"}, {"t": "يَ", "r": "ياء", "say": "يَ"}]}, {"id": "nm8", "title": "الضاد", "rule": "من حافة اللسان مع الأضراس العليا.", "tip": "تحتاج الضاد إلى تدريب كثير، كرّروها مع المعلّم.", "st": 3, "items": [{"t": "ضَ", "r": "ضاد", "say": "ضَ"}]}, {"id": "nm9", "title": "اللام والنون والراء", "rule": "من طرف اللسان مع ما يحاذيه من اللثة العليا.", "tip": "", "st": 3, "items": [{"t": "لَ", "r": "لام", "say": "لَ"}, {"t": "نَ", "r": "نون", "say": "نَ"}, {"t": "رَ", "r": "راء", "say": "رَ"}]}, {"id": "nm10", "title": "الطاء والدال والتاء", "rule": "من طرف اللسان مع أصول الثنايا العليا.", "tip": "الطاء مفخّمة والتاء مرقّقة.", "st": 3, "items": [{"t": "طَ", "r": "طاء", "say": "طَ"}, {"t": "دَ", "r": "دال", "say": "دَ"}, {"t": "تَ", "r": "تاء", "say": "تَ"}]}, {"id": "nm11", "title": "الصاد والسين والزاي", "rule": "من طرف اللسان مع أطراف الثنايا السفلى، ولها صفير.", "tip": "", "st": 3, "items": [{"t": "صَ", "r": "صاد", "say": "صَ"}, {"t": "سَ", "r": "سين", "say": "سَ"}, {"t": "زَ", "r": "زاي", "say": "زَ"}]}, {"id": "nm12", "title": "الظاء والذال والثاء", "rule": "من طرف اللسان مع أطراف الثنايا العليا.", "tip": "لاحظ خروج طرف اللسان قليلًا.", "st": 3, "items": [{"t": "ظَ", "r": "ظاء", "say": "ظَ"}, {"t": "ذَ", "r": "ذال", "say": "ذَ"}, {"t": "ثَ", "r": "ثاء", "say": "ثَ"}]}, {"id": "ns1", "title": "تاء أم طاء؟", "rule": "التاء رقيقة والطاء مفخّمة يمتلئ بها الفم.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "تَ", "r": "", "say": "تَ"}, {"t": "طَ", "r": "", "say": "طَ"}, {"t": "تُ", "r": "", "say": "تُ"}, {"t": "طُ", "r": "", "say": "طُ"}, {"t": "تِ", "r": "", "say": "تِ"}, {"t": "طِ", "r": "", "say": "طِ"}]}, {"id": "ns2", "title": "ثاء أم سين؟", "rule": "الثاء يخرج طرف اللسان مع الثنايا، والسين خلف الثنايا مع صفير.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "ثَ", "r": "", "say": "ثَ"}, {"t": "سَ", "r": "", "say": "سَ"}, {"t": "ثُ", "r": "", "say": "ثُ"}, {"t": "سُ", "r": "", "say": "سُ"}, {"t": "ثِ", "r": "", "say": "ثِ"}, {"t": "سِ", "r": "", "say": "سِ"}]}, {"id": "ns3", "title": "حاء أم هاء؟", "rule": "الحاء من وسط الحلق، والهاء من أعمق الحلق وفيها همس.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "حَ", "r": "", "say": "حَ"}, {"t": "هَ", "r": "", "say": "هَ"}, {"t": "حُ", "r": "", "say": "حُ"}, {"t": "هُ", "r": "", "say": "هُ"}, {"t": "حِ", "r": "", "say": "حِ"}, {"t": "هِ", "r": "", "say": "هِ"}]}, {"id": "ns4", "title": "دال أم ضاد؟", "rule": "الدال خفيفة من طرف اللسان، والضاد ثقيلة من حافة اللسان.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "دَ", "r": "", "say": "دَ"}, {"t": "ضَ", "r": "", "say": "ضَ"}, {"t": "دُ", "r": "", "say": "دُ"}, {"t": "ضُ", "r": "", "say": "ضُ"}, {"t": "دِ", "r": "", "say": "دِ"}, {"t": "ضِ", "r": "", "say": "ضِ"}]}, {"id": "ns5", "title": "ذال أم زاي؟", "rule": "الذال يخرج معها طرف اللسان، والزاي فيها صفير.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "ذَ", "r": "", "say": "ذَ"}, {"t": "زَ", "r": "", "say": "زَ"}, {"t": "ذُ", "r": "", "say": "ذُ"}, {"t": "زُ", "r": "", "say": "زُ"}, {"t": "ذِ", "r": "", "say": "ذِ"}, {"t": "زِ", "r": "", "say": "زِ"}]}, {"id": "ns6", "title": "سين أم صاد؟", "rule": "السين رقيقة والصاد مفخّمة.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "سَ", "r": "", "say": "سَ"}, {"t": "صَ", "r": "", "say": "صَ"}, {"t": "سُ", "r": "", "say": "سُ"}, {"t": "صُ", "r": "", "say": "صُ"}, {"t": "سِ", "r": "", "say": "سِ"}, {"t": "صِ", "r": "", "say": "صِ"}]}, {"id": "ns7", "title": "عين أم همزة؟", "rule": "العين من وسط الحلق، والهمزة من أعمق الحلق.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "عَ", "r": "", "say": "عَ"}, {"t": "أَ", "r": "", "say": "أَ"}, {"t": "عُ", "r": "", "say": "عُ"}, {"t": "أُ", "r": "", "say": "أُ"}, {"t": "عِ", "r": "", "say": "عِ"}, {"t": "أِ", "r": "", "say": "أِ"}]}, {"id": "ns8", "title": "كاف أم قاف؟", "rule": "الكاف خفيفة والقاف ثقيلة من آخر اللسان.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "كَ", "r": "", "say": "كَ"}, {"t": "قَ", "r": "", "say": "قَ"}, {"t": "كُ", "r": "", "say": "كُ"}, {"t": "قُ", "r": "", "say": "قُ"}, {"t": "كِ", "r": "", "say": "كِ"}, {"t": "قِ", "r": "", "say": "قِ"}]}, {"id": "ns9", "title": "ظاء أم ذال؟", "rule": "الظاء مفخّمة والذال رقيقة.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "ظَ", "r": "", "say": "ظَ"}, {"t": "ذَ", "r": "", "say": "ذَ"}, {"t": "ظُ", "r": "", "say": "ظُ"}, {"t": "ذُ", "r": "", "say": "ذُ"}, {"t": "ظِ", "r": "", "say": "ظِ"}, {"t": "ذِ", "r": "", "say": "ذِ"}]}, {"id": "ns10", "title": "خاء أم غين؟", "rule": "الخاء فيها همس والغين فيها صوت.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "خَ", "r": "", "say": "خَ"}, {"t": "غَ", "r": "", "say": "غَ"}, {"t": "خُ", "r": "", "say": "خُ"}, {"t": "غُ", "r": "", "say": "غُ"}, {"t": "خِ", "r": "", "say": "خِ"}, {"t": "غِ", "r": "", "say": "غِ"}]}, {"id": "ns11", "title": "حاء أم خاء؟", "rule": "الحاء من وسط الحلق والخاء من أقربه إلى الفم.", "tip": "اطلب من الطفل أن يسمع ثم يقلّدك ويقارن بين الصوتين.", "st": 4, "items": [{"t": "حَ", "r": "", "say": "حَ"}, {"t": "خَ", "r": "", "say": "خَ"}, {"t": "حُ", "r": "", "say": "حُ"}, {"t": "خُ", "r": "", "say": "خُ"}, {"t": "حِ", "r": "", "say": "حِ"}, {"t": "خِ", "r": "", "say": "خِ"}]}, {"id": "nq1a", "title": "الحركات الثلاث: الفتحة والضمة والكسرة (١)", "rule": "الفتحة خطّ صغير فوق الحرف، فنفتح فمنا ونقول: بَ. الضمة تشبه واوًا صغيرة فوق الحرف فنضمّ شفتينا: بُ، والكسرة خطّ تحت الحرف فنقول: بِ.", "tip": "ابدأ بالمقاطع وحدها وكرّرها بصوت واضح، واربط كل حركة بحركة الفم (فتح، ضمّ، خفض). لا تنتقل للكلمات قبل أن يتقن الطفل التمييز بين الثلاث.", "st": 5, "items": [{"t": "بَ بُ بِ", "r": "", "say": "بَ، بُ، بِ"}, {"t": "تَ تُ تِ", "r": "", "say": "تَ، تُ، تِ"}, {"t": "مَ مُ مِ", "r": "", "say": "مَ، مُ، مِ"}, {"t": "كَسَبَ", "r": "سورة المسد: ٢", "say": ""}, {"t": "خَلَقَ", "r": "سورة الفلق: ٢", "say": ""}]}, {"id": "nq1b", "title": "الحركات الثلاث: الفتحة والضمة والكسرة (٢)", "rule": "الفتحة خطّ صغير فوق الحرف، فنفتح فمنا ونقول: بَ. الضمة تشبه واوًا صغيرة فوق الحرف فنضمّ شفتينا: بُ، والكسرة خطّ تحت الحرف فنقول: بِ.", "tip": "", "st": 5, "items": [{"t": "فَعَلَ", "r": "سورة الفيل: ١", "say": ""}, {"t": "وَقَبَ", "r": "سورة الفلق: ٣", "say": ""}, {"t": "حَسَدَ", "r": "سورة الفلق: ٥", "say": ""}, {"t": "مَلِكِ", "r": "سورة الناس: ٢", "say": ""}, {"t": "عُقَدِ", "r": "سورة الفلق: ٤", "say": ""}]}, {"id": "nq2a", "title": "التنوين: فتحتان وضمتان وكسرتان (١)", "rule": "التنوين حركتان فوق الحرف أو تحته، ويُنطق في آخر الكلمة صوتَ نون ساكنة: أَحَدٌ تُقرأ «أَحَدُنْ». نقرأه فقط في آخر الكلمة.", "tip": "اجعل الطفل يسمع النون في آخر الكلمة عند الوصل، ثم دربه: فتحتان = «ـنْ» بفتح، ضمتان = «ـنْ» بضم، كسرتان = «ـنْ» بكسر.", "st": 5, "items": [{"t": "أَحَدٌ", "r": "سورة الإخلاص: ١", "say": "أَحَدُنْ"}, {"t": "لَهَبٍ", "r": "سورة المسد: ١", "say": "لَهَبِنْ"}, {"t": "مَسَدٍ", "r": "سورة المسد: ٥", "say": "مَسَدِنْ"}, {"t": "جَمْعًا", "r": "سورة العاديات: ٥", "say": "جَمْعَنْ"}, {"t": "نَقْعًا", "r": "سورة العاديات: ٤", "say": "نَقْعَنْ"}]}, {"id": "nq2b", "title": "التنوين: فتحتان وضمتان وكسرتان (٢)", "rule": "التنوين حركتان فوق الحرف أو تحته، ويُنطق في آخر الكلمة صوتَ نون ساكنة: أَحَدٌ تُقرأ «أَحَدُنْ». نقرأه فقط في آخر الكلمة.", "tip": "", "st": 5, "items": [{"t": "حَبْلٌ", "r": "سورة المسد: ٥", "say": "حَبْلُنْ"}, {"t": "فَوَيْلٌ", "r": "سورة الماعون: ٤", "say": "فَوَيْلُنْ"}, {"t": "ضَبْحًا", "r": "سورة العاديات: ١", "say": "ضَبْحَنْ"}, {"t": "قَدْحًا", "r": "سورة العاديات: ٢", "say": "قَدْحَنْ"}, {"t": "صُبْحًا", "r": "سورة العاديات: ٣", "say": "صُبْحَنْ"}]}, {"id": "nq3a", "title": "المدّ بالألف (١)", "rule": "إذا جاء بعد حرف مفتوح ألف، نمدّ الصوت قليلًا: مَا. المدّ بقدر حركتين، أي نعدّ «واحد، اثنان» بهدوء.", "tip": "اطلب من الطفل أن يمدّ الصوت مع رفع إصبعين أو التصفيق مرتين. لا تُطل أكثر من حركتين في هذه المرحلة.", "st": 5, "items": [{"t": "مَا", "r": "سورة الفلق: ٢", "say": ""}, {"t": "لَا", "r": "سورة الماعون: ٣", "say": ""}, {"t": "نَارٌ", "r": "سورة القارعة: ١١", "say": ""}, {"t": "ذَاتَ", "r": "سورة المسد: ٣", "say": ""}, {"t": "غَاسِقٍ", "r": "سورة الفلق: ٣", "say": ""}]}, {"id": "nq3b", "title": "المدّ بالألف (٢)", "rule": "إذا جاء بعد حرف مفتوح ألف، نمدّ الصوت قليلًا: مَا. المدّ بقدر حركتين، أي نعدّ «واحد، اثنان» بهدوء.", "tip": "", "st": 5, "items": [{"t": "حَاسِدٍ", "r": "سورة الفلق: ٥", "say": ""}, {"t": "هَاوِيَةٌ", "r": "سورة القارعة: ٩", "say": ""}, {"t": "حَامِيَةٌ", "r": "سورة القارعة: ١١", "say": ""}, {"t": "صَلَاتِهِمْ", "r": "سورة الماعون: ٥", "say": ""}]}, {"id": "nq4a", "title": "المدّ بالياء (١)", "rule": "إذا جاء بعد حرف مكسور ياء ساكنة، نمدّ الصوت: فِي. نمدّه حركتين فقط كما في الألف.", "tip": "قارن مع درس الألف: نفس طول المد، لكن الشفتان تتسعان للابتسامة. أبقِ الصوت هادئًا دون إطالة.", "st": 5, "items": [{"t": "فِي", "r": "سورة الفلق: ٤", "say": ""}, {"t": "دِينِ", "r": "سورة الكافرون: ٦", "say": ""}, {"t": "جِيدِهَا", "r": "سورة المسد: ٥", "say": ""}, {"t": "تَضْلِيلٍ", "r": "سورة الفيل: ٢", "say": ""}, {"t": "سِينِينَ", "r": "سورة التين: ٢", "say": ""}]}, {"id": "nq4b", "title": "المدّ بالياء (٢)", "rule": "إذا جاء بعد حرف مكسور ياء ساكنة، نمدّ الصوت: فِي. نمدّه حركتين فقط كما في الألف.", "tip": "", "st": 5, "items": [{"t": "أَبَابِيلَ", "r": "سورة الفيل: ٣", "say": ""}, {"t": "ٱلْفِيلِ", "r": "سورة الفيل: ١", "say": "أَلْفِيلِ"}, {"t": "ٱلْأَمِينِ", "r": "سورة التين: ٣", "say": "أَلْأَمِينِ"}, {"t": "ٱلْيَقِينِ", "r": "سورة التكاثر: ٥", "say": "أَلْيَقِينِ"}]}, {"id": "nq5a", "title": "المدّ بالواو (١)", "rule": "إذا جاء بعد حرف مضموم واو ساكنة، نمدّ الصوت: يَدْخُلُونَ. مدّها أيضًا حركتان.", "tip": "اجعل الشفتين مستديرتين مثل الدائرة أثناء المدّ. حافظ على المقدار نفسه الذي ثبّتّه في الألف والياء.", "st": 5, "items": [{"t": "طُورِ", "r": "سورة التين: ٢", "say": ""}, {"t": "جُوعٍ", "r": "سورة قريش: ٤", "say": ""}, {"t": "صُدُورِ", "r": "سورة الناس: ٥", "say": ""}, {"t": "فُجُورَهَا", "r": "سورة الشمس: ٨", "say": ""}, {"t": "تَعْلَمُونَ", "r": "سورة التكاثر: ٣", "say": ""}]}, {"id": "nq5b", "title": "المدّ بالواو (٢)", "rule": "إذا جاء بعد حرف مضموم واو ساكنة، نمدّ الصوت: يَدْخُلُونَ. مدّها أيضًا حركتان.", "tip": "", "st": 5, "items": [{"t": "تَعْبُدُونَ", "r": "سورة الكافرون: ٢", "say": ""}, {"t": "يَدْخُلُونَ", "r": "سورة النصر: ٢", "say": ""}, {"t": "ٱلْمَبْثُوثِ", "r": "سورة القارعة: ٤", "say": "أَلْمَبْثُوثِ"}, {"t": "سَاهُونَ", "r": "سورة الماعون: ٥", "say": ""}]}, {"id": "nq6a", "title": "السكون (١)", "rule": "السكون دائرة صغيرة فوق الحرف، ومعناه أن ننطق الحرف دون حركة ونقف عليه بلطف: قُلْ، لَمْ. ننطق الحرف الذي قبله ثم نصل به مباشرة.", "tip": "درّب الطفل على «بَ» ثم «بَلْ». أن يرى كيف يتحوّل المقطع بالسكون خير من شرح طويل.", "st": 5, "items": [{"t": "قُلْ", "r": "سورة الإخلاص: ١", "say": ""}, {"t": "لَمْ", "r": "سورة الإخلاص: ٣", "say": ""}, {"t": "هُمْ", "r": "سورة الماعون: ٥", "say": ""}, {"t": "يَلِدْ", "r": "سورة الإخلاص: ٣", "say": ""}, {"t": "يَجْعَلْ", "r": "سورة الفيل: ٢", "say": ""}]}, {"id": "nq6b", "title": "السكون (٢)", "rule": "السكون دائرة صغيرة فوق الحرف، ومعناه أن ننطق الحرف دون حركة ونقف عليه بلطف: قُلْ، لَمْ. ننطق الحرف الذي قبله ثم نصل به مباشرة.", "tip": "", "st": 5, "items": [{"t": "نَشْرَحْ", "r": "سورة الشرح: ١", "say": ""}, {"t": "صَدْرَكَ", "r": "سورة الشرح: ١", "say": ""}, {"t": "وِزْرَكَ", "r": "سورة الشرح: ٢", "say": ""}, {"t": "ٱلْفَتْحُ", "r": "سورة النصر: ١", "say": "أَلْفَتْحُ"}, {"t": "وَٱنْحَرْ", "r": "سورة الكوثر: ٢", "say": ""}]}, {"id": "nq7a", "title": "الشدّة (١)", "rule": "الشدّة علامة تشبه حرف (ـّ) فوق الحرف، وتعني أن الحرف مكرّر مرتين: الأول ساكن والثاني متحرك. ننطق: تَبَّ كأنها «تَبْ بَ».", "tip": "قل «تَبْ… بَ» ببطء، ثم اربطهما معًا. اطلب من الطفل أن يضغط الشفتين بلطف عند الحرف المشدّد ليشعر بالتكرار.", "st": 5, "items": [{"t": "تَبَّ", "r": "سورة المسد: ١", "say": "تَبْ بَ"}, {"t": "ثُمَّ", "r": "سورة التكاثر: ٤", "say": "ثُمْ مَ"}, {"t": "رَبِّ", "r": "سورة الناس: ١", "say": "رَبْ بِ"}, {"t": "شَرِّ", "r": "سورة الفلق: ٢", "say": "شَرْ رِ"}, {"t": "أُمُّهُ", "r": "سورة القارعة: ٩", "say": "أُمْ مُهُ"}]}, {"id": "nq7b", "title": "الشدّة (٢)", "rule": "الشدّة علامة تشبه حرف (ـّ) فوق الحرف، وتعني أن الحرف مكرّر مرتين: الأول ساكن والثاني متحرك. ننطق: تَبَّ كأنها «تَبْ بَ».", "tip": "", "st": 5, "items": [{"t": "يَدُعُّ", "r": "سورة الماعون: ٢", "say": "يَدُعْ عُ"}, {"t": "يَحُضُّ", "r": "سورة الماعون: ٣", "say": "يَحُضْ ضُ"}, {"t": "خَفَّتْ", "r": "سورة القارعة: ٨", "say": "خَفْ فَتْ"}, {"t": "كَلَّا", "r": "سورة التكاثر: ٣", "say": "كَلْ لَا"}, {"t": "سَبِّحِ", "r": "سورة الأعلى: ١", "say": "سَبْ بِحِ"}]}, {"id": "nq8a", "title": "حرفا اللين: الواو والياء الساكنتان بعد فتح (١)", "rule": "إذا جاءت واو أو ياء ساكنتان بعد حرف مفتوح، ننطقهما بلين وسهولة دون مدٍّ طويل: يَوْمَ، كَيْفَ. هما غير الألف والواو والياء الممدودة.", "tip": "قارن بين «فِي» (مد) و«كَيْفَ» (لين)، لتتضح الفروق. اجعل الطفل يسمع أن اللين أخفّ وأقصر.", "st": 5, "items": [{"t": "يَوْمَ", "r": "سورة القارعة: ٤", "say": ""}, {"t": "سَوْفَ", "r": "سورة التكاثر: ٣", "say": ""}, {"t": "كَيْفَ", "r": "سورة الفيل: ١", "say": ""}, {"t": "خَوْفٍ", "r": "سورة قريش: ٤", "say": ""}, {"t": "كَيْدَهُمْ", "r": "سورة الفيل: ٢", "say": ""}]}, {"id": "nq8b", "title": "حرفا اللين: الواو والياء الساكنتان بعد فتح (٢)", "rule": "إذا جاءت واو أو ياء ساكنتان بعد حرف مفتوح، ننطقهما بلين وسهولة دون مدٍّ طويل: يَوْمَ، كَيْفَ. هما غير الألف والواو والياء الممدودة.", "tip": "", "st": 5, "items": [{"t": "عَيْنَ", "r": "سورة التكاثر: ٧", "say": ""}, {"t": "طَيْرًا", "r": "سورة الفيل: ٣", "say": ""}, {"t": "عَلَيْهِمْ", "r": "سورة الفيل: ٣", "say": ""}, {"t": "لَيْلَةِ", "r": "سورة القدر: ١", "say": ""}, {"t": "قُرَيْشٍ", "r": "سورة قريش: ١", "say": ""}]}, {"id": "nq9a", "title": "حروف القلقلة: قُطْبُ جَدٍّ (١)", "rule": "خمسة حروف إذا سكنت اهتزّ صوتها قليلًا كأنها تقفز: ق ط ب ج د. نحفظها بعبارة «قُطْبُ جَدٍّ».", "tip": "اجعل الطفل يلمس حلقه أو يشعر بالنبضة الخفيفة عند القلقلة. لا تبالغ في الاهتزاز حتى لا يتحوّل إلى حركة.", "st": 5, "items": [{"t": "قَدْ", "r": "سورة الشمس: ٩", "say": ""}, {"t": "يَلِدْ", "r": "سورة الإخلاص: ٣", "say": ""}, {"t": "يَجْعَلْ", "r": "سورة الفيل: ٢", "say": ""}, {"t": "ضَبْحًا", "r": "سورة العاديات: ١", "say": ""}, {"t": "قَدْحًا", "r": "سورة العاديات: ٢", "say": ""}]}, {"id": "nq9b", "title": "حروف القلقلة: قُطْبُ جَدٍّ (٢)", "rule": "خمسة حروف إذا سكنت اهتزّ صوتها قليلًا كأنها تقفز: ق ط ب ج د. نحفظها بعبارة «قُطْبُ جَدٍّ».", "tip": "", "st": 5, "items": [{"t": "نَقْعًا", "r": "سورة العاديات: ٤", "say": ""}, {"t": "صَدْرَكَ", "r": "سورة الشرح: ١", "say": ""}, {"t": "يَدْخُلُونَ", "r": "سورة النصر: ٢", "say": ""}, {"t": "ٱلْفَجْرِ", "r": "سورة القدر: ٥", "say": "أَلْفَجْرِ"}, {"t": "ٱلْأَبْتَرُ", "r": "سورة الكوثر: ٣", "say": "أَلْأَبْتَرُ"}]}, {"id": "nq10a", "title": "أل الشمسية والقمرية (١)", "rule": "إذا جاء بعد «أل» حرف قمري نقرأ اللام: ٱلْقَدْرِ «أَلْقَدْرِ». وإذا جاء بعدها حرف شمسي لا نقرأ اللام ونشدّد الحرف بعدها: ٱلنَّاسِ «أَنَّاسِ».", "tip": "قارن بين الشمس والقمر: الحرف الشمسي يبتلع اللام، والقمري يُبقيها. أعطِ الطفل بطاقات لحروف القمر ثم حروف الشمس.", "st": 5, "items": [{"t": "ٱلْفَلَقِ", "r": "سورة الفلق: ١", "say": "أَلْفَلَقِ"}, {"t": "ٱلْكَوْثَرَ", "r": "سورة الكوثر: ١", "say": "أَلْكَوْثَرَ"}, {"t": "ٱلْقَدْرِ", "r": "سورة القدر: ١", "say": "أَلْقَدْرِ"}, {"t": "ٱلْفَتْحُ", "r": "سورة النصر: ١", "say": "أَلْفَتْحُ"}, {"t": "ٱلنَّاسِ", "r": "سورة الناس: ١", "say": "أَنَّاسِ"}]}, {"id": "nq10b", "title": "أل الشمسية والقمرية (٢)", "rule": "إذا جاء بعد «أل» حرف قمري نقرأ اللام: ٱلْقَدْرِ «أَلْقَدْرِ». وإذا جاء بعدها حرف شمسي لا نقرأ اللام ونشدّد الحرف بعدها: ٱلنَّاسِ «أَنَّاسِ».", "tip": "", "st": 5, "items": [{"t": "ٱلصَّمَدُ", "r": "سورة الإخلاص: ٢", "say": "أَصَّمَدُ"}, {"t": "ٱلشَّمْسِ", "r": "سورة الشمس: ١", "say": "أَشَّمْسِ"}, {"t": "ٱلتِّينِ", "r": "سورة التين: ١", "say": "أَتِّينِ"}, {"t": "ٱلدِّينِ", "r": "سورة الماعون: ١", "say": "أَدِّينِ"}, {"t": "ٱلرُّوحُ", "r": "سورة القدر: ٤", "say": "أَرُّوحُ"}]}];
   var NOOR_ST = [{"n": "الحروف الهجائية", "e": "🔤", "d": "أتعرّف على الحروف الثمانية والعشرين: اسمها وصوتها"}, {"n": "أشكال الحروف", "e": "✍️", "d": "الحرف يتغيّر شكله في أول الكلمة ووسطها وآخرها"}, {"n": "الحركات مع الحروف", "e": "🎵", "d": "الفتحة والضمة والكسرة مع كل الحروف، مجموعة بعد مجموعة"}, {"n": "مخارج الحروف", "e": "👄", "d": "من أين يخرج كل حرف؟ لنستقيم في النطق"}, {"n": "حروف متشابهة", "e": "👂", "d": "أفرّق بين الحروف التي تتقارب في السمع"}, {"n": "قراءة الكلمات القرآنية", "e": "📖", "d": "التنوين والمد والسكون والشدة وغيرها بأمثلة من القرآن"}];
+  NOOR_ST.push({"n": "أقرأ آياتٍ قصيرة", "e": "📖", "d": "أقرأ آيات كاملة من جزء عمّ وأسمعها بصوت القارئ"});
+  NOOR = NOOR.concat([{"id":"nq1","title":"سورة الكوثر","rule":"نقرأ آيات سورة الكوثر آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"إِنَّآ أَعْطَيْنَـٰكَ ٱلْكَوْثَرَ","r":"الكوثر ١","ay":[108,1]},{"t":"فَصَلِّ لِرَبِّكَ وَٱنْحَرْ","r":"الكوثر ٢","ay":[108,2]},{"t":"إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ","r":"الكوثر ٣","ay":[108,3]}]},{"id":"nq2","title":"سورة الإخلاص","rule":"نقرأ آيات سورة الإخلاص آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"قُلْ هُوَ ٱللَّهُ أَحَدٌ","r":"الإخلاص ١","ay":[112,1]},{"t":"ٱللَّهُ ٱلصَّمَدُ","r":"الإخلاص ٢","ay":[112,2]},{"t":"لَمْ يَلِدْ وَلَمْ يُولَدْ","r":"الإخلاص ٣","ay":[112,3]},{"t":"وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ","r":"الإخلاص ٤","ay":[112,4]}]},{"id":"nq3","title":"سورة العصر","rule":"نقرأ آيات سورة العصر آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"وَٱلْعَصْرِ","r":"العصر ١","ay":[103,1]},{"t":"إِنَّ ٱلْإِنسَـٰنَ لَفِى خُسْرٍ","r":"العصر ٢","ay":[103,2]},{"t":"إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ","r":"العصر ٣","ay":[103,3]}]},{"id":"nq4","title":"سورة النصر","rule":"نقرأ آيات سورة النصر آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"إِذَا جَآءَ نَصْرُ ٱللَّهِ وَٱلْفَتْحُ","r":"النصر ١","ay":[110,1]},{"t":"وَرَأَيْتَ ٱلنَّاسَ يَدْخُلُونَ فِى دِينِ ٱللَّهِ أَفْوَاجًۭا","r":"النصر ٢","ay":[110,2]},{"t":"فَسَبِّحْ بِحَمْدِ رَبِّكَ وَٱسْتَغْفِرْهُ ۚ إِنَّهُۥ كَانَ تَوَّابًۢا","r":"النصر ٣","ay":[110,3]}]},{"id":"nq5","title":"سورة قريش","rule":"نقرأ آيات سورة قريش آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"لِإِيلَـٰفِ قُرَيْشٍ","r":"قريش ١","ay":[106,1]},{"t":"إِۦلَـٰفِهِمْ رِحْلَةَ ٱلشِّتَآءِ وَٱلصَّيْفِ","r":"قريش ٢","ay":[106,2]},{"t":"فَلْيَعْبُدُوا۟ رَبَّ هَـٰذَا ٱلْبَيْتِ","r":"قريش ٣","ay":[106,3]},{"t":"ٱلَّذِىٓ أَطْعَمَهُم مِّن جُوعٍۢ وَءَامَنَهُم مِّنْ خَوْفٍۭ","r":"قريش ٤","ay":[106,4]}]},{"id":"nq6","title":"سورة الفلق","rule":"نقرأ آيات سورة الفلق آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ","r":"الفلق ١","ay":[113,1]},{"t":"مِن شَرِّ مَا خَلَقَ","r":"الفلق ٢","ay":[113,2]},{"t":"وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ","r":"الفلق ٣","ay":[113,3]},{"t":"وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ","r":"الفلق ٤","ay":[113,4]},{"t":"وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ","r":"الفلق ٥","ay":[113,5]}]},{"id":"nq7","title":"سورة الناس","rule":"نقرأ آيات سورة الناس آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ","r":"الناس ١","ay":[114,1]},{"t":"مَلِكِ ٱلنَّاسِ","r":"الناس ٢","ay":[114,2]},{"t":"إِلَـٰهِ ٱلنَّاسِ","r":"الناس ٣","ay":[114,3]},{"t":"مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ","r":"الناس ٤","ay":[114,4]},{"t":"ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ","r":"الناس ٥","ay":[114,5]},{"t":"مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ","r":"الناس ٦","ay":[114,6]}]},{"id":"nq8","title":"سورة الكافرون","rule":"نقرأ آيات سورة الكافرون آيةً آية. اضغط الآية لتسمعها بصوت القارئ، ثم كرّرها بهدوء بعده.","tip":"اجعل الطفل يردّد كل آية بعد القارئ مرتين أو ثلاثًا قبل الاختبار، وصحّح له بلطف. التلاوة الصحيحة تُؤخذ بالتلقّي من معلّم متقن.","st":6,"items":[{"t":"قُلْ يَـٰٓأَيُّهَا ٱلْكَـٰفِرُونَ","r":"الكافرون ١","ay":[109,1]},{"t":"لَآ أَعْبُدُ مَا تَعْبُدُونَ","r":"الكافرون ٢","ay":[109,2]},{"t":"وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ","r":"الكافرون ٣","ay":[109,3]},{"t":"وَلَآ أَنَا۠ عَابِدٌۭ مَّا عَبَدتُّمْ","r":"الكافرون ٤","ay":[109,4]},{"t":"وَلَآ أَنتُمْ عَـٰبِدُونَ مَآ أَعْبُدُ","r":"الكافرون ٥","ay":[109,5]},{"t":"لَكُمْ دِينُكُمْ وَلِىَ دِينِ","r":"الكافرون ٦","ay":[109,6]}]}]);
   function noorKey(){ return "athar_noor_v1_" + profiles.active; }
   function noorGet(){ try{ return JSON.parse(localStorage.getItem(noorKey())) || {}; }catch(e){ return {}; } }
   function noorSet(id, stars){ var d = noorGet(); d[id] = Math.max(d[id] || 0, stars); try{ localStorage.setItem(noorKey(), JSON.stringify(d)); }catch(e){} }
@@ -9428,15 +9697,25 @@
     });
     var bk = document.createElement("button"); bk.className = "lq-say"; bk.textContent = "كل المراحل"; bk.addEventListener("click", noorHome); body.appendChild(bk);
   }
+  var nrAudio = null;
+  function noorAyPlay(sn, an){
+    try{ if(nrAudio){ nrAudio.pause(); nrAudio = null; } if(window.speechSynthesis) speechSynthesis.cancel(); spkTok++; if(vAudio){ vAudio.pause(); vAudio = null; } }catch(e){}
+    try{
+      var a = new Audio(audioUrl(sn, an)); nrAudio = a;
+      a.onerror = function(){ showToast("تعذّر تشغيل صوت القارئ، تحقّق من الإنترنت"); };
+      var p = a.play(); if(p && p.catch) p.catch(function(){ showToast("تعذّر تشغيل صوت القارئ، تحقّق من الإنترنت"); });
+    }catch(e){}
+  }
+  function noorSay(it){ if(it.ay) noorAyPlay(it.ay[0], it.ay[1]); else speak(it.say || it.t); }
   function noorLesson(i){
     var L = NOOR[i], body = $("noorBody"); body.innerHTML = ""; $("noorSub").textContent = NOOR_ST[L.st].n + " — الدرس " + arNum(i + 1);
     var h = document.createElement("div"); h.className = "us-text"; h.innerHTML = "<b>" + L.title + "</b><br>" + L.rule; body.appendChild(h);
     var ls = document.createElement("button"); ls.className = "lq-say"; ls.textContent = "🔊 اسمع الشرح"; ls.addEventListener("click", function(){ speak(L.rule); }); body.appendChild(ls);
     var grid = document.createElement("div"); grid.className = "lq-opts"; grid.style.flexWrap = "wrap";
     L.items.forEach(function(it, k){
-      var t = document.createElement("button"); t.className = "letter-tile noor-it"; t.style.setProperty("--c", LCOL[(k + i) % LCOL.length]);
-      t.innerHTML = '<span class="lt-ch" style="font-size:32px;line-height:1.7">' + it.t + '</span>' + (it.r ? '<small>' + it.r + '</small>' : "");
-      t.addEventListener("click", function(){ sfx("tap"); speak(it.say || it.t); });
+      var t = document.createElement("button"); t.className = "letter-tile noor-it" + (it.ay ? " noor-ay" : ""); t.style.setProperty("--c", LCOL[(k + i) % LCOL.length]);
+      t.innerHTML = '<span class="lt-ch" style="font-size:' + (it.ay ? '26' : '32') + 'px;line-height:' + (it.ay ? '2' : '1.7') + '">' + it.t + '</span>' + (it.r ? '<small>' + it.r + '</small>' : "");
+      t.addEventListener("click", function(){ sfx("tap"); noorSay(it); });
       grid.appendChild(t);
     });
     body.appendChild(grid);
@@ -9457,16 +9736,16 @@
       var bk = document.createElement("button"); bk.className = "lq-say"; bk.textContent = "كل المراحل"; bk.addEventListener("click", noorHome); body.appendChild(bk);
       return;
     }
-    var pool = L.items.slice(); for(var p = i - 1; p >= 0 && pool.length < 6; p--) NOOR[p].items.forEach(function(x){ if(pool.length < 6) pool.push(x); });
+    var isAy = !!L.items[0].ay, pool = L.items.slice(); for(var p = i - 1; !isAy && p >= 0 && pool.length < 6; p--) NOOR[p].items.forEach(function(x){ if(pool.length < 6) pool.push(x); });
     var target = L.items[Math.floor(Math.random() * L.items.length)], opts = [target];
     shuffle(pool.filter(function(x){ return x.t !== target.t && (x.say || x.t) !== (target.say || target.t); })).slice(0, 2).forEach(function(x){ opts.push(x); });
     opts = shuffle(opts);
-    var q = document.createElement("div"); q.className = "lq-q"; q.textContent = "أيّ حرف أو كلمة تسمع؟";
-    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(target.say || target.t); });
+    var q = document.createElement("div"); q.className = "lq-q"; q.textContent = isAy ? "أيّ آية تسمع؟" : "أيّ حرف أو كلمة تسمع؟";
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ noorSay(target); });
     var row = document.createElement("div"); row.className = "lq-opts"; row.style.flexWrap = "wrap"; var first = true, locked = false;
     opts.forEach(function(o, k){
-      var b = document.createElement("button"); b.className = "letter-tile noor-it"; b.style.setProperty("--c", LCOL[(k * 3 + round) % LCOL.length]);
-      b.innerHTML = '<span class="lt-ch" style="font-size:32px;line-height:1.7">' + o.t + '</span>';
+      var b = document.createElement("button"); b.className = "letter-tile noor-it" + (isAy ? " noor-ay" : ""); b.style.setProperty("--c", LCOL[(k * 3 + round) % LCOL.length]);
+      b.innerHTML = '<span class="lt-ch" style="font-size:' + (isAy ? '26' : '32') + 'px;line-height:' + (isAy ? '2' : '1.7') + '">' + o.t + '</span>';
       b.addEventListener("click", function(){
         if(locked) return;
         if(o === target){ locked = true; b.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8); setTimeout(function(){ noorQuiz(i, round + 1, right + (first ? 1 : 0)); }, 1100); }
@@ -9474,7 +9753,7 @@
       });
       row.appendChild(b);
     });
-    body.appendChild(nmDots(round, max)); body.appendChild(q); body.appendChild(say); body.appendChild(row); speak(target.say || target.t);
+    body.appendChild(nmDots(round, max)); body.appendChild(q); body.appendChild(say); body.appendChild(row); noorSay(target);
   }
 
   var quizTab = "quran", quizBack = false, quizMixArgs = null;
@@ -10911,6 +11190,7 @@
     $("choiceNumbers").addEventListener("click", function(){ openNumbers("digits"); });
     $("numTabDigits").addEventListener("click", function(){ openNumbers("digits"); });
     $("numTabAdd").addEventListener("click", function(){ openNumbers("add"); });
+    $("numTabMeasure").addEventListener("click", function(){ openNumbers("measure"); });
     $("numTabPlay").addEventListener("click", function(){ openNumbers("play"); });
     $("numTabSub").addEventListener("click", function(){ openNumbers("sub"); });
     $("numTabMul").addEventListener("click", function(){ openNumbers("mul"); });
