@@ -17,7 +17,7 @@
    من تعديلات.
    ═══════════════════════════════════════════════════════════════ */
 
-const CACHE_VERSION = 'v73';
+const CACHE_VERSION = 'v75';
 const CACHE_NAME = 'athar-quran-' + CACHE_VERSION;
 // ذاكرة الصوتيات مستقلّة عن رقم النسخة فلا تُمسح عند كلّ تحديث
 const AUDIO_CACHE = 'athar-audio-v1';
@@ -71,6 +71,8 @@ const CORE_ASSETS = [
   './112.json',
   './113.json',
   './114.json',
+  './story-index.json',
+  './sp_mq.bin',
   './c001.mp3',
   './c002.mp3',
   './c003.mp3',
