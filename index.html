@@ -4144,9 +4144,9 @@
     if(round >= max){ nmEnd(right, max, function(){ nmCount(0, 0); }, nmDigits); return; }
     var hi = nmLvl.count, n = 1 + nmRand(hi), stars = round % 2 === 0;
     var q = document.createElement("div"); q.className = "lq-q";
-    var qText = stars ? "كم نجمة ترى؟" : "أين الرقم " + nmWord(n) + "؟";
+    var qText = stars ? "كم نجمة ترى؟" : "أين الرقم " + nmWord(n) + "؟", qSay = stars ? qText : "أين الرقم. " + nmWord(n) + "؟";
     q.textContent = qText;
-    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qText); });
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qSay); });
     var row = document.createElement("div"); row.className = "lq-opts"; row.style.flexWrap = "wrap";
     var first = true, locked = false;
     nmOpts(n, 1, 1, Math.max(hi, n + 3)).forEach(function(x){
@@ -4165,7 +4165,7 @@
     if(stars) body.appendChild(nmStarsEl(n, "⭐"));
     body.appendChild(say); body.appendChild(row);
     var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", nmDigits); body.appendChild(ex);
-    speak(qText);
+    speak(qSay);
   }
 
   /* --- ألعاب الرياضيات الممتعة: مقارنة، ماذا ينقص، ترتيب، نمط، أشكال (بلا صور لكائنات حيّة) --- */
@@ -4528,7 +4528,8 @@
     }
     var eq = nmEq(a, op, b); body.appendChild(eq);
     var qText = nmWord(a) + word + nmWord(b) + " يساوي كم؟";
-    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qText); });
+    var qSay = nmWord(a) + ". " + word.replace(/ /g, "") + ". " + nmWord(b) + ". يساوي كم؟";
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qSay); });
     var row = document.createElement("div"); row.className = "lq-opts"; row.style.flexWrap = "wrap";
     var first = true, locked = false;
     nmOpts(ans, a, b, kind === "add" ? Math.max(L, ans + 3) : Math.max(a, 3)).forEach(function(x){
@@ -4539,14 +4540,14 @@
         if(x === ans){
           locked = true; bt.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8);
           eq.querySelector(".q").textContent = nm(ans); eq.querySelector(".q").classList.add("got");
-          speak(nmWord(a) + word + nmWord(b) + " يساوي " + nmWord(ans));
+          speak(nmWord(a) + ". " + word.replace(/ /g, "") + ". " + nmWord(b) + ". يساوي. " + nmWord(ans));
           setTimeout(function(){ nmArith(kind, round + 1, right + (first ? 1 : 0)); }, 1700);
         } else { first = false; bt.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
       row.appendChild(bt);
     });
     body.appendChild(say); body.appendChild(row);
-    speak(qText);
+    speak(qSay);
   }
   /* --- جدول الضرب من ١ إلى ١٢ --- */
   function nmMulHome(){
@@ -4577,7 +4578,7 @@
       (function(m){
         var r = document.createElement("button"); r.className = "nm-mrow" + (m % 2 ? "" : " alt");
         r.innerHTML = '<span>' + nm(n) + '</span><span class="op">×</span><span>' + nm(m) + '</span><span class="op">=</span><span class="q">' + nm(n * m) + '</span>';
-        r.addEventListener("click", function(){ speak(nmWord(n) + " في " + nmWord(m) + " يساوي " + nmWord(n * m)); r.classList.add("flash"); setTimeout(function(){ r.classList.remove("flash"); }, 500); });
+        r.addEventListener("click", function(){ speak(nmWord(n) + ". في. " + nmWord(m) + ". يساوي. " + nmWord(n * m)); r.classList.add("flash"); setTimeout(function(){ r.classList.remove("flash"); }, 500); });
         body.appendChild(r);
       })(m);
     }
@@ -4598,7 +4599,8 @@
     body.appendChild(nmDots(round, max)); body.appendChild(head);
     var eq = nmEq(a, "×", b); body.appendChild(eq);
     var qText = nmWord(a) + " في " + nmWord(b) + " يساوي كم؟";
-    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qText); });
+    var qSay = nmWord(a) + ". في. " + nmWord(b) + ". يساوي كم؟";
+    var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع"; say.addEventListener("click", function(){ speak(qSay); });
     var row = document.createElement("div"); row.className = "lq-opts"; row.style.flexWrap = "wrap";
     var first = true, locked = false;
     nmOpts(ans, a, b, 0, true).forEach(function(x){
@@ -4609,7 +4611,7 @@
         if(x === ans){
           locked = true; bt.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8);
           eq.querySelector(".q").textContent = nm(ans); eq.querySelector(".q").classList.add("got");
-          speak(nmWord(a) + " في " + nmWord(b) + " يساوي " + nmWord(ans));
+          speak(nmWord(a) + ". في. " + nmWord(b) + ". يساوي. " + nmWord(ans));
           setTimeout(function(){ nmMulQuiz(n, round + 1, right + (first ? 1 : 0), list); }, 1700);
         } else { first = false; bt.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
@@ -4617,7 +4619,7 @@
     });
     body.appendChild(say); body.appendChild(row);
     var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", nmMulHome); body.appendChild(ex);
-    speak(qText);
+    speak(qSay);
   }
 
   /* ================= الأذكار ================= */
@@ -4731,9 +4733,9 @@
       list.appendChild(b);
     });
     var say = document.createElement("button"); say.className = "lq-say"; say.textContent = "اسمع";
-    say.addEventListener("click", function(){ speak("ماذا نقول " + a.w); });
+    say.addEventListener("click", function(){ speak("ماذا نقول. " + a.w); });
     body.appendChild(prog); body.appendChild(sc); body.appendChild(q); body.appendChild(say); body.appendChild(list);
-    speak("ماذا نقول " + a.w);
+    speak("ماذا نقول. " + a.w);
   }
 
   /* ================= اسألني في الآيات: «ما الآية التي بعد هذه الآية؟» ================= */
@@ -4797,7 +4799,7 @@
           L.words.forEach(function(w){
             if((w.type !== "word" && w.type !== "end") || !w.verse_key) return;
             var a = +w.verse_key.split(":")[1];
-            (out[a] = out[a] || []).push({ t:w.char, f:w.font });
+            (out[a] = out[a] || []).push({ t:w.char, f:w.font, e:(w.type === "end" ? 1 : 0) });
           });
         });
       });
@@ -4861,9 +4863,9 @@
       var b = document.createElement("button"); b.className = "lq-say"; b.textContent = "رجوع"; b.addEventListener("click", ayqHome); body.appendChild(b);
     });
   }
-  function ayqLine(words, cls){
+  function ayqLine(words, cls, noEnd){
     var d = document.createElement("div"); d.className = cls;
-    words.forEach(function(o){ d.appendChild(glyphSpan(o, "gw")); });
+    words.forEach(function(o){ if(noEnd && o.e) return; d.appendChild(glyphSpan(o, "gw")); });
     return d;
   }
   function ayqRound(){
@@ -4897,7 +4899,7 @@
     var first = true, locked = false;
     opts.forEach(function(o, k){
       var b = document.createElement("button"); b.className = "ayq-opt"; b.style.setProperty("--c", LCOL[(k * 3 + 2) % LCOL.length]);
-      b.appendChild(ayqLine(o, "ayq-o"));
+      b.appendChild(ayqLine(o, "ayq-o", true));
       b.addEventListener("click", function(){
         if(locked) return;
         if(o === right){
