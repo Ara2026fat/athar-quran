@@ -1049,6 +1049,34 @@
   .lq-q{text-align:center;font-family:'Baloo Bhaijan 2';font-weight:800;font-size:28px;color:var(--forest-dark);margin:18px 0 8px;}
   .lq-q b{color:#8B5CF6;margin:0 8px;font-size:34px;}
   .lq-say{display:block;margin:0 auto 18px;border:none;border-radius:999px;padding:8px 22px;font-weight:700;color:#fff;background:#3B82F6;box-shadow:0 4px 0 rgba(0,0,0,.3);cursor:pointer;}
+  .br-title{text-align:center;font-family:'Baloo Bhaijan 2';font-weight:800;font-size:24px;color:var(--forest-dark);margin:6px 0;}
+  .br-msg{text-align:center;font-weight:700;font-size:17px;color:#475569;min-height:26px;margin:6px 12px;}
+  .br-msg.win{color:#1f7a3a;font-size:26px;font-weight:800;}
+  .br-lamps{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:320px;margin:14px auto;direction:ltr;}
+  .br-lamp{position:relative;border:none;border-radius:24px;aspect-ratio:1;background:var(--c);opacity:.45;font-size:54px;box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer;transition:transform .15s,opacity .15s,box-shadow .15s;}
+  .br-lamp.lit{opacity:1;transform:scale(1.06);box-shadow:0 0 28px 6px var(--c);}
+  .br-lamp i{position:absolute;top:6px;right:12px;font:800 20px 'Baloo Bhaijan 2';color:#fff;font-style:normal;}
+  .shake{animation:brShake .4s;}
+  @keyframes brShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .br-pairs{display:grid;gap:10px;max-width:360px;margin:14px auto;direction:ltr;}
+  .br-pairs.c3{grid-template-columns:repeat(3,1fr);} .br-pairs.c4{grid-template-columns:repeat(4,1fr);}
+  .br-card{position:relative;border:none;border-radius:16px;aspect-ratio:1;background:linear-gradient(135deg,#8B5CF6,#6D5BEF);font-size:30px;box-shadow:0 4px 0 rgba(0,0,0,.25);cursor:pointer;color:#fff;}
+  .br-card .bb{display:none;} .br-card.up .bf,.br-card.ok .bf{display:none;} .br-card.up .bb,.br-card.ok .bb{display:inline;}
+  .br-card.up,.br-card.ok{background:#fff;color:#000;} .br-card.ok{box-shadow:0 0 0 3px #18B87A;}
+  .br-card.hint{animation:brPulse .6s 2;}
+  @keyframes brPulse{50%{transform:scale(1.12);box-shadow:0 0 20px 4px #F2B705}}
+  .br-odd{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:16px 10px;}
+  .br-opt{width:76px;height:76px;border:none;border-radius:20px;font-size:40px;background:#fff;box-shadow:0 4px 0 rgba(0,0,0,.2);cursor:pointer;}
+  .br-opt.gone{opacity:.15;} .br-opt.good{box-shadow:0 0 0 4px #18B87A;background:#ecfdf3;}
+  .br-grid{position:relative;display:grid;grid-template-columns:repeat(var(--n),1fr);gap:4px;max-width:320px;margin:12px auto;direction:ltr;background:#E0F2FE;padding:6px;border-radius:16px;}
+  .br-cell{aspect-ratio:1;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;}
+  .br-me{position:absolute;font-size:26px;display:flex;align-items:center;justify-content:center;width:calc((100% - 12px - 4px*(var(--n) - 1)) / var(--n));aspect-ratio:1;top:calc(6px + var(--r)*(100% - 12px + 4px)/var(--n));left:calc(6px + var(--c)*(100% - 12px + 4px)/var(--n));transition:top .35s,left .35s;pointer-events:none;}
+  .br-prog{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:36px;margin:8px 12px;direction:ltr;color:#64748b;font-weight:700;}
+  .br-prog span{background:#fff;border-radius:8px;padding:2px 6px;box-shadow:0 2px 0 rgba(0,0,0,.15);}
+  .br-pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-areas:". u ." "l . r" ". d .";gap:8px;justify-content:center;margin:8px auto;direction:ltr;}
+  .br-arrow{width:64px;height:56px;border:none;border-radius:14px;background:#fff;font-size:26px;box-shadow:0 4px 0 rgba(0,0,0,.2);cursor:pointer;}
+  .br-arrow[data-d=U]{grid-area:u;} .br-arrow[data-d=L]{grid-area:l;} .br-arrow[data-d=R]{grid-area:r;} .br-arrow[data-d=D]{grid-area:d;}
+  .br-arrow.hint{animation:brPulse .6s infinite;}
   .lq-opts{display:flex;gap:12px;justify-content:center;}
   .lt-panel{text-align:center;padding-top:8px;}
   .lt-big{width:130px;height:130px;margin:0 auto;border-radius:34px;border:2px solid rgba(255,238,185,.9);display:flex;align-items:center;justify-content:center;font-family:'Baloo Bhaijan 2','Amiri',sans-serif;font-weight:800;font-size:88px;color:#fff;
@@ -1617,6 +1645,14 @@
         <button class="back-btn" data-go="home" aria-label="الرئيسية">→</button>
       </div>
       <div id="ayqBody"></div>
+    </section>
+
+    <!-- ألعاب الدماغ -->
+    <section class="view" id="view-brain">
+      <div class="browse-head">
+        <button class="back-btn" data-go="home" aria-label="رجوع">→</button>
+      </div>
+      <div id="brainBody"></div>
     </section>
 
     <!-- قصص الأنبياء -->
@@ -2334,7 +2370,7 @@
   function goBrowse(which){
     if(which === "home"){
       var act = document.querySelector(".view.active"), aid = act ? act.id : "";
-      if(quizBack && /^view-(ayq|letters|numbers|noor)$/.test(aid)){ quizBack = false; openQuiz(); return; }
+      if(quizBack && /^view-(ayq|letters|numbers|noor|brain)$/.test(aid)){ quizBack = false; openQuiz(); return; }
       if(curDoor && /^view-(surahs|ayahs|ayq|adhkar|letters|numbers|noor)$/.test(aid)){ showView("view-door"); window.scrollTo(0, 0); return; }
       browseView = "view-home"; showView("view-home"); return;
     }
@@ -3717,13 +3753,14 @@
     });
     return out;
   }
-  function speak(text){
+  function speak(text, done){
     var tok = ++spkTok, plan;
     try{ if(vAudio){ vAudio.pause(); vAudio = null; } if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
     try{ plan = vPlan(text); }catch(e){ plan = [{ t: text }]; }
     var i = 0;
     function next(){
-      if(tok !== spkTok || i >= plan.length) return;
+      if(tok !== spkTok) return;
+      if(i >= plan.length){ if(done){ var dn = done; done = null; try{ dn(); }catch(e){} } return; }
       var st = plan[i++];
       if(st.s){
         var fell2 = false;
@@ -4155,8 +4192,7 @@
       b.addEventListener("click", function(){
         if(locked) return;
         if(x === n){
-          locked = true; b.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8); speak(nmWord(n));
-          setTimeout(function(){ nmCount(round + 1, right + (first ? 1 : 0)); }, 1200);
+          locked = true; b.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8); nmWin(body, nmWord(n), function(){ nmCount(round + 1, right + (first ? 1 : 0)); });
         } else { first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
       row.appendChild(b);
@@ -4171,6 +4207,15 @@
   /* --- ألعاب الرياضيات الممتعة: مقارنة، ماذا ينقص، ترتيب، نمط، أشكال (بلا صور لكائنات حيّة) --- */
   var NM_PRAISE = ["أحسنت!", "ما شاء الله!", "ممتاز!", "رائع!", "بارك الله فيك!", "عمل جميل!"];
   function nmPraise(){ return NM_PRAISE[nmRand(NM_PRAISE.length)]; }
+  /* تهنئة مرئية ومسموعة بعد الإجابة الصحيحة، ثم الانتقال بعد انتهاء الصوت (لا قبله) */
+  function nmWin(body, sayText, fn){
+    var p = nmPraise();
+    var bn = document.createElement("div"); bn.className = "lq-q nm-praise"; bn.style.cssText = "color:#1f7a3a;font-size:26px;font-weight:800;margin-top:10px"; bn.textContent = p; body.appendChild(bn);
+    var gone = false;
+    function go(){ if(gone) return; gone = true; var v = $("view-numbers"); if(v && v.classList.contains("active")) fn(); }
+    speak((sayText ? sayText + ". " : "") + p, function(){ setTimeout(go, 450); });
+    setTimeout(go, 6500);
+  }
   var NM_SHAPES = [
     { n:"دائرة", svg:'<circle cx="50" cy="50" r="38" fill="currentColor"/>' },
     { n:"مربع", svg:'<rect x="14" y="14" width="72" height="72" rx="4" fill="currentColor"/>' },
@@ -4314,8 +4359,8 @@
     var qText = "", qSay = "", vis = null, optsEl = document.createElement("div"), first = true, locked = false;
     optsEl.className = "lq-opts"; optsEl.style.flexWrap = "wrap";
     function win(sayText){
-      locked = true; sfx("done"); burst(["⭐", "✨"], 8); speak((sayText ? sayText + ". " : "") + nmPraise());
-      setTimeout(function(){ mqPlay(game, round + 1, right + (first ? 1 : 0)); }, 1500);
+      locked = true; sfx("done"); burst(["⭐", "✨"], 8);
+      nmWin(body, sayText, function(){ mqPlay(game, round + 1, right + (first ? 1 : 0)); });
     }
     function wrong(b){ first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); speak("حاول مرة أخرى"); }
     function tile(html, color, ok, sayWin){
@@ -4419,8 +4464,8 @@
     var qText = "", vis = null, optsEl = document.createElement("div"), first = true, locked = false;
     optsEl.className = "lq-opts"; optsEl.style.flexWrap = "wrap";
     function win(sayText){
-      locked = true; sfx("done"); burst(["⭐", "✨"], 8); speak((sayText ? sayText + ". " : "") + nmPraise());
-      setTimeout(function(){ nmPlay(game, round + 1, right + (first ? 1 : 0)); }, 1500);
+      locked = true; sfx("done"); burst(["⭐", "✨"], 8);
+      nmWin(body, sayText, function(){ nmPlay(game, round + 1, right + (first ? 1 : 0)); });
     }
     function wrong(b){ first = false; b.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); speak("حاول مرة أخرى"); }
     if(game === "compare"){
@@ -4540,8 +4585,7 @@
         if(x === ans){
           locked = true; bt.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8);
           eq.querySelector(".q").textContent = nm(ans); eq.querySelector(".q").classList.add("got");
-          speak(nmWord(a) + ". " + word.replace(/ /g, "") + ". " + nmWord(b) + ". يساوي. " + nmWord(ans));
-          setTimeout(function(){ nmArith(kind, round + 1, right + (first ? 1 : 0)); }, 1700);
+          nmWin(body, nmWord(ans), function(){ nmArith(kind, round + 1, right + (first ? 1 : 0)); });
         } else { first = false; bt.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
       row.appendChild(bt);
@@ -4611,8 +4655,7 @@
         if(x === ans){
           locked = true; bt.classList.add("ok"); sfx("done"); burst(["⭐", "✨"], 8);
           eq.querySelector(".q").textContent = nm(ans); eq.querySelector(".q").classList.add("got");
-          speak(nmWord(a) + ". في. " + nmWord(b) + ". يساوي. " + nmWord(ans));
-          setTimeout(function(){ nmMulQuiz(n, round + 1, right + (first ? 1 : 0), list); }, 1700);
+          nmWin(body, nmWord(ans), function(){ nmMulQuiz(n, round + 1, right + (first ? 1 : 0), list); });
         } else { first = false; bt.classList.add("bad"); tone(220, 0, .2, .06); haptic(20); }
       });
       row.appendChild(bt);
@@ -9761,8 +9804,229 @@
     body.appendChild(nmDots(round, max)); body.appendChild(q); body.appendChild(say); body.appendChild(row); noorSay(target);
   }
 
+  /* ================= ألعاب الدماغ (v79) ================= */
+  var BR_KEY = "athar_brain_v1", brTok = 0, brG = "";
+  function brGet(){ try{ return JSON.parse(localStorage.getItem(BR_KEY)) || {}; }catch(e){ return {}; } }
+  function brSet(o){ try{ localStorage.setItem(BR_KEY, JSON.stringify(o)); }catch(e){} }
+  function brLvl(g){ var s = brGet(); return (s[g] && s[g].lvl) || 1; }
+  /* تسجيل نتيجة جولة: النجاح من المحاولة الأولى يرفع المستوى بعد جولتين، والتعثّر يخفضه بلطف بعد جولتين */
+  function brRec(g, first){
+    var s = brGet(), r = s[g] || (s[g] = { lvl:1, n:0, ft:0, st:0, ms:0 });
+    r.n++; if(first){ r.ft++; r.st++; r.ms = 0; if(r.st >= 2 && r.lvl < 5){ r.lvl++; r.st = 0; } }
+    else { r.ms++; r.st = 0; if(r.ms >= 2 && r.lvl > 1){ r.lvl--; r.ms = 0; } }
+    brSet(s);
+  }
+  function brBody(){ return $("brainBody"); }
+  function brLive(tok){ var v = $("view-brain"); return tok === brTok && v && v.classList.contains("active"); }
+  function brT(tok, fn, ms){ setTimeout(function(){ if(brLive(tok)) fn(); }, ms); }
+  function brHead(t, tok){ var d = document.createElement("div"); d.className = "br-title"; d.textContent = t; return d; }
+  function brMsg(txt, cls){ var m = document.createElement("div"); m.className = "br-msg" + (cls ? " " + cls : ""); m.textContent = txt; return m; }
+  /* تهنئة مرئية ومسموعة ثم الانتقال بعد انتهاء الصوت */
+  function brWin(tok, body, fn){
+    var p = NM_PRAISE[nmRand(NM_PRAISE.length)];
+    var bn = brMsg(p, "win"); body.appendChild(bn); sfx("ok"); burst(["⭐", "✨"], 8);
+    var gone = false; function go(){ if(gone) return; gone = true; if(brLive(tok)) fn(); }
+    speak(p, function(){ setTimeout(go, 500); }); setTimeout(go, 4500);
+  }
+  function brStart(g){ brTok++; brG = g; showView("view-brain"); window.scrollTo(0, 0); ({ mem:brMem, pairs:brPairs, odd:brOdd, path:brPath })[g](1, brTok, []); }
+  function brNext(g, round, tok, res, first){
+    brRec(g, first); res.push(first);
+    if(round >= 3){ brEnd(g, res, tok); return; }
+    ({ mem:brMem, pairs:brPairs, odd:brOdd, path:brPath })[g](round + 1, tok, res);
+  }
+  function brEnd(g, res, tok){
+    markDayActive();
+    var body = brBody(); body.innerHTML = "";
+    var w = document.createElement("div"); w.className = "wg";
+    w.innerHTML = '<div class="wg-big">أحسنت!</div><p class="muted" style="text-align:center">أنهيتَ اللعبة بنجاح، وعقلك صار أقوى.</p><div class="stars-row"><span class="on">⭐</span><span class="on">⭐</span><span class="on">⭐</span></div>';
+    body.appendChild(w);
+    var again = document.createElement("button"); again.className = "pill-btn"; again.style.margin = "10px auto"; again.textContent = "العب مرة أخرى";
+    again.addEventListener("click", function(){ brStart(g); });
+    var back = document.createElement("button"); back.className = "lq-say"; back.textContent = "رجوع للمسابقات";
+    back.addEventListener("click", function(){ openQuiz("brain"); });
+    body.appendChild(again); body.appendChild(back);
+    sfx("done"); burst(["⭐", "🌟", "✨", "🏆"], 18); speak("أحسنت");
+  }
+
+  /* 1) ذاكرة الفوانيس */
+  var BR_LAMPS = [["#ef4444", 262], ["#22b8f0", 330], ["#f2b705", 392], ["#18b87a", 523]];
+  function brMem(round, tok, res){
+    var body = brBody(); body.innerHTML = "";
+    var len = brLvl("mem") + 1, seq = [], i, misses = 0, pos = 0, busy = true;
+    for(i = 0; i < len; i++) seq.push(nmRand(4));
+    body.appendChild(nmDots(round - 1, 3)); body.appendChild(brHead("ذاكرة الفوانيس"));
+    var msg = brMsg("انتبه للفوانيس…"); body.appendChild(msg);
+    var box = document.createElement("div"); box.className = "br-lamps"; body.appendChild(box);
+    var lamps = [];
+    BR_LAMPS.forEach(function(L, k){
+      var b = document.createElement("button"); b.className = "br-lamp"; b.style.setProperty("--c", L[0]); b.innerHTML = '<span>🏮</span><i></i>';
+      b.addEventListener("click", function(){
+        if(busy) return; flash(k);
+        if(k === seq[pos]){
+          pos++;
+          if(pos >= seq.length){ busy = true; msg.textContent = ""; brWin(tok, body, function(){ brNext("mem", round, tok, res, misses === 0); }); }
+        } else {
+          misses++; pos = 0; busy = true; haptic(20); b.classList.add("shake"); brT(tok, function(){ b.classList.remove("shake"); }, 400);
+          msg.textContent = "لا بأس، شاهد مرة أخرى"; brT(tok, function(){ show(misses >= 2); }, 1100);
+        }
+      });
+      box.appendChild(b); lamps.push(b);
+    });
+    function flash(k){ lamps[k].classList.add("lit"); tone(BR_LAMPS[k][1], 0, .35, .12); brT(tok, function(){ lamps[k].classList.remove("lit"); }, 380); }
+    function show(hint){
+      busy = true; pos = 0; msg.textContent = "انتبه للفوانيس…";
+      lamps.forEach(function(l){ var n = l.querySelector("i"); n.textContent = ""; });
+      seq.forEach(function(k, j){ brT(tok, function(){ flash(k); if(hint) lamps[k].querySelector("i").textContent = String(j + 1); }, 700 + j * 750); });
+      brT(tok, function(){ busy = false; msg.textContent = "دورك! أعد الترتيب نفسه"; if(!hint) lamps.forEach(function(l){ l.querySelector("i").textContent = ""; }); }, 700 + seq.length * 750);
+    }
+    show(false);
+    var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", function(){ openQuiz("brain"); }); body.appendChild(ex);
+  }
+
+  /* 2) أزواج متطابقة */
+  var BR_PAIR_SET = ["⭐", "🌙", "☀️", "🔔", "🔑", "🎈", "🪁", "⚽", "🚗", "📖", "🧩", "🎁", "🕌", "🏮", "🚀", "⏰"];
+  function brPairs(round, tok, res){
+    var body = brBody(); body.innerHTML = "";
+    var n = Math.min(2 + brLvl("pairs") + (round > 2 ? 1 : 0), 8), faces = shuffle(BR_PAIR_SET.slice()).slice(0, n), deck = shuffle(faces.concat(faces)), open = [], done = 0, mis = 0, lock = false;
+    body.appendChild(nmDots(round - 1, 3)); body.appendChild(brHead("أزواج متطابقة"));
+    var msg = brMsg("اقلب بطاقتين متشابهتين"); body.appendChild(msg);
+    var grid = document.createElement("div"); grid.className = "br-pairs c" + (deck.length > 8 ? 4 : 3); body.appendChild(grid);
+    var cards = deck.map(function(f, idx){
+      var b = document.createElement("button"); b.className = "br-card"; b.innerHTML = '<span class="bf">❔</span><span class="bb">' + f + '</span>';
+      b.addEventListener("click", function(){
+        if(lock || b.classList.contains("up") || b.classList.contains("ok")) return;
+        b.classList.add("up"); tone(440 + idx * 8, 0, .12, .08); open.push(idx);
+        if(open.length === 2){
+          var a = open[0], c = open[1]; open = []; lock = true;
+          if(deck[a] === deck[c]){
+            cards[a].classList.add("ok"); cards[c].classList.add("ok"); sfx("ok"); done++; lock = false;
+            if(done === n){ msg.textContent = ""; brWin(tok, body, function(){ brNext("pairs", round, tok, res, mis <= n + 1); }); }
+          } else {
+            mis++; brT(tok, function(){ cards[a].classList.remove("up"); cards[c].classList.remove("up"); lock = false;
+              if(mis % 5 === 0){ msg.textContent = "تلميح: انظر إلى البطاقة المضيئة"; var f = deck.indexOf(deck[a]); cards[f].classList.add("hint"); brT(tok, function(){ cards[f].classList.remove("hint"); }, 1400); }
+            }, 900);
+          }
+        }
+      });
+      grid.appendChild(b); return b;
+    });
+    var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", function(){ openQuiz("brain"); }); body.appendChild(ex);
+  }
+
+  /* 3) من الدخيل؟ */
+  var BR_CATS = [
+    { n:"فواكه", a:["🍎", "🍌", "🍇", "🍊", "🍉", "🍓", "🍐"] },
+    { n:"مركبات", a:["🚗", "🚌", "🚲", "✈️", "🚀", "⛵", "🚂"] },
+    { n:"أدوات", a:["🔑", "🔔", "✏️", "✂️", "🔦", "🔨", "🧭"] },
+    { n:"سماء", a:["⭐", "🌙", "☀️", "☁️", "🌈", "⚡", "❄️"] },
+    { n:"ألعاب", a:["⚽", "🧩", "🎈", "🪁", "🎲", "🧸", "🎯"] }
+  ];
+  function brOdd(round, tok, res){
+    var body = brBody(); body.innerHTML = "";
+    var lvl = brLvl("odd"), k = lvl >= 4 ? 5 : 4, ci = shuffle([0, 1, 2, 3, 4]), main = BR_CATS[ci[0]], other = BR_CATS[ci[1]];
+    var items = shuffle(main.a.slice()).slice(0, k - 1).map(function(e){ return { e:e, odd:false }; });
+    items.push({ e:shuffle(other.a.slice())[0], odd:true }); shuffle(items);
+    var wrong = 0, removed = 0, busy = false;
+    body.appendChild(nmDots(round - 1, 3)); body.appendChild(brHead("من الدخيل؟"));
+    var msg = brMsg("أيّها لا يشبه الباقي؟"); body.appendChild(msg);
+    var row = document.createElement("div"); row.className = "br-odd"; body.appendChild(row);
+    var btns = items.map(function(it){
+      var b = document.createElement("button"); b.className = "br-opt"; b.textContent = it.e;
+      b.addEventListener("click", function(){
+        if(busy || b.disabled) return;
+        if(it.odd){ busy = true; b.classList.add("good"); finish(); }
+        else {
+          wrong++; b.classList.add("shake"); haptic(20); brT(tok, function(){ b.classList.remove("shake"); }, 400);
+          if(wrong === 1){ msg.textContent = "فكّر قليلًا: ما الذي يجمع الباقي؟"; }
+          else if(wrong === 2){ b.disabled = true; b.classList.add("gone"); var rest = btns.filter(function(x, i){ return !items[i].odd && !x.disabled; }); if(rest.length > 1){ rest[0].disabled = true; rest[0].classList.add("gone"); } msg.textContent = "أزلتُ لك خيارًا، حاول مجددًا"; }
+          else { b.disabled = true; b.classList.add("gone"); btns.forEach(function(x, i){ if(items[i].odd) x.classList.add("good"); }); busy = true; msg.textContent = "الدخيل ليس من «" + main.n + "». تعلّمتَ شيئًا جديدًا!"; brT(tok, function(){ brNext("odd", round, tok, res, false); }, 2600); }
+        }
+      });
+      row.appendChild(b); return b;
+    });
+    function finish(){ msg.textContent = ""; brWin(tok, body, function(){ brNext("odd", round, tok, res, wrong === 0); }); }
+    var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", function(){ openQuiz("brain"); }); body.appendChild(ex);
+    speak("أيّها لا يشبه الباقي؟");
+  }
+
+  /* 4) طريق الكنز: أوامر بالأسهم (تفكير خوارزمي مبسّط) — كل مستوى يُتحقَّق من قابليته للحل بـ BFS */
+  var BR_DIR = { U:[-1, 0, "⬆️"], D:[1, 0, "⬇️"], L:[0, -1, "⬅️"], R:[0, 1, "➡️"] };
+  function brBfs(size, obs, s, g){
+    var q = [[s[0], s[1], ""]], seen = {}; seen[s[0] + "," + s[1]] = 1;
+    while(q.length){
+      var cur = q.shift(); if(cur[0] === g[0] && cur[1] === g[1]) return cur[2];
+      for(var d in BR_DIR){
+        var r = cur[0] + BR_DIR[d][0], c = cur[1] + BR_DIR[d][1], key = r + "," + c;
+        if(r < 0 || c < 0 || r >= size || c >= size || obs[key] || seen[key]) continue;
+        seen[key] = 1; q.push([r, c, cur[2] + d]);
+      }
+    }
+    return null;
+  }
+  function brMakeLevel(lvl){
+    var size = lvl <= 2 ? 4 : lvl <= 4 ? 5 : 6, nObs = size + lvl - 1;
+    for(var tries = 0; tries < 200; tries++){
+      var s = [size - 1, 0], g = [0, size - 1], obs = {}, k = 0, guard = 0;
+      while(k < nObs && guard++ < 200){ var r = nmRand(size), c = nmRand(size), key = r + "," + c; if(obs[key] || (r === s[0] && c === s[1]) || (r === g[0] && c === g[1])) continue; obs[key] = 1; k++; }
+      var p = brBfs(size, obs, s, g);
+      if(p && p.length >= size && p.length <= size * 2 - 1) return { size:size, obs:obs, s:s, g:g, path:p };
+    }
+    var o2 = {}; return { size:size, obs:o2, s:[size - 1, 0], g:[0, size - 1], path:brBfs(size, o2, [size - 1, 0], [0, size - 1]) };
+  }
+  function brPath(round, tok, res){
+    var body = brBody(); body.innerHTML = "";
+    var L = brMakeLevel(brLvl("path")), prog = [], fails = 0, busy = false, helped = false;
+    body.appendChild(nmDots(round - 1, 3)); body.appendChild(brHead("طريق الكنز"));
+    var msg = brMsg("ساعد النجمة لتصل إلى الجوهرة 💎 بالأسهم"); body.appendChild(msg);
+    var grid = document.createElement("div"); grid.className = "br-grid"; grid.style.setProperty("--n", L.size); body.appendChild(grid);
+    var cells = [];
+    for(var r = 0; r < L.size; r++) for(var c = 0; c < L.size; c++){
+      var d = document.createElement("div"); d.className = "br-cell"; if(L.obs[r + "," + c]) d.textContent = "🪨"; else if(r === L.g[0] && c === L.g[1]) d.textContent = "💎";
+      grid.appendChild(d); cells.push(d);
+    }
+    var me = document.createElement("div"); me.className = "br-me"; me.textContent = "⭐"; grid.appendChild(me);
+    function place(r, c){ me.style.setProperty("--r", r); me.style.setProperty("--c", c); }
+    place(L.s[0], L.s[1]);
+    var chips = document.createElement("div"); chips.className = "br-prog"; body.appendChild(chips);
+    function drawProg(){ chips.innerHTML = ""; if(!prog.length){ chips.textContent = "خطواتك تظهر هنا"; return; } prog.forEach(function(d){ var s = document.createElement("span"); s.textContent = BR_DIR[d][2]; chips.appendChild(s); }); }
+    drawProg();
+    var pad = document.createElement("div"); pad.className = "br-pad";
+    ["U", "L", "R", "D"].forEach(function(d){
+      var b = document.createElement("button"); b.className = "br-arrow"; b.textContent = BR_DIR[d][2]; b.setAttribute("data-d", d);
+      b.addEventListener("click", function(){ if(busy) return; if(prog.length < L.path.length + 4){ prog.push(d); drawProg(); tone(500, 0, .08, .06); } });
+      pad.appendChild(b);
+    });
+    body.appendChild(pad);
+    var act = document.createElement("div"); act.className = "ps-nav";
+    var undo = document.createElement("button"); undo.className = "lq-say"; undo.textContent = "↩ تراجع"; undo.addEventListener("click", function(){ if(!busy){ prog.pop(); drawProg(); } });
+    var clr = document.createElement("button"); clr.className = "lq-say"; clr.textContent = "مسح"; clr.addEventListener("click", function(){ if(!busy){ prog = []; drawProg(); } });
+    var go = document.createElement("button"); go.className = "pill-btn"; go.textContent = "انطلق ▶"; go.addEventListener("click", run);
+    act.appendChild(undo); act.appendChild(clr); act.appendChild(go); body.appendChild(act);
+    var ex = document.createElement("button"); ex.className = "lq-say"; ex.style.marginTop = "14px"; ex.textContent = "خروج"; ex.addEventListener("click", function(){ openQuiz("brain"); }); body.appendChild(ex);
+    function run(){
+      if(busy || !prog.length) return; busy = true;
+      var cr = L.s[0], cc = L.s[1], i = 0; place(cr, cc);
+      (function step(){
+        if(!brLive(tok)) return;
+        if(i >= prog.length){
+          if(cr === L.g[0] && cc === L.g[1]){ msg.textContent = ""; brWin(tok, body, function(){ brNext("path", round, tok, res, fails === 0 && !helped); }); return; }
+          miss("لم نصل بعد، أضف خطوات أخرى"); return;
+        }
+        var D = BR_DIR[prog[i]], nr = cr + D[0], nc = cc + D[1];
+        if(nr < 0 || nc < 0 || nr >= L.size || nc >= L.size || L.obs[nr + "," + nc]){ me.classList.add("shake"); brT(tok, function(){ me.classList.remove("shake"); }, 400); miss("اقتربتَ! هناك عائق، غيّر الطريق وجرّب"); return; }
+        cr = nr; cc = nc; place(cr, cc); tone(400 + i * 40, 0, .1, .07); i++; setTimeout(step, 450);
+      })();
+    }
+    function miss(t){
+      fails++; busy = false; msg.textContent = t;
+      if(fails === 2){ msg.textContent = "تلميح: ابدأ بالسهم المضيء"; var f = pad.querySelector('[data-d="' + L.path.charAt(0) + '"]'); if(f) f.classList.add("hint"); helped = true; }
+      else if(fails >= 3){ prog = L.path.split(""); drawProg(); msg.textContent = "هذا طريق مقترح، اضغط انطلق وتعلّم منه!"; helped = true; }
+    }
+    speak("ساعد النجمة لتصل إلى الجوهرة");
+  }
+
   var quizTab = "quran", quizBack = false, quizMixArgs = null;
-  var QUIZ_TABS = [["quran", "قرآن"], ["letters", "حروف"], ["numbers", "أرقام"], ["stories", "قصص"], ["deen", "ديني"]];
+  var QUIZ_TABS = [["quran", "قرآن"], ["letters", "حروف"], ["numbers", "أرقام"], ["stories", "قصص"], ["brain", "ذكاء"], ["deen", "ديني"]];
   function quizTile(color, emoji, title, desc, fn){
     var b = document.createElement("button"); b.className = "choice-tile small"; b.style.setProperty("--c", color);
     b.innerHTML = '<span class="choice-icon" style="font-size:28px;line-height:1">' + emoji + '</span><span class="choice-txt"><span class="ct1">' + title + '</span><span class="ct2">' + desc + '</span></span><svg class="choice-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -9780,7 +10044,7 @@
       seg.appendChild(b);
     });
     var body = $("quizBody"); body.innerHTML = "";
-    var subs = { quran:"اختبر نفسك في آيات القرآن", letters:"العب مع حروف لغتنا الجميلة", numbers:"تحدَّ نفسك في الأرقام والرياضيات", stories:"أسئلة من القصص التي قرأتها", deen:"أسئلة من كتب الدين كلها" };
+    var subs = { quran:"اختبر نفسك في آيات القرآن", letters:"العب مع حروف لغتنا الجميلة", numbers:"تحدَّ نفسك في الأرقام والرياضيات", stories:"أسئلة من القصص التي قرأتها", brain:"ألعاب تشغّل عقلك وتقوّي ذاكرتك", deen:"أسئلة من كتب الدين كلها" };
     $("quizSub").textContent = subs[quizTab] || "";
     if(quizTab === "quran"){
       body.appendChild(quizTile("#E09A00", "❓", "اسألني في الآيات", "أيّ سورة هذه الآية؟ وماذا بعدها؟", openAyq));
@@ -9797,6 +10061,11 @@
       body.appendChild(quizTile("#E5489B", "➖", "مسابقة الطرح", "انقص واختر الجواب", function(){ openNumbers("sub"); }));
       body.appendChild(quizTile("#22B8F0", "✖️", "مسابقة الضرب", "جدول الضرب من ١ إلى ١٢", function(){ openNumbers("mul"); }));
       body.appendChild(quizTile("#18B87A", "🎲", "ألعاب الرياضيات", "الأكبر والأصغر، ماذا ينقص، النمط، الأشكال", function(){ openNumbers("play"); }));
+    } else if(quizTab === "brain"){
+      body.appendChild(quizTile("#F2B705", "🏮", "ذاكرة الفوانيس", "شاهد الفوانيس تضيء ثم أعد الترتيب", function(){ brStart("mem"); }));
+      body.appendChild(quizTile("#8B5CF6", "🧩", "أزواج متطابقة", "اقلب البطاقات وابحث عن الأزواج", function(){ brStart("pairs"); }));
+      body.appendChild(quizTile("#E5489B", "🔍", "من الدخيل؟", "اكتشف الشيء الذي لا يشبه الباقي", function(){ brStart("odd"); }));
+      body.appendChild(quizTile("#18B87A", "💎", "طريق الكنز", "ارسم الطريق بالأسهم لتصل إلى الجوهرة", function(){ brStart("path"); }));
     } else if(quizTab === "stories"){
       var all = ["sqsh", "sqs2", "sqsa", "sqsb", "sqsg", "sqnb", "sqrh", "sqsd", "sqbr", "sqan", "sqib", "sqi2"].filter(function(k){ return BKS[k]; });
       body.appendChild(quizTile("#0EA5E9", "📚", "كل القصص", "١٠ أسئلة عشوائية من القصص كلها", function(){ startMix("كل القصص", all, 10); }));
